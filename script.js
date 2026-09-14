@@ -89,6 +89,106 @@
     var method = (form.getAttribute('method') || 'get').toLowerCase();
     var action = (form.getAttribute('action') || '').trim();
     var usesBackendSubmit = method === 'post' && action.length > 0;
+    var humanVerificationInput = form.querySelector('#human_verification');
+    var humanVerificationAnswerInput = form.querySelector('#human_verification_answer');
+    var humanVerificationField = form.querySelector('[data-human-field]');
+    var humanVerificationQuestion = form.querySelector('[data-human-question]');
+    var refreshButton = form.querySelector('[data-refresh-human-challenge]');
+    var humanErrorMessage = 'Please answer the arithmetic check correctly before submitting.';
+
+    function showHumanVerificationError(message) {
+      var errorBox = form.querySelector('.form__error');
+      if (errorBox) {
+        errorBox.innerHTML = '<strong>Please fix the following:</strong><ul><li>' + (message || humanErrorMessage) + '</li></ul>';
+        errorBox.classList.add('show');
+      }
+
+      if (humanVerificationField) {
+        humanVerificationField.classList.add('field--error');
+      }
+
+      if (humanVerificationInput) {
+        humanVerificationInput.setAttribute('aria-invalid', 'true');
+      }
+    }
+
+    function clearHumanVerificationError() {
+      if (humanVerificationField) {
+        humanVerificationField.classList.remove('field--error');
+      }
+
+      if (humanVerificationInput) {
+        humanVerificationInput.removeAttribute('aria-invalid');
+      }
+    }
+
+    function markHumanVerificationSuccess() {
+      if (humanVerificationField) {
+        humanVerificationField.classList.remove('field--error');
+        humanVerificationField.classList.add('field--success');
+      }
+    }
+
+    function clearHumanVerificationSuccess() {
+      if (humanVerificationField) {
+        humanVerificationField.classList.remove('field--success');
+      }
+    }
+
+    function updateHumanVerification(challenge) {
+      if (!challenge || !humanVerificationQuestion || !humanVerificationAnswerInput || !humanVerificationInput) {
+        return;
+      }
+
+      humanVerificationQuestion.textContent = challenge.question;
+      humanVerificationAnswerInput.value = String(challenge.answer);
+      humanVerificationInput.value = '';
+      clearHumanVerificationError();
+      clearHumanVerificationSuccess();
+    }
+
+    if (humanVerificationInput && humanVerificationAnswerInput) {
+      humanVerificationInput.setAttribute('pattern', '[0-9-]+');
+      humanVerificationInput.setAttribute('inputmode', 'numeric');
+      humanVerificationInput.addEventListener('input', function () {
+        if (humanVerificationInput.value.trim() !== '') {
+          clearHumanVerificationError();
+          if (Number(humanVerificationInput.value) === Number(humanVerificationAnswerInput.value)) {
+            markHumanVerificationSuccess();
+          } else {
+            clearHumanVerificationSuccess();
+          }
+        } else {
+          clearHumanVerificationSuccess();
+          clearHumanVerificationError();
+        }
+      });
+    }
+
+    if (refreshButton) {
+      refreshButton.addEventListener('click', function () {
+        fetch('/contact/challenge', {
+          method: 'GET',
+          headers: { Accept: 'application/json' },
+        })
+          .then(function (response) {
+            if (!response.ok) {
+              throw new Error('Unable to refresh the challenge.');
+            }
+            return response.json();
+          })
+          .then(function (challenge) {
+            updateHumanVerification(challenge);
+          })
+          .catch(function () {
+            var errorBox = form.querySelector('.form__error');
+            if (errorBox) {
+              errorBox.innerHTML = '<strong>Please fix the following:</strong><ul><li>Unable to refresh the security challenge. Please try again.</li></ul>';
+              errorBox.classList.add('show');
+            }
+          });
+      });
+    }
 
     // Keep static prototype pages usable, but never block real backend submits.
     if (!usesBackendSubmit) {
@@ -103,7 +203,24 @@
       });
     }
 
-    form.addEventListener('submit', function () {
+    form.addEventListener('submit', function (e) {
+      if (humanVerificationInput && humanVerificationAnswerInput) {
+        var userAnswer = (humanVerificationInput.value || '').trim();
+        var expectedAnswer = (humanVerificationAnswerInput.value || '').trim();
+        var validAnswer = userAnswer !== '' && Number(userAnswer) === Number(expectedAnswer);
+
+        if (!validAnswer) {
+          e.preventDefault();
+          humanVerificationInput.focus();
+          showHumanVerificationError(humanErrorMessage);
+          clearHumanVerificationSuccess();
+          return;
+        }
+
+        clearHumanVerificationError();
+        markHumanVerificationSuccess();
+      }
+
       form.classList.add('is-loading');
       form.setAttribute('aria-busy', 'true');
       var submitButton = form.querySelector('button[type="submit"]');
