@@ -80,6 +80,16 @@
                   </div>
                 </div>
                 <div class="field"><label for="website">Website</label><input id="website" name="website" type="url" autocomplete="url" placeholder="example.com or www.example.com" value="<%= formData.website || '' %>" /></div>
+                <div class="field" data-human-field>
+                  <label for="human_verification">Human check: <strong data-human-question><%= humanVerification.question %></strong> = ?</label>
+                  <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+                    <input id="human_verification" name="human_verification" type="number" inputmode="numeric" min="0" required autocomplete="off" aria-describedby="human-verification-help" style="flex:1 1 220px;" />
+                    <button type="button" class="btn btn--ghost btn--sm" data-refresh-human-challenge>New challenge</button>
+                  </div>
+                  <input type="hidden" id="human_verification_answer" value="<%= humanVerification.answer %>" />
+                  <small id="human-verification-help" class="form__note">Solve the arithmetic question to confirm you are human.</small>
+                  <div class="field__error" aria-live="polite">Please answer the arithmetic check correctly before submitting.</div>
+                </div>
                 <div class="field"><label for="message">What&rsquo;s slowing your team down? *</label><textarea id="message" name="message" required minlength="20" maxlength="4000"><%= formData.message || '' %></textarea></div>
                 <div id="contact-feedback-anchor" style="scroll-margin-top:120px;"></div>
                 <div class="form__feedback" aria-live="polite" tabindex="-1">

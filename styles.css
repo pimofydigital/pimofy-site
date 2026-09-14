@@ -522,6 +522,43 @@ ul { list-style: none; }
 .field input::placeholder, .field textarea::placeholder { color: #9b9bac; }
 .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--purple); box-shadow: 0 0 0 3px var(--purple-light); outline: none; transform: translateY(-1px); }
 .field textarea { min-height: 120px; resize: vertical; }
+.field--error input,
+.field--error select,
+.field--error textarea {
+  border-color: #d63b14;
+  background: #fffaf8;
+  box-shadow: 0 0 0 3px rgba(214, 59, 20, 0.12);
+}
+.field--success input,
+.field--success select,
+.field--success textarea {
+  border-color: #1c7c4a;
+  background: #f2fbf6;
+  box-shadow: 0 0 0 3px rgba(28, 124, 74, 0.12);
+}
+.field--error {
+  animation: field-shake 0.32s ease-in-out;
+}
+@keyframes field-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-4px); }
+  40% { transform: translateX(4px); }
+  60% { transform: translateX(-3px); }
+  80% { transform: translateX(3px); }
+}
+.field__error {
+  display: none;
+  margin-top: 8px;
+  font-size: 0.8rem;
+  color: #d63b14;
+  font-weight: 600;
+}
+.field--error .field__error {
+  display: block;
+}
+.field--success .field__error {
+  display: none;
+}
 .form__note { font-size: 0.88rem; color: var(--muted); line-height: 1.5; }
 .form__feedback { display: grid; gap: 10px; }
 .form__success { background: #eefbf3; border: 1px solid #b7ebca; color: #1c7c4a; padding: 14px 18px; border-radius: var(--radius-sm); display: none; line-height: 1.5; }

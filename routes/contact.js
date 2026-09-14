@@ -4,6 +4,7 @@ const rateLimit = require('express-rate-limit');
 const { body } = require('express-validator');
 const { handleValidationErrors } = require('../middleware/validation');
 const ContactController = require('../controllers/ContactController');
+const { validateArithmeticAnswer } = require('../utils/humanVerification');
 
 const contactLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -28,6 +29,7 @@ function normalizeWebsiteUrl(value) {
 
 // Contact page (GET)
 router.get('/', ContactController.page);
+router.get('/challenge', ContactController.challenge);
 
 // Submit contact form (POST)
 router.post(
@@ -98,6 +100,20 @@ router.post(
       .bail()
       .isLength({ min: 20, max: 4000 })
       .withMessage('Message must be between 20 and 4000 characters'),
+    body('human_verification')
+      .trim()
+      .notEmpty()
+      .withMessage('Please answer the arithmetic check to continue')
+      .bail()
+      .custom((value, { req }) => {
+        const challenge = req.session?.contactChallenge;
+        if (!challenge) {
+          return false;
+        }
+
+        return validateArithmeticAnswer(value, challenge.question);
+      })
+      .withMessage('Your arithmetic answer is incorrect'),
   ],
   handleValidationErrors,
   ContactController.submit

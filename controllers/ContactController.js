@@ -1,6 +1,7 @@
 const nodemailer = require('nodemailer');
 const { matchedData } = require('express-validator');
 const config = require('../config/environment');
+const { generateArithmeticChallenge } = require('../utils/humanVerification');
 
 let transporter;
 
@@ -45,10 +46,12 @@ class ContactController {
       const contactSuccess = successFromQuery || req.session.contactSuccess || false;
       const errors = req.session.errors || [];
       const formData = req.session.formData || {};
+      const humanVerification = req.session.contactChallenge || generateArithmeticChallenge();
 
       req.session.contactSuccess = false;
       req.session.errors = [];
       req.session.formData = {};
+      req.session.contactChallenge = humanVerification;
 
       res.render('pages/contact', {
         title: 'Book a Free Consultation | Pimofy Digital',
@@ -57,6 +60,20 @@ class ContactController {
         contactSuccess,
         errors,
         formData,
+        humanVerification,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async challenge(req, res, next) {
+    try {
+      const humanVerification = generateArithmeticChallenge();
+      req.session.contactChallenge = humanVerification;
+      res.json({
+        question: humanVerification.question,
+        answer: humanVerification.answer,
       });
     } catch (error) {
       next(error);
@@ -155,10 +172,12 @@ class ContactController {
       req.session.contactSuccess = true;
       req.session.errors = [];
       req.session.formData = {};
+      req.session.contactChallenge = null;
       res.redirect('/contact?success=1#contact-feedback-anchor');
     } catch (error) {
       console.error('Contact form email failed:', error.message);
       req.session.contactSuccess = false;
+      req.session.contactChallenge = null;
       req.session.errors = [
         {
           field: 'form',
