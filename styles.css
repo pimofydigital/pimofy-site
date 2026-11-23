@@ -2443,6 +2443,10 @@ ul { list-style: none; }
 @media (max-width: 1024px) { .site-footer__grid { grid-template-columns: repeat(4, 1fr); } }
 @media (max-width: 760px) { .site-footer__grid { grid-template-columns: 1fr 1fr; } .site-footer__col a { white-space: normal; } }
 
+/* Pillars heading: keep on one line on desktop */
+.home-pillars .section__head { max-width: 900px; }
+@media (min-width: 961px) { .home-pillars__title { white-space: nowrap; } }
+
 /* FAQ page */
 .faq-jump { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 28px; }
 .faq-jump a { padding: 8px 16px; border-radius: 999px; border: 1px solid var(--line); background: #fff; color: var(--ink); font-size: 0.9rem; font-weight: 600; }
