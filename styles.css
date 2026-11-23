@@ -2395,3 +2395,40 @@ ul { list-style: none; }
   .site-footer__grid { grid-template-columns: 1fr 1fr; gap: 32px 20px; }
   .site-footer__bottom { flex-direction: column; align-items: flex-start; }
 }
+
+/* 11) HOMEPAGE v2 + footer balance ------------------------------------------ */
+.topbar__link { color: #fff; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; margin-left: 6px; }
+.topbar__link:hover { color: #d9ccff; }
+.home-pillars__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+.home-pillar {
+  display: flex; flex-direction: column; padding: clamp(28px, 3vw, 40px); border-radius: 20px;
+  background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow);
+}
+.home-pillar--ai { background: linear-gradient(160deg, #1a1530, #2d1a6b); border-color: transparent; color: rgba(255,255,255,0.82); }
+.home-pillar--ai h3 { color: #fff; }
+.home-pillar__label { display: inline-flex; align-items: center; gap: 8px; align-self: flex-start; margin-bottom: 14px; padding: 5px 12px; border-radius: 999px; background: var(--purple-light); color: var(--purple); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+.home-pillar--ai .home-pillar__label { background: rgba(255,255,255,0.12); color: #fff; }
+.home-pillar__label em { font-style: normal; padding: 1px 7px; border-radius: 999px; background: var(--orange); color: #fff; font-size: 0.65rem; }
+.home-pillar h3 { font-size: clamp(1.3rem, 1.8vw, 1.6rem); margin-bottom: 12px; }
+.home-pillar__list { list-style: none; display: grid; gap: 10px; margin: 8px 0 26px; }
+.home-pillar__list li { position: relative; padding-left: 26px; }
+.home-pillar__list li::before { content: '\2713'; position: absolute; left: 0; top: 0; color: var(--purple); font-weight: 700; }
+.home-pillar--ai .home-pillar__list li::before { color: #b9a3ff; }
+.home-pillar__actions { margin-top: auto; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+.home-pillar__actions .link { font-weight: 600; }
+.home-pillar--ai .home-pillar__actions .link { color: #fff; }
+.home-trust { padding: 8px 0 56px; }
+.home-trust__label { text-align: center; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
+.home-trust__list { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 14px 40px; }
+.home-trust__list a { font-size: 1.12rem; font-weight: 700; letter-spacing: -0.01em; color: #8a85a0; }
+.home-trust__list a:hover { color: var(--purple); }
+
+/* Footer: even, balanced columns */
+.site-footer { padding-top: 64px; }
+.site-footer__grid { grid-template-columns: 1.4fr repeat(4, 1fr); column-gap: 48px; align-items: start; }
+.site-footer__col ul { gap: 12px; }
+@media (max-width: 1024px) { .site-footer__grid { grid-template-columns: repeat(4, 1fr); } }
+@media (max-width: 760px) {
+  .home-pillars__grid { grid-template-columns: 1fr; }
+  .site-footer__grid { grid-template-columns: 1fr 1fr; }
+}
