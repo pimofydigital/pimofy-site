@@ -1,55 +1,72 @@
-<footer class="footer">
+<footer class="site-footer">
   <% const footerYear = typeof currentYear === 'number' ? currentYear : new Date().getFullYear(); %>
   <div class="container">
-    <div class="footer__grid">
+    <div class="site-footer__cta">
       <div>
-        <img src="/assets/logo.png" alt="Pimofy Digital" class="footer__logo" height="50" loading="lazy" decoding="async" />
-        <p>Dedicated data operations and AI growth services for SaaS, Ecommerce and B2B companies. Based in Nairobi, serving the UK, Europe, the USA and Africa.</p>
+        <p class="site-footer__eyebrow">Let&rsquo;s work together</p>
+        <h2 class="site-footer__title">Ready to grow with AI and dependable data operations?</h2>
       </div>
-      <div>
-        <h4>Data Operations</h4>
-        <ul>
-          <li><a href="/solutions">Overview</a></li>
-          <li><a href="/data-operations">Data Operations Pod™</a></li>
-          <li><a href="/capacity-audit">Capacity Audit™</a></li>
-        </ul>
+      <div class="site-footer__cta-actions">
+        <a href="/contact" class="btn btn--primary">Book a Free Consultation</a>
+        <a href="/work" class="btn site-footer__ghost">See Our Work</a>
       </div>
-      <div>
-        <h4>AI Services</h4>
+    </div>
+
+    <div class="site-footer__grid">
+      <div class="site-footer__brand">
+        <a href="/" class="site-footer__logo" aria-label="Pimofy Digital home"><img src="/assets/logo.png" alt="Pimofy Digital" width="200" height="50" loading="lazy" decoding="async" /></a>
+        <p>Dedicated data operations and AI growth services for SaaS, Ecommerce and B2B companies.</p>
+        <p class="site-footer__regions">Nairobi, Kenya &middot; Serving the UK, Europe, USA &amp; Africa</p>
+      </div>
+
+      <nav class="site-footer__col" aria-label="AI services">
+        <h3>AI Services</h3>
         <ul>
           <li><a href="/ai-services/ai-web-development">AI Web Development</a></li>
-          <li><a href="/ai-services/answer-engine-optimization">AEO</a></li>
+          <li><a href="/ai-services/answer-engine-optimization">Answer Engine Optimization</a></li>
           <li><a href="/ai-services/ai-seo">AI-Powered SEO</a></li>
-          <li><a href="/ai-services/generative-engine-optimization">GEO</a></li>
+          <li><a href="/ai-services/generative-engine-optimization">Generative Engine Optimization</a></li>
           <li><a href="/ai-services/schema-markup">Schema Markup</a></li>
         </ul>
-      </div>
-      <div>
-        <h4>Company</h4>
+      </nav>
+
+      <nav class="site-footer__col" aria-label="Data operations">
+        <h3>Data Operations</h3>
         <ul>
+          <li><a href="/data-operations">Data Operations Pod&trade;</a></li>
+          <li><a href="/capacity-audit">Free Capacity Audit&trade;</a></li>
+          <li><a href="/solutions">Solutions Overview</a></li>
+        </ul>
+      </nav>
+
+      <nav class="site-footer__col" aria-label="Company">
+        <h3>Company</h3>
+        <ul>
+          <li><a href="/about">About Us</a></li>
           <li><a href="/work">Our Work</a></li>
           <li><a href="/industries">Industries</a></li>
           <li><a href="/blog">Resources</a></li>
-          <li><a href="/about">About</a></li>
         </ul>
-      </div>
-      <div>
-        <h4>Get Started</h4>
-        <ul>
-          <li><a href="/contact">Book a Call</a></li>
+      </nav>
+
+      <div class="site-footer__col">
+        <h3>Contact</h3>
+        <ul class="site-footer__contact">
           <li><a href="mailto:info@pimofydigital.com">info@pimofydigital.com</a></li>
           <li><a href="tel:+254722412676">+254 722 412676</a></li>
           <li><a href="tel:+254703201241">+254 703 201241</a></li>
+          <li><a href="/contact">Book a call &rarr;</a></li>
         </ul>
       </div>
     </div>
-    <div class="footer__bottom">
-      <span>&copy; <span id="year"><%= footerYear %></span> Pimofy Digital. All rights reserved.</span>
-      <span class="footer__legal">
+
+    <div class="site-footer__bottom">
+      <span>&copy; <%= footerYear %> Pimofy Digital. All rights reserved.</span>
+      <span class="site-footer__legal">
         <a href="/privacy">Privacy Policy</a>
-        <a href="/terms">Terms & Conditions</a>
+        <a href="/terms">Terms &amp; Conditions</a>
+        <a href="/sitemap.xml">Sitemap</a>
       </span>
-      <span>Nairobi, Kenya · Serving UK, EU & USA</span>
     </div>
   </div>
 </footer>
