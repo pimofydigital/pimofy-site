@@ -75,7 +75,7 @@ class BlogController {
 
       res.render('blog/index', {
         title: 'Resources & Insights | Pimofy Digital',
-        description: 'Expert guides on AI search, AEO, GEO, SEO, schema, AI web development and data operations for SaaS, Ecommerce and growing businesses worldwide.',
+        description: 'Expert guides on AI search, AEO, GEO, SEO, schema, AI web development and data operations for growing businesses across the USA, UK, Europe and Africa.',
         posts,
         currentPage: page,
         totalPages,

@@ -2551,3 +2551,23 @@ ul { list-style: none; }
 .mega__stage:first-child { margin-top: 0; }
 .mega .mega__stages a { padding: 6px 12px; }
 @media (max-width: 760px) { .also-ops, .also-ops__stats { grid-template-columns: 1fr; } }
+
+/* ---- AI Visibility Audit offer & form ---- */
+.offer-points { list-style: none; margin: 14px 0 10px; padding: 0; display: grid; gap: 8px; }
+.offer-points li { position: relative; padding-left: 26px; color: rgba(255,255,255,0.92); line-height: 1.5; }
+.offer-points li::before { content: ""; position: absolute; left: 0; top: 0.45em; width: 14px; height: 8px; border-left: 2px solid #fff; border-bottom: 2px solid #fff; transform: rotate(-45deg); }
+.offer-delivery { font-weight: 700; color: #fff; margin-top: 6px; }
+.eyebrow--light { color: rgba(255,255,255,0.85); }
+.cta-band__action { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+.cta-band__link { color: #fff; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.cta-band__link:hover { opacity: 0.85; }
+.audit-score { display: flex; align-items: baseline; gap: 6px; margin: 4px 0 14px; }
+.audit-score__num { font-size: 2.6rem; font-weight: 800; color: var(--ink); line-height: 1; }
+.audit-score__of { font-size: 1rem; font-weight: 600; color: var(--muted); }
+.audit-form-wrap { max-width: 760px; }
+.form__optional { font-weight: 400; color: var(--muted); }
+.field--check { margin-top: 4px; }
+.check-label { display: flex; gap: 10px; align-items: flex-start; font-weight: 400 !important; line-height: 1.5; cursor: pointer; }
+.check-label input { width: 18px !important; height: 18px; margin-top: 3px; flex: 0 0 auto; accent-color: var(--purple); }
+.check-label a { color: var(--purple); text-decoration: underline; }
+@media (max-width: 720px) { .cta-band__action { align-items: stretch; } .cta-band__link { text-align: center; } }

@@ -1,3 +1,4 @@
+const { generateArithmeticChallenge } = require('../utils/humanVerification');
 const { BlogPost } = require('../models');
 const config = require('../config/environment');
 const aiServices = require('../config/aiServices');
@@ -217,9 +218,33 @@ class PageController {
   // Free AI Visibility Audit
   static async aiVisibilityAudit(req, res, next) {
     try {
+      const successFromQuery = String(req.query.success || '') === '1';
+      const auditSuccess = successFromQuery || req.session.auditSuccess || false;
+      const errors = req.session.auditErrors || [];
+      const formData = req.session.auditFormData || {};
+      const humanVerification = req.session.contactChallenge || generateArithmeticChallenge();
+      req.session.auditSuccess = false;
+      req.session.auditErrors = [];
+      req.session.auditFormData = {};
+      req.session.contactChallenge = humanVerification;
+
+      const auditFaqs = [
+        { q: 'Is it really free?', a: 'Yes. There is no cost and no obligation, and the scorecard is yours to keep whether or not you work with us.' },
+        { q: 'Which AI assistants do you check?', a: 'ChatGPT, Perplexity, Google Gemini and Microsoft Copilot, plus Google Search and Google AI Overviews.' },
+        { q: 'How long does it take?', a: 'You will receive your one-page scorecard by email within 2 business days of submitting the form.' },
+        { q: 'Do you need access to my website or accounts?', a: 'No. We only use what is publicly visible, the same view a buyer or an AI assistant gets.' },
+        { q: 'Can you guarantee AI will recommend us?', a: 'No one can honestly guarantee that. We show you where you stand today and which fixes are most likely to help, then re-test after 90 days so you can compare.' },
+        { q: 'Who is the audit for?', a: 'Any business that wins customers online. We work across industries, from SaaS and ecommerce to professional services, local businesses and non-profits.' },
+      ];
+
       res.render('pages/ai-visibility-audit', {
-        title: 'Free AI Visibility Audit for Your Business | Pimofy Digital',
-        description: 'See how Google, ChatGPT, Gemini and Perplexity describe and recommend your brand versus competitors. Free AI Visibility Audit with a prioritised action plan.',
+        title: 'Free AI Visibility Audit: Your Score Across Google and AI Search | Pimofy Digital',
+        description: 'Find out if Google, ChatGPT, Perplexity and Gemini recommend your business. Free one-page scorecard with your score, competitors and top 3 fixes in 2 business days.',
+        auditSuccess,
+        errors,
+        formData,
+        humanVerification,
+        auditFaqs,
         schemaMarkup: {
           '@context': 'https://schema.org',
           '@graph': [
@@ -227,10 +252,15 @@ class PageController {
               '@type': 'Service',
               name: 'Free AI Visibility Audit',
               serviceType: 'AI search visibility audit',
+              description: 'A one-page scorecard rating a business out of 100 on visibility across Google Search, Google AI Overviews, ChatGPT, Perplexity, Gemini and Microsoft Copilot, with competitors named and three priority fixes. Delivered within 2 business days.',
               url: `${SITE_URL()}/ai-visibility-audit`,
               provider: ORGANIZATION_REF(),
-              areaServed: ['United States', 'United Kingdom', 'Europe', 'Worldwide'],
+              areaServed: ['United States', 'United Kingdom', 'Europe', 'Africa'],
               offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+            },
+            {
+              '@type': 'FAQPage',
+              mainEntity: auditFaqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
             },
             breadcrumbSchema([
               { name: 'Home', path: '/' },
@@ -272,7 +302,7 @@ class PageController {
       const all = [...portfolio.products, ...portfolio.websites];
       res.render('pages/work', {
         title: 'Our Work: AI Products, Websites & Ecommerce | Pimofy Digital',
-        description: 'Live AI-powered SaaS platforms, ecommerce stores and international websites designed and engineered by Pimofy Digital for clients worldwide.',
+        description: 'Live AI-powered SaaS platforms, ecommerce stores and international websites designed and engineered by Pimofy Digital for clients across the USA, UK, Europe and Africa.',
         products: portfolio.products,
         websites: portfolio.websites,
         schemaMarkup: {

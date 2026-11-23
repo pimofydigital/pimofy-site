@@ -56,7 +56,7 @@ class ContactController {
       res.render('pages/contact', {
         title: 'Book a Free Consultation | Pimofy Digital',
         description:
-          'Talk to a Pimofy consultant about your data operations. Book a free call and get a complimentary Operations Capacity Audit.',
+          'Talk to Pimofy Digital about AI Visibility & Growth or Data Operations. Book a free call, request an AI Visibility Audit or an Operations Capacity Audit.',
         contactSuccess,
         errors,
         formData,
@@ -193,6 +193,113 @@ class ContactController {
         message: req.body?.message || '',
       };
       res.redirect('/contact?error=1#contact-feedback-anchor');
+    }
+  }
+  // Handle AI Visibility Audit request
+  static async submitAudit(req, res) {
+    const keep = ['name', 'email', 'company', 'website', 'offering', 'market', 'industry', 'competitors', 'buyer_question', 'phone', 'consent'];
+    try {
+      const data = matchedData(req, { locations: ['body'] });
+      const submittedAt = new Date();
+      const rows = [
+        ['Name', data.name],
+        ['Email', data.email],
+        ['Company', data.company],
+        ['Website', data.website],
+        ['What they sell', data.offering],
+        ['Main market', data.market],
+        ['Industry', data.industry],
+        ['Competitors', data.competitors || 'Not provided'],
+        ['Buyer question', data.buyer_question || 'Not provided'],
+        ['WhatsApp / phone', data.phone || 'Not provided'],
+        ['Consent to contact', 'Yes'],
+      ];
+      const textBody = [
+        'New AI Visibility Audit request',
+        'Deliver the scorecard within 2 business days.',
+        '',
+        `Submitted At: ${submittedAt.toISOString()}`,
+        ...rows.map(([k, v]) => `${k}: ${v}`),
+      ].join('\n');
+      const htmlBody = `
+        <h2>New AI Visibility Audit request</h2>
+        <p>Deliver the scorecard within 2 business days.</p>
+        <p><strong>Submitted At:</strong> ${escapeHtml(submittedAt.toISOString())}</p>
+        ${rows.map(([k, v]) => `<p><strong>${escapeHtml(k)}:</strong> ${escapeHtml(v)}</p>`).join('')}
+      `;
+
+      await getMailer().sendMail({
+        from: `Pimofy Website <${config.email.smtpUser}>`,
+        to: config.email.contactEmail || config.email.adminEmail || config.email.smtpUser,
+        replyTo: data.email,
+        subject: `AI Visibility Audit Request - ${String(data.company || '').replace(/[\r\n]/g, ' ')}`,
+        text: textBody,
+        html: htmlBody,
+      });
+
+      try {
+        const confirmationText = [
+          `Hi ${data.name},`,
+          '',
+          'Thanks for requesting a free AI Visibility Audit from Pimofy Digital.',
+          'Your audit is in the queue. You will receive your one-page scorecard by email within 2 business days.',
+          '',
+          'It will include:',
+          '- Your AI Visibility Score out of 100',
+          '- Results for real buyer questions across Google, AI Overviews, ChatGPT, Perplexity, Gemini and Copilot',
+          '- The competitors AI names instead of you',
+          '- Your three highest-impact fixes',
+          '',
+          `Company: ${data.company}`,
+          `Website: ${data.website}`,
+          '',
+          'Best regards,',
+          'Pimofy Digital',
+          'info@pimofydigital.com',
+        ].join('\n');
+        const confirmationHtml = `
+          <p>Hi ${escapeHtml(data.name)},</p>
+          <p>Thanks for requesting a free <strong>AI Visibility Audit</strong> from Pimofy Digital.</p>
+          <p>Your audit is in the queue. You will receive your one-page scorecard by email within <strong>2 business days</strong>.</p>
+          <p>It will include:</p>
+          <ul>
+            <li>Your AI Visibility Score out of 100</li>
+            <li>Results for real buyer questions across Google, AI Overviews, ChatGPT, Perplexity, Gemini and Copilot</li>
+            <li>The competitors AI names instead of you</li>
+            <li>Your three highest-impact fixes</li>
+          </ul>
+          <p><strong>Company:</strong> ${escapeHtml(data.company)}<br /><strong>Website:</strong> ${escapeHtml(data.website)}</p>
+          <p>Best regards,<br />Pimofy Digital<br />info@pimofydigital.com</p>
+        `;
+        await getMailer().sendMail({
+          from: `Pimofy Digital <${config.email.smtpUser}>`,
+          to: data.email,
+          subject: 'Your AI Visibility Audit request - Pimofy Digital',
+          text: confirmationText,
+          html: confirmationHtml,
+        });
+      } catch (autoReplyError) {
+        console.warn('Audit auto-reply failed:', autoReplyError.message);
+      }
+
+      req.session.auditSuccess = true;
+      req.session.auditErrors = [];
+      req.session.auditFormData = {};
+      req.session.contactChallenge = null;
+      res.redirect('/ai-visibility-audit?success=1#contact-feedback-anchor');
+    } catch (error) {
+      console.error('Audit request email failed:', error.message);
+      req.session.auditSuccess = false;
+      req.session.contactChallenge = null;
+      req.session.auditErrors = [
+        {
+          field: 'form',
+          message:
+            'Sorry, we could not send your request right now. Please try again in a few minutes or email info@pimofydigital.com directly.',
+        },
+      ];
+      req.session.auditFormData = Object.fromEntries(keep.map((k) => [k, String(req.body?.[k] || '')]));
+      res.redirect('/ai-visibility-audit?error=1#contact-feedback-anchor');
     }
   }
 }

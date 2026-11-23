@@ -31,9 +31,9 @@ const services = [
       'AI web development for fast, secure, conversion-ready websites built from day one to be found by Google and AI assistants. Strategy, design, build and launch.',
     headline: 'Websites That Get Found, Earn Trust and Turn Visitors Into Enquiries.',
     lead:
-      'We combine AI-accelerated design and engineering with senior human review to launch fast, secure, conversion-focused websites in weeks, not months. Every site is structured from the first line of code to rank in search and to be cited by AI assistants.',
+      'Fast, secure, conversion-focused websites that launch in weeks, not months. AI speeds up our design and engineering, and senior specialists review every page. Every site is structured from the first line of code to rank in search and to be cited by AI assistants.',
     summary:
-      'AI-accelerated strategy, design and engineering for fast, secure, search-ready websites that convert visitors into pipeline.',
+      'Fast, secure, search-ready websites that turn visitors into enquiries, built with AI-assisted design and senior human review.',
     problemTitle: 'Most Websites Are Built for People Only. Yours Must Also Be Read by Machines.',
     problemIntro:
       'Buyers now start their research in Google, ChatGPT, Perplexity and Gemini. A site that looks good but is slow, unstructured or hard for AI to interpret quietly loses that demand.',
@@ -48,7 +48,7 @@ const services = [
     deliverablesTitle: 'What We Deliver',
     deliverables: [
       { title: 'Strategy & Information Architecture', text: 'Audience, offer and competitor research turned into a sitemap and page structure designed around how buyers and AI engines search.' },
-      { title: 'AI-Accelerated UX & Visual Design', text: 'Brand-aligned, international-standard design systems produced faster with AI and refined by senior designers.' },
+      { title: 'Conversion-Focused UX & Visual Design', text: 'Brand-aligned, international-standard design that guides visitors to enquire, produced faster with AI and refined by senior designers.' },
       { title: 'Performance-First Engineering', text: 'Lean, modern code targeting 90+ PageSpeed scores on mobile and desktop and sub-three-second load times.' },
       { title: 'Search & AI Readiness Built In', text: 'Semantic HTML, schema markup, clean URLs, sitemaps and answer-ready content blocks from day one.' },
       { title: 'Conversion Design', text: 'Clear calls to action, booking and lead forms, trust signals and analytics events mapped to your funnel.' },
@@ -143,7 +143,7 @@ const services = [
     eyebrow: 'AI-Powered SEO',
     title: 'AI-Powered SEO Services for Businesses & Brands | Pimofy Digital',
     metaDescription:
-      'AI-powered SEO: technical audits, data-driven content and authority building that grow qualified organic traffic and revenue for businesses worldwide.',
+      'AI-powered SEO: technical audits, data-driven content and authority building that grow qualified organic traffic and revenue for businesses across the USA, UK, Europe and Africa.',
     headline: 'SEO That Compounds. Powered by AI, Led by Specialists.',
     lead:
       'We use AI to analyse your site, competitors and market at a depth and speed manual teams cannot match, then our specialists turn those insights into technical fixes, content and authority that grow qualified organic revenue.',

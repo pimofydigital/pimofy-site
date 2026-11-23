@@ -6,7 +6,7 @@
     <meta name="csrf-token" content="<%= csrfToken %>" />
     <% const pageTitle = typeof title !== 'undefined' && title ? (/pimofy/i.test(title) ? title : title + ' | Pimofy Digital') : 'Pimofy Digital'; %>
     <title><%= pageTitle %></title>
-    <meta name="description" content="<%= typeof description !== 'undefined' ? description : 'Data operations and AI growth services for SaaS & Ecommerce companies worldwide' %>" />
+    <meta name="description" content="<%= typeof description !== 'undefined' ? description : 'Pimofy Digital is an AI growth agency that makes your business the answer on Google and in AI search. Nairobi-based, serving the USA, UK, Europe and Africa.' %>" />
     <% if (typeof keywords !== 'undefined') { %><meta name="keywords" content="<%= keywords %>" /><% } %>
 
     <!-- Canonical URL -->
@@ -32,14 +32,14 @@
 
     <!-- Open Graph -->
     <meta property="og:title" content="<%= pageTitle %>" />
-    <meta property="og:description" content="<%= typeof description !== 'undefined' ? description : 'Data operations and AI growth services for SaaS & Ecommerce companies worldwide' %>" />
+    <meta property="og:description" content="<%= typeof description !== 'undefined' ? description : 'Pimofy Digital is an AI growth agency that makes your business the answer on Google and in AI search. Nairobi-based, serving the USA, UK, Europe and Africa.' %>" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="<%= canonicalUrl || config.app.url %>" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="<%= pageTitle %>" />
-    <meta name="twitter:description" content="<%= typeof description !== 'undefined' ? description : 'Data operations and AI growth services for SaaS & Ecommerce companies worldwide' %>" />
+    <meta name="twitter:description" content="<%= typeof description !== 'undefined' ? description : 'Pimofy Digital is an AI growth agency that makes your business the answer on Google and in AI search. Nairobi-based, serving the USA, UK, Europe and Africa.' %>" />
 
     <!-- Organization Schema -->
     <script type="application/ld+json">
