@@ -85,7 +85,7 @@
           <% (mediaFiles || []).forEach((media) => { %>
             <article class="media-card media-card--library">
               <button type="button" class="media-card__preview" data-media-preview-src="<%= media.url %>" data-media-preview-alt="<%= media.filename %>">
-                <img src="<%= media.url % loading="lazy" decoding="async">" alt="<%= media.filename %>" />
+                <img src="<%= media.url %>" alt="<%= media.filename %>" />
               </button>
 
               <div class="media-card__body">
@@ -160,7 +160,7 @@
         <div class="media-modal__backdrop" data-media-modal-close></div>
         <div class="media-modal__dialog" role="dialog" aria-modal="true" aria-label="Media preview">
           <button type="button" class="media-modal__close" data-media-modal-close aria-label="Close preview">&times;</button>
-          <img data-media-modal-image src="" alt="Media preview" loading="lazy" decoding="async" />
+          <img data-media-modal-image src="" alt="Media preview" />
           <p data-media-modal-caption></p>
         </div>
       </div>
