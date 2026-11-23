@@ -61,6 +61,25 @@
     </div>
   </section>
 
+
+  <% if (typeof work !== 'undefined' && work.length) { %>
+  <section class="section section--soft" aria-labelledby="work-title">
+    <div class="container">
+      <div class="section__head reveal"><span class="eyebrow">Proof</span><h2 id="work-title">Selected Work</h2></div>
+      <div class="ai-grid">
+        <% work.forEach(function (item, index) { %>
+        <article class="card work-card reveal" data-delay="<%= index % 3 %>">
+          <span class="tag tag--plain"><%= item.category %></span>
+          <h3><a href="<%= item.url %>" target="_blank" rel="noopener noreferrer"><%= item.name %></a></h3>
+          <p><%= item.summary %></p>
+        </article>
+        <% }); %>
+      </div>
+      <div class="actions-row actions-row--center reveal" style="margin-top:32px;"><a href="/work" class="btn btn--ghost btn--lg">See All Our Work</a></div>
+    </div>
+  </section>
+  <% } %>
+
   <section class="section" aria-labelledby="related-title">
     <div class="container">
       <div class="section__head reveal"><span class="eyebrow">Works Even Better Together</span><h2 id="related-title">Related AI Services</h2></div>

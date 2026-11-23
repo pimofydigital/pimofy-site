@@ -1,6 +1,7 @@
 const { BlogPost } = require('../models');
 const config = require('../config/environment');
 const aiServices = require('../config/aiServices');
+const portfolio = require('../config/portfolio');
 
 const SITE_URL = () => config.app.url || 'https://pimofydigital.com';
 
@@ -175,6 +176,7 @@ class PageController {
         keywords: service.keywords,
         service,
         related,
+        work: portfolio.forService(service.slug, 3),
         schemaMarkup: {
           '@context': 'https://schema.org',
           '@graph': [
@@ -208,6 +210,37 @@ class PageController {
       });
     } catch (error) {
       return next(error);
+    }
+  }
+
+  // Portfolio
+  static async work(req, res, next) {
+    try {
+      const all = [...portfolio.products, ...portfolio.websites];
+      res.render('pages/work', {
+        title: 'Our Work: AI Products, Websites & Ecommerce | Pimofy Digital',
+        description: 'Live AI-powered products, SaaS platforms, ecommerce stores and international websites designed and engineered by Pimofy Digital.',
+        products: portfolio.products,
+        websites: portfolio.websites,
+        schemaMarkup: {
+          '@context': 'https://schema.org',
+          '@graph': [
+            ORGANIZATION_REF(),
+            {
+              '@type': 'ItemList',
+              name: 'Pimofy Digital portfolio',
+              itemListElement: all.map((item, index) => ({
+                '@type': 'ListItem',
+                position: index + 1,
+                item: { '@type': 'CreativeWork', name: item.name, url: item.url, description: item.summary, creator: { '@id': `${SITE_URL()}/#organization` } },
+              })),
+            },
+            breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Our Work', path: '/work' }]),
+          ],
+        },
+      });
+    } catch (error) {
+      next(error);
     }
   }
 
@@ -253,6 +286,7 @@ class PageController {
         { url: '/capacity-audit', changefreq: 'monthly', priority: 0.8 },
         { url: '/industries', changefreq: 'monthly', priority: 0.8 },
         { url: '/ai-services', changefreq: 'monthly', priority: 0.9 },
+        { url: '/work', changefreq: 'monthly', priority: 0.8 },
         ...aiServices.services.map((service) => ({ url: `/ai-services/${service.slug}`, changefreq: 'monthly', priority: 0.8 })),
         { url: '/about', changefreq: 'monthly', priority: 0.7 },
         { url: '/blog', changefreq: 'weekly', priority: 0.9 },

@@ -2251,3 +2251,12 @@ ul { list-style: none; }
   .ai-grid, .ai-grid--related, .ai-steps { grid-template-columns: 1fr; }
   .ai-hero { padding: 36px 0; }
 }
+
+/* Portfolio */
+.work-card { display: flex; flex-direction: column; gap: 4px; }
+.work-card .tag { align-self: flex-start; margin-bottom: 10px; }
+.work-card h3 a { color: var(--ink); }
+.work-card h3 a:hover { color: var(--purple); }
+.work-card .link { margin-top: auto; font-weight: 600; }
+.work-stack { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 16px; }
+.work-stack li { font-size: 0.8rem; padding: 4px 10px; border-radius: 999px; background: var(--purple-light); color: var(--purple-dark); font-weight: 600; }

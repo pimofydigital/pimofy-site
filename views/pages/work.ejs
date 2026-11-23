@@ -1,0 +1,57 @@
+<a class="skip-link" href="#main">Skip to content</a>
+<%- include('../partials/header') %>
+
+<main id="main">
+  <section class="hero ai-hero">
+    <div class="container" style="max-width:860px;text-align:center;">
+      <nav class="breadcrumb" aria-label="Breadcrumb" style="justify-content:center;"><a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">Our Work</span></nav>
+      <span class="eyebrow">Our Work</span>
+      <h1>AI-Powered Products and Websites, Live in Production.</h1>
+      <p class="lead">From AI SaaS platforms and fintech products to ecommerce stores and international B2B websites, here is a selection of what our team has designed, engineered and launched.</p>
+      <div class="hero__actions" style="justify-content:center;"><a href="/contact?service=ai-web-development" class="btn btn--primary btn--lg">Start Your Project</a></div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="products-title">
+    <div class="container">
+      <div class="section__head reveal"><span class="eyebrow">AI Products &amp; Platforms</span><h2 id="products-title">Products We Have Built</h2></div>
+      <div class="grid grid--2">
+        <% products.forEach(function (item, index) { %>
+        <article class="card card--feature work-card reveal" data-delay="<%= index % 2 %>">
+          <span class="tag tag--plain"><%= item.category %></span>
+          <h3><a href="<%= item.url %>" target="_blank" rel="noopener noreferrer"><%= item.name %></a></h3>
+          <p><%= item.summary %></p>
+          <ul class="work-stack"><% item.stack.forEach(function (tech) { %><li><%= tech %></li><% }); %></ul>
+          <a class="link" href="<%= item.url %>" target="_blank" rel="noopener noreferrer">Visit live product &rarr;</a>
+        </article>
+        <% }); %>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--soft" aria-labelledby="sites-title">
+    <div class="container">
+      <div class="section__head reveal"><span class="eyebrow">Websites &amp; Ecommerce</span><h2 id="sites-title">Websites We Have Launched</h2><p class="section__intro">Corporate, ecommerce and non-profit websites serving customers across Kenya, Rwanda, DR Congo, the Middle East and beyond.</p></div>
+      <div class="ai-grid">
+        <% websites.forEach(function (item, index) { %>
+        <article class="card work-card reveal" data-delay="<%= index % 3 %>">
+          <span class="tag tag--plain"><%= item.category %></span>
+          <h3><a href="<%= item.url %>" target="_blank" rel="noopener noreferrer"><%= item.name %></a></h3>
+          <p><%= item.summary %></p>
+          <a class="link" href="<%= item.url %>" target="_blank" rel="noopener noreferrer">Visit website &rarr;</a>
+        </article>
+        <% }); %>
+      </div>
+    </div>
+  </section>
+
+  <section class="section cta-band">
+    <div class="container cta-band__grid reveal">
+      <div class="cta-band__text"><h2>Your Project Could Be Next</h2><p>Tell us what you want to build. We will reply within one business day with ideas, a timeline and next steps.</p></div>
+      <div class="cta-band__action"><a href="/contact?service=ai-web-development" class="btn btn--white btn--lg">Book a Free Consultation</a></div>
+    </div>
+  </section>
+</main>
+
+<%- include('../partials/footer') %>
+<script src="/script.js?v=<%= assetVersions.script %>" defer></script>
