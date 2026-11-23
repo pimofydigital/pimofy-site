@@ -35,7 +35,7 @@
         <div class="actions-row">
           <% if (post.tags && post.tags.length) { %>
             <% post.tags.forEach(tag => { %>
-              <a href="/blog/tag/<%= tag %>" class="tag-link">
+              <a href="/blog/tag/<%= encodeURIComponent(tag) %>" class="tag-link">
                 <%= tag %>
               </a>
             <% }); %>

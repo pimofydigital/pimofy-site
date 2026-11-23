@@ -75,7 +75,7 @@ class BlogController {
 
       res.render('blog/index', {
         title: 'Resources & Insights | Pimofy Digital',
-        description: 'Read practical insights on data operations, capacity, and scaling for SaaS and Ecommerce teams.',
+        description: 'Expert guides on AI search, AEO, GEO, SEO, schema, AI web development and data operations for SaaS, Ecommerce and growing businesses worldwide.',
         posts,
         currentPage: page,
         totalPages,

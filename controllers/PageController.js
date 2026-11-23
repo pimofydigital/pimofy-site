@@ -47,7 +47,7 @@ class PageController {
       res.render('pages/home', {
         title: 'Data Operations & AI Growth for SaaS & Ecommerce | Pimofy Digital',
         description:
-          'Pimofy Digital helps SaaS & Ecommerce companies in the USA, UK, Europe and worldwide scale with dedicated data operations and AI growth services: AI web development, SEO, AEO, GEO and schema markup.',
+          'AI Visibility & Growth and dedicated data operations for SaaS & Ecommerce. Get found and recommended on Google and ChatGPT. Serving the USA, UK, Europe and worldwide.',
         preloadImage: '/assets/hero-home.webp',
         aiServicesList: aiServices.services,
       });
@@ -62,7 +62,7 @@ class PageController {
       res.render('pages/solutions', {
         title: 'Solutions: AI Visibility, Websites & Data Operations | Pimofy',
         description:
-          'Four solutions for SaaS & Ecommerce: a free AI Visibility Audit, Answer-Ready Websites, the AI Visibility Programme (SEO, AEO, GEO, schema) and the Data Operations Pod.',
+          'Four solutions: a free AI Visibility Audit, Answer-Ready Websites, the AI Visibility Programme (SEO, AEO, GEO, schema) and the Data Operations Pod.',
         preloadImage: '/assets/data-warehouse.webp',
       });
     } catch (error) {
@@ -115,7 +115,7 @@ class PageController {
     try {
       res.render('pages/about', {
         title: 'About Pimofy Digital | AI Visibility & Growth for SaaS & Ecommerce',
-        description: 'Pimofy Digital is the AI Visibility & Growth partner for SaaS & Ecommerce: we get brands found, chosen and recommended by Google and AI assistants, backed by dedicated data operations.',
+        description: 'Pimofy Digital is the AI Visibility & Growth partner for SaaS & Ecommerce, getting brands found and recommended by Google and AI, backed by data operations.',
         preloadImage: '/assets/team.webp',
       });
     } catch (error) {
@@ -307,7 +307,7 @@ class PageController {
     try {
       res.render('pages/privacy', {
         title: 'Privacy Policy | Pimofy Digital',
-        description: 'How Pimofy Digital collects, uses and protects personal data, in line with GDPR principles.',
+        description: 'How Pimofy Digital collects, uses, stores and protects personal data from website visitors, enquiries and clients, in line with GDPR principles.',
       });
     } catch (error) {
       next(error);
@@ -319,7 +319,7 @@ class PageController {
     try {
       res.render('pages/terms', {
         title: 'Terms & Conditions | Pimofy Digital',
-        description: 'Terms and conditions for using the Pimofy Digital website and services.',
+        description: 'The terms and conditions that apply when you use the Pimofy Digital website, request a consultation or engage our AI Visibility & Growth or data services.',
       });
     } catch (error) {
       next(error);

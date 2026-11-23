@@ -4,7 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="csrf-token" content="<%= csrfToken %>" />
-    <title><%= typeof title !== 'undefined' ? title + ' | Pimofy Digital' : 'Pimofy Digital' %></title>
+    <% const pageTitle = typeof title !== 'undefined' && title ? (/pimofy/i.test(title) ? title : title + ' | Pimofy Digital') : 'Pimofy Digital'; %>
+    <title><%= pageTitle %></title>
     <meta name="description" content="<%= typeof description !== 'undefined' ? description : 'Data operations and AI growth services for SaaS & Ecommerce companies worldwide' %>" />
     <% if (typeof keywords !== 'undefined') { %><meta name="keywords" content="<%= keywords %>" /><% } %>
 
@@ -30,14 +31,14 @@
     <% } %>
 
     <!-- Open Graph -->
-    <meta property="og:title" content="<%= typeof title !== 'undefined' ? title : 'Pimofy Digital' %>" />
+    <meta property="og:title" content="<%= pageTitle %>" />
     <meta property="og:description" content="<%= typeof description !== 'undefined' ? description : 'Data operations and AI growth services for SaaS & Ecommerce companies worldwide' %>" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="<%= canonicalUrl || config.app.url %>" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="<%= typeof title !== 'undefined' ? title : 'Pimofy Digital' %>" />
+    <meta name="twitter:title" content="<%= pageTitle %>" />
     <meta name="twitter:description" content="<%= typeof description !== 'undefined' ? description : 'Data operations and AI growth services for SaaS & Ecommerce companies worldwide' %>" />
 
     <!-- Organization Schema -->

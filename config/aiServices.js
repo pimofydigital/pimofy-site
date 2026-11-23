@@ -25,7 +25,7 @@ const services = [
     eyebrow: 'AI Web Development',
     title: 'AI Web Development for Businesses, SaaS & Ecommerce | Pimofy',
     metaDescription:
-      'AI web development that ships fast, loads in under three seconds, and is built from day one to be found by Google and AI assistants. Strategy, design, build and launch by Pimofy.',
+      'AI web development for fast, secure, conversion-ready websites built from day one to be found by Google and AI assistants. Strategy, design, build and launch.',
     headline: 'Websites Engineered by AI. Refined by Experts. Built to Be Found.',
     lead:
       'We combine AI-accelerated design and engineering with senior human review to launch fast, secure, conversion-focused websites in weeks, not months. Every site is structured from the first line of code to rank in search and to be cited by AI assistants.',
@@ -82,7 +82,7 @@ const services = [
     eyebrow: 'Answer Engine Optimization',
     title: 'Answer Engine Optimization (AEO) Services | Pimofy Digital',
     metaDescription:
-      'AEO services that make your brand the direct answer in Google AI Overviews, featured snippets, voice search, ChatGPT and Perplexity. Answer-first content, schema and entity optimisation.',
+      'AEO services that make your brand the direct answer in Google AI Overviews, featured snippets, voice search, ChatGPT and Perplexity.',
     headline: 'Be the Answer, Not Just a Link.',
     lead:
       'Answer Engine Optimization positions your brand as the direct, trusted answer when buyers ask questions in Google AI Overviews, featured snippets, voice assistants and AI chat tools.',
@@ -138,7 +138,7 @@ const services = [
     eyebrow: 'AI-Powered SEO',
     title: 'AI-Powered SEO Services for Businesses & Brands | Pimofy Digital',
     metaDescription:
-      'AI-powered SEO combining technical audits, data-driven content and authority building to grow qualified organic traffic and revenue for businesses of every size, with deep expertise in SaaS and ecommerce.',
+      'AI-powered SEO: technical audits, data-driven content and authority building that grow qualified organic traffic and revenue for businesses worldwide.',
     headline: 'SEO That Compounds. Powered by AI, Led by Specialists.',
     lead:
       'We use AI to analyse your site, competitors and market at a depth and speed manual teams cannot match, then our specialists turn those insights into technical fixes, content and authority that grow qualified organic revenue.',
@@ -194,7 +194,7 @@ const services = [
     eyebrow: 'Generative Engine Optimization',
     title: 'Generative Engine Optimization (GEO) Services | Pimofy Digital',
     metaDescription:
-      'GEO services that help your brand get mentioned, recommended and cited by ChatGPT, Google Gemini, Perplexity, Claude and Copilot. Brand visibility audits, citation-worthy content and AI share-of-voice tracking.',
+      'GEO services that get your brand mentioned, recommended and cited by ChatGPT, Gemini, Perplexity, Claude and Copilot, with AI share-of-voice tracking.',
     headline: 'Get Recommended by AI. Everywhere Your Buyers Ask.',
     lead:
       'Generative Engine Optimization increases how often large language models such as ChatGPT, Gemini, Perplexity, Claude and Copilot mention, recommend and cite your brand when buyers ask for advice in your category.',
@@ -250,7 +250,7 @@ const services = [
     eyebrow: 'Schema Markup & Structured Data',
     title: 'Schema Markup & Structured Data Services | Pimofy Digital',
     metaDescription:
-      'Expert schema markup and JSON-LD structured data services. Organisation, Product, Service, FAQ, Article and LocalBusiness schema that earn rich results and help AI understand your brand.',
+      'Expert schema markup and JSON-LD structured data: Organization, Product, Service, FAQ and Article schema that earn rich results and help AI understand you.',
     headline: 'Give Search Engines and AI a Clear Map of Your Business.',
     lead:
       'Schema markup is the structured language search engines and AI systems use to understand who you are, what you sell and why you are trustworthy. We design, implement and maintain error-free JSON-LD across your entire site.',
@@ -302,7 +302,7 @@ const services = [
 const hub = {
   title: 'AI Visibility & Growth: AI Web Development, AEO, SEO, GEO & Schema | Pimofy',
   metaDescription:
-    'Pimofy AI Visibility & Growth for businesses in every industry, with deep SaaS & Ecommerce expertise: AI web development, Answer Engine Optimization, AI-powered SEO, Generative Engine Optimization and schema markup that make your brand visible in Google and AI assistants.',
+    'AI Visibility & Growth for every industry, with deep SaaS & Ecommerce expertise: AI web development, SEO, AEO, GEO and schema that get you found by AI.',
   eyebrow: 'AI Visibility & Growth',
   headline: 'Be Found, Chosen and Cited in the Age of AI Search.',
   lead:
