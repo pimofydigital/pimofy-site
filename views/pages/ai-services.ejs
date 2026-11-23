@@ -75,7 +75,7 @@
         <div class="section__head reveal"><span class="eyebrow">FAQ</span><h2 id="faq-title">Frequently Asked Questions</h2></div>
         <div class="faq reveal">
           <% hub.faqs.forEach(function (item) { %>
-          <div class="faq__item" aria-expanded="false">
+          <div class="faq__item" data-open="false">
             <button class="faq__q" type="button"><%= item.q %><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></button>
             <div class="faq__a"><p><%= item.a %></p></div>
           </div>

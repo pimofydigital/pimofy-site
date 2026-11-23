@@ -500,7 +500,7 @@ ul { list-style: none; }
   font-weight: 600; color: var(--ink); padding: 18px 22px; display: flex; justify-content: space-between; gap: 16px; align-items: center;
 }
 .faq__q svg { flex: 0 0 auto; transition: transform var(--transition); color: var(--purple); }
-.faq__item[aria-expanded="true"] .faq__q svg { transform: rotate(45deg); }
+.faq__item[data-open="true"] .faq__q svg { transform: rotate(45deg); }
 .faq__a { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
 .faq__a p { padding: 0 22px 20px; margin: 0; color: var(--body); }
 

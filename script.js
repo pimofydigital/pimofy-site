@@ -59,8 +59,8 @@
     if (!q || !a) return;
     q.setAttribute('aria-expanded', 'false');
     q.addEventListener('click', function () {
-      var open = item.getAttribute('aria-expanded') === 'true';
-      item.setAttribute('aria-expanded', String(!open));
+      var open = item.getAttribute('data-open') === 'true';
+      item.setAttribute('data-open', String(!open));
       q.setAttribute('aria-expanded', String(!open));
       a.style.maxHeight = open ? null : a.scrollHeight + 'px';
     });
