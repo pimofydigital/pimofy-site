@@ -53,17 +53,20 @@ function buildCanonicalUrl(req) {
 }
 
 /**
- * Stable version string used to cache-bust /styles.css and /script.js.
- * Prefers a content hash; falls back to the deploy's git commit so every
- * serverless instance of the same deployment uses the same URL.
+ * Version string used to cache-bust /styles.css and /script.js.
+ * On Vercel the deploy's git commit is used, so every serverless instance of
+ * the same deployment produces the same URL. Locally a content hash is used.
  */
 function fileVersion(relativePath) {
+  const commit = process.env.VERCEL_GIT_COMMIT_SHA || process.env.VERCEL_DEPLOYMENT_ID || '';
+  if (commit) {
+    return commit.slice(0, 10);
+  }
   try {
     const content = fs.readFileSync(resolveRuntimePath(relativePath));
     return crypto.createHash('sha1').update(content).digest('hex').slice(0, 10);
   } catch (error) {
-    const commit = process.env.VERCEL_GIT_COMMIT_SHA || process.env.VERCEL_DEPLOYMENT_ID || '';
-    return commit ? commit.slice(0, 10) : 'dev';
+    return 'dev';
   }
 }
 
@@ -160,9 +163,11 @@ app.locals.assetVersions = assetVersions;
  * Requests that carry the current ?v= hash are cached for a year; anything
  * else revalidates.
  */
-function sendVersionedAsset(file, versionKey) {
+function sendVersionedAsset(file) {
   return (req, res) => {
-    const versioned = req.query.v === assetVersions[versionKey];
+    // Any ?v= URL is immutable: each deploy links to a new version string,
+    // so browsers fetch fresh CSS/JS after every release and cache it after.
+    const versioned = typeof req.query.v === 'string' && req.query.v.length > 0;
     res.setHeader(
       'Cache-Control',
       config.app.isProduction && versioned
@@ -173,8 +178,8 @@ function sendVersionedAsset(file, versionKey) {
   };
 }
 
-app.get(['/styles.css', '/css/styles.css'], sendVersionedAsset('styles.css', 'styles'));
-app.get(['/script.js', '/js/script.js'], sendVersionedAsset('script.js', 'script'));
+app.get(['/styles.css', '/css/styles.css'], sendVersionedAsset('styles.css'));
+app.get(['/script.js', '/js/script.js'], sendVersionedAsset('script.js'));
 
 // ============================================
 // BODY PARSING (explicit size limits)
