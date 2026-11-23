@@ -8,6 +8,8 @@
  */
 
 const ICONS = {
+  landing: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M8 14h8M10 17.5h4"/></svg>',
+  ads: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>',
   web: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M7 8l2 2-2 2M12 12h4"/></svg>',
   aeo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M9.5 8.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5V13M12 15.5h.01"/></svg>',
   seo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/><path d="M8 13l2-2 2 2 3-3"/></svg>',
@@ -18,15 +20,16 @@ const ICONS = {
 const services = [
   {
     slug: 'ai-web-development',
+    stage: 'chosen',
     icon: ICONS.web,
     name: 'AI Web Development',
     shortName: 'AI Web Development',
-    menuTagline: 'AI-built, conversion-ready websites',
+    menuTagline: 'Fast websites built to convert and be found',
     eyebrow: 'AI Web Development',
     title: 'AI Web Development for Businesses, SaaS & Ecommerce | Pimofy',
     metaDescription:
       'AI web development for fast, secure, conversion-ready websites built from day one to be found by Google and AI assistants. Strategy, design, build and launch.',
-    headline: 'Websites Engineered by AI. Refined by Experts. Built to Be Found.',
+    headline: 'Websites That Get Found, Earn Trust and Turn Visitors Into Enquiries.',
     lead:
       'We combine AI-accelerated design and engineering with senior human review to launch fast, secure, conversion-focused websites in weeks, not months. Every site is structured from the first line of code to rank in search and to be cited by AI assistants.',
     summary:
@@ -75,6 +78,7 @@ const services = [
   },
   {
     slug: 'answer-engine-optimization',
+    stage: 'cited',
     icon: ICONS.aeo,
     name: 'Answer Engine Optimization (AEO)',
     shortName: 'AEO',
@@ -131,6 +135,7 @@ const services = [
   },
   {
     slug: 'ai-seo',
+    stage: 'found',
     icon: ICONS.seo,
     name: 'AI-Powered SEO',
     shortName: 'SEO',
@@ -187,6 +192,7 @@ const services = [
   },
   {
     slug: 'generative-engine-optimization',
+    stage: 'cited',
     icon: ICONS.geo,
     name: 'Generative Engine Optimization (GEO)',
     shortName: 'GEO',
@@ -243,6 +249,7 @@ const services = [
   },
   {
     slug: 'schema-markup',
+    stage: 'cited',
     icon: ICONS.schema,
     name: 'Schema Markup & Structured Data',
     shortName: 'Schemas',
@@ -297,6 +304,120 @@ const services = [
     ],
     keywords: 'schema markup services, structured data, JSON-LD, rich results, FAQ schema, product schema, technical SEO',
   },
+  {
+    slug: 'conversion-landing-pages',
+    stage: 'chosen',
+    icon: ICONS.landing,
+    name: 'Conversion-Focused Landing Pages',
+    shortName: 'Landing Pages',
+    menuTagline: 'Pages built around one action',
+    eyebrow: 'Conversion-Focused Landing Pages',
+    title: 'Conversion-Focused Landing Pages | Pimofy Digital',
+    metaDescription:
+      'Landing pages built around one action, so more visitors from search, AI answers and ads become enquiries, demos and sales. Strategy, copy, design, testing.',
+    headline: 'Turn More of Your Visitors Into Enquiries.',
+    lead:
+      'Traffic only matters if it converts. We design and build focused landing pages for your campaigns, services and offers, each built around one clear action and tested to keep improving.',
+    summary:
+      'Focused pages for campaigns, services and offers, each built around one action and tested so more visitors become enquiries.',
+    problemTitle: 'Visitors Arrive. Then They Leave.',
+    problemIntro:
+      'Many businesses send paid, organic and AI-referred traffic to a homepage or a generic service page. Visitors cannot find the answer or the next step quickly, so they bounce and the budget is wasted.',
+    problems: [
+      'Ads and campaigns sending visitors to the homepage',
+      'Pages trying to say everything to everyone',
+      'Slow mobile load times that lose visitors before the page appears',
+      'Weak or buried calls to action and long forms',
+      'No testing, so nobody knows what would convert better',
+      'Tracking that cannot connect visits to enquiries',
+    ],
+    deliverablesTitle: 'What We Deliver',
+    deliverables: [
+      { title: 'Offer & Audience Strategy', text: 'One audience, one problem, one action per page, agreed before anything is designed.' },
+      { title: 'Conversion Copywriting', text: 'Headlines, proof and objection-handling written around what your buyers actually ask.' },
+      { title: 'Fast, Mobile-First Design', text: 'Lightweight pages built for quick loading on phones, with clear hierarchy and trust signals.' },
+      { title: 'Forms, Booking & Integrations', text: 'Short forms, booking links, WhatsApp or chat, connected to your CRM or inbox.' },
+      { title: 'Tracking & Analytics', text: 'Conversion events and source tracking so you can see which channels produce enquiries.' },
+      { title: 'A/B Testing & Iteration', text: 'Structured tests on headlines, offers and layouts to keep improving conversion over time.' },
+    ],
+    processTitle: 'How We Build Landing Pages',
+    process: [
+      { title: 'Define', text: 'Agree the audience, offer, single action and success metric.' },
+      { title: 'Write & Design', text: 'Draft the copy and design the page around that one action.' },
+      { title: 'Launch & Track', text: 'Publish, connect tracking and integrations, and check speed.' },
+      { title: 'Test & Improve', text: 'Run tests and refine based on real visitor behaviour.' },
+    ],
+    outcomes: [
+      'A dedicated page for every key campaign or offer',
+      'One clear next step for every visitor',
+      'Visibility into which channels produce enquiries',
+      'Ongoing tests that keep improving results',
+    ],
+    faqs: [
+      { q: 'How is a landing page different from a normal website page?', a: 'A landing page is built for one audience and one action, such as booking a call, requesting a quote or buying a product. It removes distractions that a general website page needs to include, which usually makes it more effective for campaigns.' },
+      { q: 'Can you build landing pages on our existing website?', a: 'Yes. We can build within your current platform, such as WordPress, Webflow or Shopify, or as standalone pages on a subdomain, depending on what is fastest and easiest for your team.' },
+      { q: 'Do you write the copy?', a: 'Yes. Conversion copy is part of the service. We base it on your customers\' real questions and objections, and you approve every page before it goes live.' },
+      { q: 'Can you guarantee a conversion rate?', a: 'No honest provider can guarantee a conversion rate, because it depends on your offer, traffic and market. We agree clear metrics, track them and test improvements continuously.' },
+    ],
+    keywords: 'landing page design, conversion rate optimisation, high-converting landing pages, landing pages for ads, CRO agency',
+  },
+  {
+    slug: 'ai-meta-ads',
+    stage: 'chosen',
+    icon: ICONS.ads,
+    name: 'AI-Powered Facebook & Instagram Ads',
+    shortName: 'Facebook & Instagram Ads',
+    menuTagline: 'Paid campaigns that bring qualified enquiries',
+    eyebrow: 'AI-Powered Facebook & Instagram Ads',
+    title: 'AI-Powered Facebook & Instagram Ads | Pimofy Digital',
+    metaDescription:
+      'AI-powered Facebook and Instagram ad campaigns: audience strategy, creative, tracking and optimisation focused on qualified enquiries and sales, not just clicks.',
+    headline: 'Paid Social That Brings Customers, Not Just Clicks.',
+    lead:
+      'We plan, create and manage Facebook and Instagram campaigns using AI-assisted audience research, creative testing and optimisation, and connect every campaign to a page built to convert.',
+    summary:
+      'Facebook and Instagram campaigns with AI-assisted targeting, creative testing and tracking, connected to pages built to convert.',
+    problemTitle: 'Ad Spend Without Clear Results',
+    problemIntro:
+      'Paid social can grow a business quickly, but without the right audience, creative, tracking and landing pages it mostly buys clicks that never become customers.',
+    problems: [
+      'Boosted posts instead of structured campaigns',
+      'Broad audiences and creative that never gets tested',
+      'Ads sending people to pages that do not convert',
+      'Missing or broken tracking for leads and purchases',
+      'Reports full of reach and clicks, not enquiries or sales',
+      'No time in-house to manage and optimise campaigns weekly',
+    ],
+    deliverablesTitle: 'What We Deliver',
+    deliverables: [
+      { title: 'Campaign Strategy', text: 'Objectives, audiences, offers and budgets mapped to your sales funnel and target markets.' },
+      { title: 'AI-Assisted Audience Research', text: 'Customer and competitor insight used to shape audiences, messaging and placements.' },
+      { title: 'Creative Production & Testing', text: 'Ad copy, images and short videos produced in variations and tested to find what performs.' },
+      { title: 'Tracking Setup', text: 'Meta Pixel and Conversions API set up so leads and purchases are measured accurately.' },
+      { title: 'Landing Page Alignment', text: 'Every campaign points to a page built for that audience and action.' },
+      { title: 'Optimisation & Reporting', text: 'Weekly optimisation and monthly reports focused on cost per enquiry and return on spend.' },
+    ],
+    processTitle: 'How We Run Campaigns',
+    process: [
+      { title: 'Plan', text: 'Agree goals, audiences, budget and the metric that defines success.' },
+      { title: 'Build', text: 'Set up tracking, creative and the landing pages each campaign needs.' },
+      { title: 'Launch', text: 'Go live with structured tests across audiences and creative.' },
+      { title: 'Optimise', text: 'Shift budget to what works and report on enquiries and revenue.' },
+    ],
+    outcomes: [
+      'Campaigns structured around enquiries and sales',
+      'Accurate tracking from ad to lead or purchase',
+      'Creative that is tested, not guessed',
+      'Clear monthly reporting on cost per result',
+    ],
+    faqs: [
+      { q: 'Is the ad budget included in your fee?', a: 'No. Your ad spend is paid directly to Meta from your own ad account, which you own. Our fee covers strategy, creative, setup, management and reporting.' },
+      { q: 'What does AI-powered mean for ads?', a: 'We use AI tools to speed up audience research, generate and vary creative, and analyse performance, alongside Meta\'s own machine-learning delivery. Specialists set strategy and approve everything that runs.' },
+      { q: 'Which markets can you advertise in?', a: 'We run campaigns for audiences in the USA, UK, Europe, Africa and other markets, following Meta\'s advertising policies and local rules for each market.' },
+      { q: 'How soon will we see results?', a: 'Campaigns usually need a learning period of a few weeks while tests run and delivery optimises. We agree realistic expectations based on your budget, offer and market before launch.' },
+    ],
+    keywords: 'Facebook ads agency, Instagram ads, Meta ads management, paid social, AI ads, lead generation ads',
+  },
 ];
 
 const hub = {
@@ -304,9 +425,14 @@ const hub = {
   metaDescription:
     'AI Visibility & Growth for every industry, with deep SaaS & Ecommerce expertise: AI web development, SEO, AEO, GEO and schema that get you found by AI.',
   eyebrow: 'AI Visibility & Growth',
-  headline: 'Be Found, Chosen and Cited in the Age of AI Search.',
+  headline: 'Be the Answer, on Google and in AI Search.',
   lead:
-    'Your buyers now ask Google, ChatGPT, Gemini and Perplexity before they ever contact a vendor. Our AI Visibility & Growth services build the website, content and structured data that make your brand the one these engines find, trust and recommend.',
+    'Customers now ask Google, ChatGPT, Gemini and Perplexity before they contact anyone. We make your business the one they find, the one AI recommends and the one they choose, and we report it in enquiries, not rankings.',
+  stages: [
+    { id: 'found', title: 'Be Found', outcome: 'More qualified visitors from Google, Bing and other search engines.', plain: 'Search engine optimisation (SEO) makes your website rank for the searches your customers make.' },
+    { id: 'cited', title: 'Be Cited', outcome: 'Your business named and recommended by AI assistants and answer boxes.', plain: 'Answer Engine Optimization (AEO) wins direct answers, Generative Engine Optimization (GEO) earns mentions in ChatGPT, Gemini and Perplexity, and schema markup labels your information so machines understand it.' },
+    { id: 'chosen', title: 'Be Chosen', outcome: 'Visitors and ad clicks that turn into enquiries instead of bouncing.', plain: 'Fast websites, focused landing pages and paid social campaigns, each built around one clear action.' },
+  ],
   pillars: [
     { title: 'Built by AI, Owned by Experts', text: 'AI gives us speed and depth. Senior specialists set strategy, review every output and stay accountable for results.' },
     { title: 'One Connected System', text: 'Website, SEO, AEO, GEO and schema planned together, so every improvement strengthens the others.' },
@@ -320,10 +446,10 @@ const hub = {
     { title: 'Recommendation', text: 'GEO increases how often AI assistants mention and recommend your brand.' },
   ],
   faqs: [
-    { q: 'Do I need all five services?', a: 'No. Many clients start with one, often a new AI-built website or an AI visibility audit, and add services as results grow. We recommend a combination based on your goals and budget.' },
+    { q: 'Do I need every service?', a: 'No. Most clients start with a free AI Visibility Audit and one step, Be Found, Be Cited or Be Chosen, then add services as results grow. We recommend the right combination for your goals and budget.' },
     { q: 'Who are these services for?', a: 'Any business that wants to be found and recommended in Google and AI assistants: professional services, healthcare, education, manufacturing, retail, non-profits, local businesses and more. We have particularly deep expertise in SaaS and Ecommerce, and serve clients in the USA, UK, Europe, Africa and worldwide.' },
-    { q: 'How do engagements work?', a: 'Website builds are fixed-scope projects. SEO, AEO, GEO and schema maintenance run as monthly programmes with clear deliverables, KPIs and reporting.' },
-    { q: 'How do we get started?', a: 'Book a free AI Visibility Review. We will show how your brand currently appears in Google and leading AI assistants and where the biggest opportunities are.' },
+    { q: 'How do engagements work?', a: 'Websites and landing pages are fixed-scope projects. SEO, AEO, GEO, schema and ad management run as monthly programmes with clear deliverables and a monthly report on where you are found, where you are cited and the enquiries it produced.' },
+    { q: 'How do we get started?', a: 'Book a free AI Visibility Audit. We will show how your brand currently appears in Google and leading AI assistants and where the biggest opportunities are.' },
   ],
 };
 

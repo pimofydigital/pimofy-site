@@ -45,9 +45,9 @@ class PageController {
   static async home(req, res, next) {
     try {
       res.render('pages/home', {
-        title: 'Data Operations & AI Growth for SaaS & Ecommerce | Pimofy Digital',
+        title: 'Be the Answer on Google and in AI Search | Pimofy Digital',
         description:
-          'AI Visibility & Growth and dedicated data operations for SaaS & Ecommerce. Get found and recommended on Google and ChatGPT. Serving the USA, UK, Europe and worldwide.',
+          'AI-powered SEO, AEO, GEO and conversion campaigns that get your business found on Google, recommended by ChatGPT and chosen. USA, UK, Europe and Africa.',
         preloadImage: '/assets/hero-home.webp',
         aiServicesList: aiServices.services,
       });
@@ -395,7 +395,7 @@ class PageController {
     const lines = [
       '# Pimofy Digital',
       '',
-      '> Pimofy Digital provides AI Visibility & Growth services (AI web development, SEO, AEO, GEO, schema) for businesses in every industry, and dedicated Data Operations Pods for SaaS & Ecommerce companies. Serving the USA, UK, Europe, Africa and worldwide. Headquartered in Nairobi, Kenya.',
+      '> Be the answer, on Google and in AI search. Pimofy Digital is an AI growth agency: Be Found (AI-powered SEO), Be Cited (AEO, GEO, schema) and Be Chosen (AI web development, landing pages, Facebook & Instagram ads) for any business, plus dedicated Data Operations Pods for SaaS & Ecommerce. Nairobi-based, serving businesses across the USA, UK, Europe and Africa.',
       '',
       '## AI Visibility & Growth',
       `- [Free AI Visibility Audit](${base}/ai-visibility-audit): How Google, ChatGPT, Gemini and Perplexity describe and recommend your brand versus competitors, with a prioritised action plan.`,

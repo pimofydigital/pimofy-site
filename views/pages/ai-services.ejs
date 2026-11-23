@@ -34,17 +34,25 @@
 
   <section class="section" id="services" aria-labelledby="services-title">
     <div class="container">
-      <div class="section__head reveal"><span class="eyebrow">AI Visibility &amp; Growth Services</span><h2 id="services-title">Five Services. One Goal: Demand From Search and AI.</h2></div>
-      <div class="ai-grid">
-        <% services.forEach(function (service, index) { %>
-        <article class="card ai-card reveal" data-delay="<%= index % 3 %>">
-          <div class="card__icon card__icon--lg"><%- service.icon %></div>
-          <h3><a href="/ai-services/<%= service.slug %>"><%= service.name %></a></h3>
-          <p><%= service.summary %></p>
-          <a class="link" href="/ai-services/<%= service.slug %>" aria-label="Learn more about <%= service.name %>">Learn more &rarr;</a>
-        </article>
-        <% }); %>
+      <div class="section__head reveal"><span class="eyebrow">How It Works</span><h2 id="services-title">Be Found. Be Cited. Be Chosen.</h2><p class="section__intro">Three outcomes, one connected plan. Every service sits under the result it delivers.</p></div>
+      <% hub.stages.forEach(function (stage, si) { %>
+      <div class="stage-group reveal" id="<%= stage.id %>">
+        <div class="stage-group__head">
+          <span class="stage-group__num"><%= si + 1 %></span>
+          <div><h3><%= stage.title %></h3><p class="stage-group__outcome"><%= stage.outcome %></p><p class="stage-group__plain"><%= stage.plain %></p></div>
+        </div>
+        <div class="ai-grid">
+          <% services.filter(function (s) { return s.stage === stage.id; }).forEach(function (service, index) { %>
+          <article class="card ai-card" data-delay="<%= index % 3 %>">
+            <div class="card__icon card__icon--lg"><%- service.icon %></div>
+            <h4 class="ai-card__title"><a href="/ai-services/<%= service.slug %>"><%= service.name %></a></h4>
+            <p><%= service.summary %></p>
+            <a class="link" href="/ai-services/<%= service.slug %>" aria-label="Learn more about <%= service.name %>">Learn more &rarr;</a>
+          </article>
+          <% }); %>
+        </div>
       </div>
+      <% }); %>
     </div>
   </section>
 
