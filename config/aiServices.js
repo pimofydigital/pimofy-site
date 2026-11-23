@@ -23,7 +23,7 @@ const services = [
     shortName: 'AI Web Development',
     menuTagline: 'AI-built, conversion-ready websites',
     eyebrow: 'AI Web Development',
-    title: 'AI Web Development for SaaS & Ecommerce | Pimofy Digital',
+    title: 'AI Web Development for Businesses, SaaS & Ecommerce | Pimofy',
     metaDescription:
       'AI web development that ships fast, loads in under three seconds, and is built from day one to be found by Google and AI assistants. Strategy, design, build and launch by Pimofy.',
     headline: 'Websites Engineered by AI. Refined by Experts. Built to Be Found.',
@@ -136,9 +136,9 @@ const services = [
     shortName: 'SEO',
     menuTagline: 'Technical, content and authority SEO',
     eyebrow: 'AI-Powered SEO',
-    title: 'AI-Powered SEO Services for SaaS & Ecommerce | Pimofy Digital',
+    title: 'AI-Powered SEO Services for Businesses & Brands | Pimofy Digital',
     metaDescription:
-      'AI-powered SEO combining technical audits, data-driven content and authority building to grow qualified organic traffic and revenue for SaaS and ecommerce brands.',
+      'AI-powered SEO combining technical audits, data-driven content and authority building to grow qualified organic traffic and revenue for businesses of every size, with deep expertise in SaaS and ecommerce.',
     headline: 'SEO That Compounds. Powered by AI, Led by Specialists.',
     lead:
       'We use AI to analyse your site, competitors and market at a depth and speed manual teams cannot match, then our specialists turn those insights into technical fixes, content and authority that grow qualified organic revenue.',
@@ -302,7 +302,7 @@ const services = [
 const hub = {
   title: 'AI Visibility & Growth: AI Web Development, AEO, SEO, GEO & Schema | Pimofy',
   metaDescription:
-    'Pimofy AI Visibility & Growth for SaaS & Ecommerce: AI web development, Answer Engine Optimization, AI-powered SEO, Generative Engine Optimization and schema markup that make your brand visible in Google and AI assistants.',
+    'Pimofy AI Visibility & Growth for businesses in every industry, with deep SaaS & Ecommerce expertise: AI web development, Answer Engine Optimization, AI-powered SEO, Generative Engine Optimization and schema markup that make your brand visible in Google and AI assistants.',
   eyebrow: 'AI Visibility & Growth',
   headline: 'Be Found, Chosen and Cited in the Age of AI Search.',
   lead:
@@ -321,7 +321,7 @@ const hub = {
   ],
   faqs: [
     { q: 'Do I need all five services?', a: 'No. Many clients start with one, often a new AI-built website or an AI visibility audit, and add services as results grow. We recommend a combination based on your goals and budget.' },
-    { q: 'Who are these services for?', a: 'Growing SaaS, ecommerce and B2B service companies in the UK, Europe, the USA and Africa that want more qualified demand from search and AI tools.' },
+    { q: 'Who are these services for?', a: 'Any business that wants to be found and recommended in Google and AI assistants: professional services, healthcare, education, manufacturing, retail, non-profits, local businesses and more. We have particularly deep expertise in SaaS and Ecommerce, and serve clients in the USA, UK, Europe, Africa and worldwide.' },
     { q: 'How do engagements work?', a: 'Website builds are fixed-scope projects. SEO, AEO, GEO and schema maintenance run as monthly programmes with clear deliverables, KPIs and reporting.' },
     { q: 'How do we get started?', a: 'Book a free AI Visibility Review. We will show how your brand currently appears in Google and leading AI assistants and where the biggest opportunities are.' },
   ],

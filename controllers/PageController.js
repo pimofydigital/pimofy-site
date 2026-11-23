@@ -102,8 +102,8 @@ class PageController {
   static async industries(req, res, next) {
     try {
       res.render('pages/industries', {
-        title: 'Industries: SaaS & Ecommerce | Pimofy Digital',
-        description: 'Data operations and AI growth services for SaaS, Ecommerce and B2B companies across the USA, UK, Europe and Africa.',
+        title: 'Industries: SaaS, Ecommerce & Every Business | Pimofy Digital',
+        description: 'Specialists in SaaS & Ecommerce data operations, with AI Visibility & Growth services for businesses in every industry across the USA, UK, Europe and Africa.',
       });
     } catch (error) {
       next(error);
@@ -218,7 +218,7 @@ class PageController {
   static async aiVisibilityAudit(req, res, next) {
     try {
       res.render('pages/ai-visibility-audit', {
-        title: 'Free AI Visibility Audit for SaaS & Ecommerce | Pimofy Digital',
+        title: 'Free AI Visibility Audit for Your Business | Pimofy Digital',
         description: 'See how Google, ChatGPT, Gemini and Perplexity describe and recommend your brand versus competitors. Free AI Visibility Audit with a prioritised action plan.',
         schemaMarkup: {
           '@context': 'https://schema.org',
@@ -395,7 +395,7 @@ class PageController {
     const lines = [
       '# Pimofy Digital',
       '',
-      '> Pimofy Digital provides dedicated data operations and AI growth services for SaaS & Ecommerce companies in the USA, UK, Europe, Africa and worldwide. Headquartered in Nairobi, Kenya.',
+      '> Pimofy Digital provides AI Visibility & Growth services (AI web development, SEO, AEO, GEO, schema) for businesses in every industry, and dedicated Data Operations Pods for SaaS & Ecommerce companies. Serving the USA, UK, Europe, Africa and worldwide. Headquartered in Nairobi, Kenya.',
       '',
       '## AI Visibility & Growth',
       `- [Free AI Visibility Audit](${base}/ai-visibility-audit): How Google, ChatGPT, Gemini and Perplexity describe and recommend your brand versus competitors, with a prioritised action plan.`,

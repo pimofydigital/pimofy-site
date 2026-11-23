@@ -2471,3 +2471,5 @@ ul { list-style: none; }
 .callout-ai .eyebrow { background: rgba(255,255,255,0.12); color: #fff; }
 .cta-band__action--stack { display: flex; flex-wrap: wrap; gap: 12px; justify-content: flex-end; }
 @media (max-width: 760px) { .ai-steps--3 { grid-template-columns: 1fr; } .cta-band__action--stack { justify-content: flex-start; } }
+
+.hero__scope { margin: -4px 0 22px; padding: 10px 14px; border-left: 3px solid var(--purple); background: var(--purple-light); border-radius: 0 10px 10px 0; font-size: 0.95rem; color: var(--ink); max-width: 560px; }
