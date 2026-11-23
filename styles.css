@@ -2478,3 +2478,46 @@ ul { list-style: none; }
 .btn--primary { background: #cf3f0b; }
 .btn--primary:hover { background: #b0350a; }
 .home-trust__list a { color: var(--muted); }
+
+/* 14) MOBILE BOTTOM TAB BAR ------------------------------------------------- */
+.tabbar { display: none; }
+@media (max-width: 960px) {
+  body { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
+  .tabbar {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 120;
+    display: grid; grid-template-columns: repeat(5, 1fr); align-items: end;
+    height: calc(66px + env(safe-area-inset-bottom)); padding: 0 6px env(safe-area-inset-bottom);
+    background: rgba(255, 255, 255, 0.96); backdrop-filter: saturate(180%) blur(14px); -webkit-backdrop-filter: saturate(180%) blur(14px);
+    border-top: 1px solid var(--line); box-shadow: 0 -8px 28px rgba(26, 21, 48, 0.08);
+  }
+  .tabbar__item {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+    height: 66px; background: none; border: 0; font: inherit; cursor: pointer;
+    color: #5f5a73; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.01em; -webkit-tap-highlight-color: transparent;
+  }
+  .tabbar__item svg { width: 22px; height: 22px; transition: transform var(--transition); }
+  .tabbar__item.is-active, .tabbar__item:hover { color: var(--purple); }
+  .tabbar__item.is-active svg { transform: translateY(-1px); }
+  .tabbar__item.is-active::after { content: ''; width: 4px; height: 4px; border-radius: 50%; background: var(--purple); margin-top: -1px; }
+  .tabbar__item:focus-visible, .tabbar__cta:focus-visible { outline: 2px solid var(--purple); outline-offset: -4px; border-radius: 12px; }
+  .tabbar__cta {
+    display: flex; flex-direction: column; align-items: center; gap: 4px; height: 66px; justify-content: flex-end; padding-bottom: 9px;
+    color: var(--ink); font-size: 0.7rem; font-weight: 700; -webkit-tap-highlight-color: transparent;
+  }
+  .tabbar__cta-icon {
+    display: inline-flex; align-items: center; justify-content: center; width: 54px; height: 54px; margin-top: -26px;
+    border-radius: 50%; background: linear-gradient(140deg, #e04a12, #b0350a); color: #fff;
+    box-shadow: 0 10px 22px rgba(207, 63, 11, 0.38), 0 0 0 5px #fff;
+    transition: transform var(--transition);
+  }
+  .tabbar__cta-icon svg { width: 24px; height: 24px; }
+  .tabbar__cta:active .tabbar__cta-icon { transform: scale(0.94); }
+  .tabbar__cta:hover { color: var(--ink); }
+  /* The tab bar has its own CTA, so hide the floating header CTA duplicate in the open menu */
+  .nav__menu.open { max-height: calc(100vh - 76px - 76px); }
+}
+@media (max-width: 960px) and (prefers-reduced-motion: reduce) {
+  .tabbar__item svg, .tabbar__cta-icon { transition: none; }
+}
+/* Blog tag contrast (WCAG AA) */
+.tag { color: #b43a0a; }

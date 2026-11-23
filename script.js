@@ -34,6 +34,19 @@
     });
   }
 
+
+  /* --- Mobile bottom tab bar: "Menu" opens the main navigation ----------- */
+  var tabMenu = document.querySelector('[data-tabbar-menu]');
+  if (tabMenu && burger && menu) {
+    tabMenu.addEventListener('click', function () {
+      var open = menu.classList.toggle('open');
+      burger.setAttribute('aria-expanded', String(open));
+      tabMenu.setAttribute('aria-expanded', String(open));
+      tabMenu.classList.toggle('is-active', open);
+      if (open) { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    });
+  }
+
   /* --- 3) Dropdown (Solutions) — click + hover, keyboard accessible ------ */
   document.querySelectorAll('.dropdown').forEach(function (dd) {
     var toggle = dd.querySelector('.dropdown__toggle');
