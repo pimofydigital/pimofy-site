@@ -2,6 +2,7 @@
   <% const navCurrentPath = typeof currentPath === 'string' ? currentPath : ''; %>
   <% const navIsAuthenticated = typeof isAuthenticated === 'boolean' ? isAuthenticated : false; %>
   <% const navCsrfToken = typeof csrfToken === 'string' ? csrfToken : ''; %>
+  <% const isServicesPath = ['/solutions', '/data-operations', '/capacity-audit'].includes(navCurrentPath) || navCurrentPath.startsWith('/ai-services'); %>
   <div class="container">
     <nav class="nav" aria-label="Primary">
       <a class="nav__logo" href="/" aria-label="Pimofy Digital home">
@@ -9,35 +10,42 @@
       </a>
       <ul class="nav__menu">
         <li><a href="/" <% if (navCurrentPath === '/') { %>aria-current="page"<% } %>>Home</a></li>
-        <li class="dropdown" aria-expanded="false">
-          <button class="dropdown__toggle" aria-haspopup="true">
-            Data Operations
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        <li class="dropdown dropdown--mega" aria-expanded="false">
+          <button class="dropdown__toggle<% if (isServicesPath) { %> is-active<% } %>" type="button" aria-haspopup="true">
+            Services
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
           </button>
-          <ul class="dropdown__menu">
-            <li><a href="/solutions"><strong>Solutions Overview</strong><span>One focused solution, built around your data</span></a></li>
-            <li><a href="/data-operations"><strong>The Data Operations Pod™</strong><span>Dedicated specialist + QA</span></a></li>
-            <li><a href="/capacity-audit"><strong>Free Operations Capacity Audit™</strong><span>No-obligation workflow review</span></a></li>
-          </ul>
-        </li>
-        <li class="dropdown" aria-expanded="false">
-          <button class="dropdown__toggle" aria-haspopup="true">
-            AI Services <span class="nav__badge">New</span>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-          </button>
-          <ul class="dropdown__menu">
-            <li><a href="/ai-services"><strong>AI Services Overview</strong><span>Be found, chosen and cited by AI</span></a></li>
-            <li><a href="/ai-services/ai-web-development"><strong>AI Web Development</strong><span>AI-built, conversion-ready websites</span></a></li>
-            <li><a href="/ai-services/answer-engine-optimization"><strong>AEO</strong><span>Become the answer in AI assistants</span></a></li>
-            <li><a href="/ai-services/ai-seo"><strong>AI-Powered SEO</strong><span>Technical, content and authority SEO</span></a></li>
-            <li><a href="/ai-services/generative-engine-optimization"><strong>GEO</strong><span>Get cited by ChatGPT, Gemini &amp; Perplexity</span></a></li>
-            <li><a href="/ai-services/schema-markup"><strong>Schema Markup</strong><span>Structured data machines understand</span></a></li>
-          </ul>
+          <div class="dropdown__menu mega">
+            <div class="mega__col">
+              <p class="mega__heading">AI Growth Services <span class="mega__tag">New</span></p>
+              <ul>
+                <li><a href="/ai-services/ai-web-development"><strong>AI Web Development</strong><span>AI-built, conversion-ready websites</span></a></li>
+                <li><a href="/ai-services/answer-engine-optimization"><strong>Answer Engine Optimization</strong><span>Become the answer in AI assistants</span></a></li>
+                <li><a href="/ai-services/ai-seo"><strong>AI-Powered SEO</strong><span>Technical, content and authority SEO</span></a></li>
+                <li><a href="/ai-services/generative-engine-optimization"><strong>Generative Engine Optimization</strong><span>Get cited by ChatGPT, Gemini and Perplexity</span></a></li>
+                <li><a href="/ai-services/schema-markup"><strong>Schema Markup</strong><span>Structured data machines understand</span></a></li>
+              </ul>
+              <a class="mega__all" href="/ai-services">View all AI services &rarr;</a>
+            </div>
+            <div class="mega__col">
+              <p class="mega__heading">Data Operations</p>
+              <ul>
+                <li><a href="/data-operations"><strong>Data Operations Pod&trade;</strong><span>Dedicated specialist with QA and reporting</span></a></li>
+                <li><a href="/capacity-audit"><strong>Free Capacity Audit&trade;</strong><span>No-obligation workflow review</span></a></li>
+                <li><a href="/solutions"><strong>Solutions Overview</strong><span>How the pod fits your team</span></a></li>
+              </ul>
+              <div class="mega__promo">
+                <strong>Not sure where to start?</strong>
+                <span>Book a free consultation and we will recommend the right service.</span>
+                <a href="/contact">Talk to an expert &rarr;</a>
+              </div>
+            </div>
+          </div>
         </li>
         <li><a href="/work" <% if (navCurrentPath === '/work') { %>aria-current="page"<% } %>>Our Work</a></li>
-        <li><a href="/industries">Industries</a></li>
-        <li><a href="/blog" <% if (navCurrentPath === '/blog' || navCurrentPath.startsWith('/blog/')) { %>aria-current="page"<% } %>>Resources</a></li>
-        <li><a href="/about">About</a></li>
+        <li><a href="/industries" <% if (navCurrentPath === '/industries') { %>aria-current="page"<% } %>>Industries</a></li>
+        <li><a href="/blog" <% if (navCurrentPath === '/blog' || navCurrentPath.startsWith('/blog/')) { %>aria-current="page"<% } %>>Insights</a></li>
+        <li><a href="/about" <% if (navCurrentPath === '/about') { %>aria-current="page"<% } %>>About</a></li>
         <li class="nav__mobile-cta"><a href="/contact" class="btn btn--primary">Book a Call</a></li>
         <% if (navIsAuthenticated) { %>
           <li><a href="/admin">Admin</a></li>
@@ -50,12 +58,9 @@
         <% } %>
       </ul>
       <div class="nav__actions">
-        <a href="/contact" class="btn btn--primary">Book a Call</a>
-        <% if (navIsAuthenticated) { %>
-          <a href="/admin" class="btn btn--ghost">Admin</a>
-        <% } %>
+        <a href="/contact" class="btn btn--primary nav__cta">Book a Call</a>
       </div>
-      <button class="nav__burger" aria-label="Toggle menu" aria-expanded="false">
+      <button class="nav__burger" type="button" aria-label="Toggle menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
     </nav>
