@@ -61,11 +61,6 @@ module.exports = {
     bcryptRounds: Math.min(Math.max(toInt(process.env.BCRYPT_ROUNDS, 12), 10), 15),
     corsAllowedOrigins: toList(process.env.CORS_ALLOWED_ORIGINS),
   },
-  superAdmin: {
-    name: process.env.SUPER_ADMIN_NAME,
-    email: process.env.SUPER_ADMIN_EMAIL,
-    password: process.env.SUPER_ADMIN_PASSWORD,
-  },
   app: {
     url: (process.env.APP_URL || (isProduction ? 'https://pimofydigital.com' : 'http://localhost:3000')).replace(/\/+$/, ''),
     nodeEnv,
