@@ -9,38 +9,7 @@
   </div>
 
   <!-- ============ HEADER / NAV ============ -->
-  <header class="header">
-    <div class="container">
-      <nav class="nav" aria-label="Primary">
-        <a class="nav__logo" href="/" aria-label="Pimofy Digital home">
-          <img src="/assets/logo.png" alt="Pimofy Digital" width="200" height="50" />
-        </a>
-        <ul class="nav__menu">
-          <li><a href="/" aria-current="page">Home</a></li>
-          <li class="dropdown" aria-expanded="false">
-            <button class="dropdown__toggle" aria-haspopup="true">Solutions
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-            </button>
-            <ul class="dropdown__menu">
-              <li><a href="/solutions"><strong>Solutions Overview</strong><span>One focused solution, built around your data</span></a></li>
-              <li><a href="/data-operations"><strong>The Data Operations Pod&trade;</strong><span>Dedicated specialist + QA</span></a></li>
-              <li><a href="/capacity-audit"><strong>Free Operations Capacity Audit&trade;</strong><span>No-obligation workflow review</span></a></li>
-            </ul>
-          </li>
-          <li><a href="/industries">Industries</a></li>
-          <li><a href="/blog">Resources</a></li>
-          <li><a href="/about">About</a></li>
-          <li class="nav__mobile-cta"><a href="/contact" class="btn btn--primary">Book a Call</a></li>
-        </ul>
-        <div class="nav__actions">
-          <a href="/contact" class="btn btn--primary">Book a Call</a>
-        </div>
-        <button class="nav__burger" aria-label="Toggle menu" aria-expanded="false">
-          <span></span><span></span><span></span>
-        </button>
-      </nav>
-    </div>
-  </header>
+  <%- include('../partials/header') %>
 
   <main id="main">
     <!-- ============ HERO ============ -->
@@ -204,6 +173,27 @@
     </section>
 
     <!-- ============ CTA BAND (two columns) ============ -->
+    <!-- AI GROWTH SERVICES -->
+    <section class="section ai-teaser" aria-labelledby="ai-teaser-title">
+      <div class="container">
+        <div class="section__head reveal">
+          <span class="eyebrow">New &middot; AI Growth Services</span>
+          <h2 id="ai-teaser-title">Be Found, Chosen and Cited in the Age of AI Search</h2>
+          <p class="section__intro">Beyond data operations, we now help brands win demand from Google, ChatGPT, Gemini and Perplexity with AI web development, AEO, SEO, GEO and schema markup.</p>
+        </div>
+        <div class="ai-grid">
+          <% (typeof aiServicesList !== 'undefined' ? aiServicesList : []).forEach(function (service, index) { %>
+          <article class="card ai-card reveal" data-delay="<%= index % 3 %>">
+            <div class="card__icon"><%- service.icon %></div>
+            <h3><a href="/ai-services/<%= service.slug %>"><%= service.name %></a></h3>
+            <p><%= service.summary %></p>
+          </article>
+          <% }); %>
+        </div>
+        <div class="actions-row actions-row--center reveal"><a href="/ai-services" class="btn btn--primary btn--lg">Explore AI Services</a></div>
+      </div>
+    </section>
+
     <section class="section cta-band">
       <div class="container cta-band__grid reveal">
         <div class="cta-band__text">
@@ -221,48 +211,6 @@
   </main>
 
   <!-- ============ FOOTER ============ -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer__grid">
-        <div>
-          <img src="/assets/logo.png" alt="Pimofy Digital" class="footer__logo" width="200" height="50" loading="lazy" decoding="async" />
-          <p>Dedicated data operations for SaaS and Ecommerce companies. Based in Nairobi, serving the UK, Europe, and the USA.</p>
-        </div>
-        <div>
-          <h4>Solutions</h4>
-          <ul>
-            <li><a href="/solutions">Overview</a></li>
-            <li><a href="/data-operations">Data Operations Pod&trade;</a></li>
-            <li><a href="/capacity-audit">Capacity Audit&trade;</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4>Company</h4>
-          <ul>
-            <li><a href="/industries">Industries</a></li>
-            <li><a href="/blog">Resources</a></li>
-            <li><a href="/about">About</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4>Get Started</h4>
-          <ul>
-            <li><a href="/contact">Book a Call</a></li>
-            <li><a href="/cdn-cgi/l/email-protection#61080f070e2111080c0e07180508060815000d4f020e0c"><span class="__cf_email__" data-cfemail="365f58505976465f5b59504f525f515f42575a1855595b">[email&#160;protected]</span></a></li>
-            <li><a href="tel:+254722412676">+254 722 412676</a></li>
-            <li><a href="tel:+254703201241">+254 703 201241</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer__bottom">
-        <span>&copy; <span id="year">2026</span> Pimofy Digital. All rights reserved.</span>
-        <span class="footer__legal">
-          <a href="/terms">Terms &amp; Conditions</a>
-          <a href="/privacy">Privacy Policy</a>
-        </span>
-        <span>Nairobi, Kenya &middot; Serving UK, EU &amp; USA</span>
-      </div>
-    </div>
-  </footer>
+  <%- include('../partials/footer') %>
 
   <script src="/script.js?v=<%= assetVersions.script %>" defer></script>

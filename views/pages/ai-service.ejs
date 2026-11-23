@@ -1,0 +1,107 @@
+<a class="skip-link" href="#main">Skip to content</a>
+<%- include('../partials/header') %>
+
+<main id="main">
+  <section class="hero ai-hero">
+    <div class="container hero__grid">
+      <div class="hero__copy reveal">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/ai-services">AI Services</a><span aria-hidden="true">/</span><span aria-current="page"><%= service.shortName %></span></nav>
+        <span class="eyebrow"><%= service.eyebrow %></span>
+        <h1><%= service.headline %></h1>
+        <p class="lead"><%= service.lead %></p>
+        <div class="hero__actions">
+          <a href="/contact?service=<%= service.slug %>" class="btn btn--primary btn--lg">Book a Free Consultation</a>
+          <a href="#deliverables" class="btn btn--ghost btn--lg">What&rsquo;s Included</a>
+        </div>
+      </div>
+      <div class="hero__media reveal" data-delay="1">
+        <div class="ai-outcomes">
+          <div class="card__icon card__icon--xl"><%- service.icon %></div>
+          <p class="ai-outcomes__label">What you can expect</p>
+          <ul class="checklist">
+            <% service.outcomes.forEach(function (outcome) { %>
+            <li><span class="check">&#10003;</span> <%= outcome %></li>
+            <% }); %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--soft" aria-labelledby="problem-title">
+    <div class="container">
+      <div class="section__head reveal"><span class="eyebrow">The Challenge</span><h2 id="problem-title"><%= service.problemTitle %></h2><p class="section__intro"><%= service.problemIntro %></p></div>
+      <ul class="checklist checklist--2 reveal ai-problems">
+        <% service.problems.forEach(function (problem) { %>
+        <li><span class="check check--x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></span> <%= problem %></li>
+        <% }); %>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="deliverables" aria-labelledby="deliverables-title">
+    <div class="container">
+      <div class="section__head reveal"><span class="eyebrow">Scope</span><h2 id="deliverables-title"><%= service.deliverablesTitle %></h2></div>
+      <div class="grid grid--3">
+        <% service.deliverables.forEach(function (item, index) { %>
+        <article class="card card--feature reveal" data-delay="<%= index % 3 %>"><h3><%= item.title %></h3><p><%= item.text %></p></article>
+        <% }); %>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--soft" aria-labelledby="process-title">
+    <div class="container">
+      <div class="section__head reveal"><span class="eyebrow">Process</span><h2 id="process-title"><%= service.processTitle %></h2></div>
+      <ol class="ai-steps">
+        <% service.process.forEach(function (step, index) { %>
+        <li class="ai-step reveal" data-delay="<%= index % 3 %>"><span class="ai-step__num"><%= index + 1 %></span><h3><%= step.title %></h3><p><%= step.text %></p></li>
+        <% }); %>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="related-title">
+    <div class="container">
+      <div class="section__head reveal"><span class="eyebrow">Works Even Better Together</span><h2 id="related-title">Related AI Services</h2></div>
+      <div class="ai-grid ai-grid--related">
+        <% related.forEach(function (item, index) { %>
+        <article class="card ai-card reveal" data-delay="<%= index % 3 %>">
+          <div class="card__icon"><%- item.icon %></div>
+          <h3><a href="/ai-services/<%= item.slug %>"><%= item.name %></a></h3>
+          <p><%= item.summary %></p>
+        </article>
+        <% }); %>
+      </div>
+    </div>
+  </section>
+
+    <section class="section section--soft" aria-labelledby="faq-title">
+      <div class="container">
+        <div class="section__head reveal"><span class="eyebrow">FAQ</span><h2 id="faq-title">Frequently Asked Questions</h2></div>
+        <div class="faq reveal">
+          <% service.faqs.forEach(function (item) { %>
+          <div class="faq__item" aria-expanded="false">
+            <button class="faq__q" type="button"><%= item.q %><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></button>
+            <div class="faq__a"><p><%= item.a %></p></div>
+          </div>
+          <% }); %>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cta-band">
+      <div class="container cta-band__grid reveal">
+        <div class="cta-band__text">
+          <h2>Let&rsquo;s Talk About <%= service.shortName %></h2>
+          <p>Get a free AI Visibility Review. We will show how your brand appears in Google and leading AI assistants today, and where the fastest wins are.</p>
+        </div>
+        <div class="cta-band__action">
+          <a href="/contact?service=<%= service.slug %>" class="btn btn--white btn--lg">Book Your Free AI Visibility Review</a>
+        </div>
+      </div>
+    </section>
+</main>
+
+<%- include('../partials/footer') %>
+<script src="/script.js?v=<%= assetVersions.script %>" defer></script>

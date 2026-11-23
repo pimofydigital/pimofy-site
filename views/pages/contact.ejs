@@ -1,31 +1,6 @@
 <a class="skip-link" href="#main">Skip to content</a>
 
-  <header class="header">
-    <div class="container">
-      <nav class="nav" aria-label="Primary">
-        <a class="nav__logo" href="/" aria-label="Pimofy Digital home"><img src="/assets/logo.png" alt="Pimofy Digital" width="200" height="50" /></a>
-        <ul class="nav__menu">
-          <li><a href="/">Home</a></li>
-          <li class="dropdown" aria-expanded="false">
-            <button class="dropdown__toggle" aria-haspopup="true">Solutions
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-            </button>
-            <ul class="dropdown__menu">
-              <li><a href="/solutions"><strong>Solutions Overview</strong><span>One focused solution, built around your data</span></a></li>
-              <li><a href="/data-operations"><strong>The Data Operations Pod&trade;</strong><span>Dedicated specialist + QA</span></a></li>
-              <li><a href="/capacity-audit"><strong>Free Operations Capacity Audit&trade;</strong><span>No-obligation workflow review</span></a></li>
-            </ul>
-          </li>
-          <li><a href="/industries">Industries</a></li>
-          <li><a href="/blog">Resources</a></li>
-          <li><a href="/about">About</a></li>
-          <li class="nav__mobile-cta"><a href="/contact" class="btn btn--primary" aria-current="page">Book a Call</a></li>
-        </ul>
-        <div class="nav__actions"><a href="/contact" class="btn btn--primary">Book a Call</a></div>
-        <button class="nav__burger" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
-      </nav>
-    </div>
-  </header>
+  <%- include('../partials/header') %>
 
   <main id="main">
     <!-- HERO -->
@@ -164,15 +139,5 @@
     </section>
   </main>
 
-  <footer class="footer">
-    <div class="container">
-      <div class="footer__grid">
-        <div><img src="/assets/logo.png" alt="Pimofy Digital" class="footer__logo" width="200" height="50" loading="lazy" decoding="async" /><p>Dedicated data operations for SaaS and Ecommerce companies. Based in Nairobi, serving the UK, Europe, and the USA.</p></div>
-        <div><h4>Solutions</h4><ul><li><a href="/solutions">Overview</a></li><li><a href="/data-operations">Data Operations Pod&trade;</a></li><li><a href="/capacity-audit">Capacity Audit&trade;</a></li></ul></div>
-        <div><h4>Company</h4><ul><li><a href="/industries">Industries</a></li><li><a href="/blog">Resources</a></li><li><a href="/about">About</a></li></ul></div>
-        <div><h4>Get Started</h4><ul><li><a href="/contact">Book a Call</a></li><li><a href="mailto:info@pimofydigital.com">info@pimofydigital.com</a></li></ul></div>
-      </div>
-      <div class="footer__bottom"><span>&copy; <span id="year">2026</span> Pimofy Digital. All rights reserved.</span><span class="footer__legal"><a href="/terms">Terms &amp; Conditions</a><a href="/privacy">Privacy Policy</a></span><span>Nairobi, Kenya &middot; Serving UK, EU &amp; USA</span></div>
-    </div>
-  </footer>
+  <%- include('../partials/footer') %>
   <script src="/script.js?v=<%= assetVersions.script %>" defer></script>
