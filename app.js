@@ -52,13 +52,18 @@ function buildCanonicalUrl(req) {
   }
 }
 
-/** Short content hash used to cache-bust /styles.css and /script.js. */
+/**
+ * Stable version string used to cache-bust /styles.css and /script.js.
+ * Prefers a content hash; falls back to the deploy's git commit so every
+ * serverless instance of the same deployment uses the same URL.
+ */
 function fileVersion(relativePath) {
   try {
     const content = fs.readFileSync(resolveRuntimePath(relativePath));
     return crypto.createHash('sha1').update(content).digest('hex').slice(0, 10);
   } catch (error) {
-    return String(Date.now());
+    const commit = process.env.VERCEL_GIT_COMMIT_SHA || process.env.VERCEL_DEPLOYMENT_ID || '';
+    return commit ? commit.slice(0, 10) : 'dev';
   }
 }
 

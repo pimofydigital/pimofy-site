@@ -6,7 +6,10 @@ require('dotenv').config();
 
 const hasDatabaseUrl = Boolean(process.env.DATABASE_URL);
 const nodeEnv = process.env.NODE_ENV || 'development';
-const isProduction = nodeEnv === 'production';
+// Vercel production deployments count as production even if NODE_ENV was
+// left unset or set differently in the dashboard, so caching, HTTPS and
+// secure-cookie protections are always on for the live site.
+const isProduction = nodeEnv === 'production' || process.env.VERCEL_ENV === 'production';
 
 const requiredEnvVars = [
   ...(hasDatabaseUrl ? ['DATABASE_URL'] : ['DB_HOST', 'DB_PORT', 'DB_NAME', 'DB_USER', 'DB_PASSWORD']),
