@@ -1,3 +1,6 @@
+/**
+ * CSRF protection: per-session secret + HMAC-signed, single-use-style nonces.
+ */
 const crypto = require('crypto');
 
 const SAFE_METHODS = new Set(['GET', 'HEAD', 'OPTIONS']);
@@ -46,14 +49,17 @@ function safeEqual(left, right) {
   return crypto.timingSafeEqual(leftBuf, rightBuf);
 }
 
+/**
+ * Tokens are read from the form body or a header. The query string is only
+ * accepted for multipart uploads, because the body is parsed later by multer;
+ * Referrer-Policy keeps that URL from leaking to other sites.
+ */
 function readIncomingToken(req) {
-  return (
-    req.body?._csrf ||
-    req.get('x-csrf-token') ||
-    req.get('x-xsrf-token') ||
-    req.query?._csrf ||
-    ''
-  );
+  const fromBodyOrHeader = req.body?._csrf || req.get('x-csrf-token') || req.get('x-xsrf-token');
+  if (fromBodyOrHeader) {
+    return fromBodyOrHeader;
+  }
+  return req.is('multipart/form-data') ? req.query?._csrf || '' : '';
 }
 
 function verifyCsrfToken(req, token) {

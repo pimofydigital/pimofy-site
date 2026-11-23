@@ -90,16 +90,26 @@
     var action = (form.getAttribute('action') || '').trim();
     var usesBackendSubmit = method === 'post' && action.length > 0;
     var humanVerificationInput = form.querySelector('#human_verification');
-    var humanVerificationAnswerInput = form.querySelector('#human_verification_answer');
-    var humanVerificationField = form.querySelector('[data-human-field]');
+        var humanVerificationField = form.querySelector('[data-human-field]');
     var humanVerificationQuestion = form.querySelector('[data-human-question]');
     var refreshButton = form.querySelector('[data-refresh-human-challenge]');
     var humanErrorMessage = 'Please answer the arithmetic check correctly before submitting.';
 
+    // Builds the error list with textContent so messages can never inject HTML.
+    function renderErrorBox(box, message) {
+      var title = document.createElement('strong');
+      title.textContent = 'Please fix the following:';
+      var list = document.createElement('ul');
+      var item = document.createElement('li');
+      item.textContent = message;
+      list.appendChild(item);
+      box.replaceChildren(title, list);
+    }
+
     function showHumanVerificationError(message) {
       var errorBox = form.querySelector('.form__error');
       if (errorBox) {
-        errorBox.innerHTML = '<strong>Please fix the following:</strong><ul><li>' + (message || humanErrorMessage) + '</li></ul>';
+        renderErrorBox(errorBox, message || humanErrorMessage);
         errorBox.classList.add('show');
       }
 
@@ -122,12 +132,6 @@
       }
     }
 
-    function markHumanVerificationSuccess() {
-      if (humanVerificationField) {
-        humanVerificationField.classList.remove('field--error');
-        humanVerificationField.classList.add('field--success');
-      }
-    }
 
     function clearHumanVerificationSuccess() {
       if (humanVerificationField) {
@@ -136,28 +140,23 @@
     }
 
     function updateHumanVerification(challenge) {
-      if (!challenge || !humanVerificationQuestion || !humanVerificationAnswerInput || !humanVerificationInput) {
+      if (!challenge || !humanVerificationQuestion || !humanVerificationInput) {
         return;
       }
 
       humanVerificationQuestion.textContent = challenge.question;
-      humanVerificationAnswerInput.value = String(challenge.answer);
       humanVerificationInput.value = '';
       clearHumanVerificationError();
       clearHumanVerificationSuccess();
     }
 
-    if (humanVerificationInput && humanVerificationAnswerInput) {
+    // The answer is checked on the server only; the browser never knows it.
+    if (humanVerificationInput) {
       humanVerificationInput.setAttribute('pattern', '[0-9-]+');
       humanVerificationInput.setAttribute('inputmode', 'numeric');
       humanVerificationInput.addEventListener('input', function () {
         if (humanVerificationInput.value.trim() !== '') {
           clearHumanVerificationError();
-          if (Number(humanVerificationInput.value) === Number(humanVerificationAnswerInput.value)) {
-            markHumanVerificationSuccess();
-          } else {
-            clearHumanVerificationSuccess();
-          }
         } else {
           clearHumanVerificationSuccess();
           clearHumanVerificationError();
@@ -183,7 +182,7 @@
           .catch(function () {
             var errorBox = form.querySelector('.form__error');
             if (errorBox) {
-              errorBox.innerHTML = '<strong>Please fix the following:</strong><ul><li>Unable to refresh the security challenge. Please try again.</li></ul>';
+              renderErrorBox(errorBox, 'Unable to refresh the security challenge. Please try again.');
               errorBox.classList.add('show');
             }
           });
@@ -204,21 +203,12 @@
     }
 
     form.addEventListener('submit', function (e) {
-      if (humanVerificationInput && humanVerificationAnswerInput) {
-        var userAnswer = (humanVerificationInput.value || '').trim();
-        var expectedAnswer = (humanVerificationAnswerInput.value || '').trim();
-        var validAnswer = userAnswer !== '' && Number(userAnswer) === Number(expectedAnswer);
-
-        if (!validAnswer) {
-          e.preventDefault();
-          humanVerificationInput.focus();
-          showHumanVerificationError(humanErrorMessage);
-          clearHumanVerificationSuccess();
-          return;
-        }
-
-        clearHumanVerificationError();
-        markHumanVerificationSuccess();
+      // Only check that an answer was entered; correctness is verified server-side.
+      if (humanVerificationInput && (humanVerificationInput.value || '').trim() === '') {
+        e.preventDefault();
+        humanVerificationInput.focus();
+        showHumanVerificationError(humanErrorMessage);
+        return;
       }
 
       form.classList.add('is-loading');

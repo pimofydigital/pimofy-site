@@ -71,10 +71,9 @@ class ContactController {
     try {
       const humanVerification = generateArithmeticChallenge();
       req.session.contactChallenge = humanVerification;
-      res.json({
-        question: humanVerification.question,
-        answer: humanVerification.answer,
-      });
+      res.setHeader('Cache-Control', 'no-store');
+      // Only the question is sent; the answer stays server-side in the session.
+      res.json({ question: humanVerification.question });
     } catch (error) {
       next(error);
     }
@@ -122,7 +121,7 @@ class ContactController {
         from: `Pimofy Website <${config.email.smtpUser}>`,
         to: config.email.contactEmail || config.email.adminEmail || config.email.smtpUser,
         replyTo: email,
-        subject: `New Contact Request - ${name}`,
+        subject: `New Contact Request - ${name.replace(/[\r\n]/g, ' ')}`,
         text: textBody,
         html: htmlBody,
       });

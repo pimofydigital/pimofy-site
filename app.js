@@ -1,195 +1,262 @@
+/**
+ * Express application factory.
+ *
+ * Order matters here:
+ *   1. Proxy/HTTPS + security headers
+ *   2. Static assets (served before rate limiting and sessions so they stay fast)
+ *   3. Body parsing, CORS policy, rate limiting
+ *   4. Sessions, auth refresh, CSRF
+ *   5. Layout rendering, routes, error handlers
+ */
 const express = require('express');
 const session = require('express-session');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const helmet = require('helmet');
 const compression = require('compression');
 const rateLimit = require('express-rate-limit');
+const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 const config = require('./config/environment');
 const { csrfTokenMiddleware, csrfProtectionMiddleware } = require('./middleware/csrf');
+const { enforceSessionLifetime, refreshSessionUser } = require('./middleware/auth');
+const { corsPolicy } = require('./middleware/cors');
 const { sequelize } = require('./models');
 
+// --------------------------------------------
+// Helpers
+// --------------------------------------------
 function resolveRuntimePath(...segments) {
   const fromCwd = path.join(process.cwd(), ...segments);
-  if (fs.existsSync(fromCwd)) {
-    return fromCwd;
-  }
-
-  return path.join(__dirname, ...segments);
+  return fs.existsSync(fromCwd) ? fromCwd : path.join(__dirname, ...segments);
 }
 
+/**
+ * Base URL used for canonical links. In production we always trust APP_URL so a
+ * forged Host / X-Forwarded-Host header cannot poison canonical or OG tags.
+ */
 function getRequestBaseUrl(req) {
-  const forwardedProto = String(req.headers['x-forwarded-proto'] || '')
-    .split(',')[0]
-    .trim();
-  const protocol = forwardedProto || req.protocol || 'https';
-  const host = req.headers['x-forwarded-host'] || req.headers.host;
-
-  if (host) {
-    return `${protocol}://${host}`;
+  if (config.app.isProduction && config.app.url) {
+    return config.app.url.replace(/\/+$/, '');
   }
-
-  return config.app.url || 'http://localhost:3000';
+  const host = req.get('host');
+  return host ? `${req.protocol}://${host}` : config.app.url;
 }
 
 function buildCanonicalUrl(req) {
   try {
-    return new URL(req.originalUrl || '/', getRequestBaseUrl(req)).toString();
+    const url = new URL(req.path || '/', getRequestBaseUrl(req));
+    return url.toString();
   } catch (error) {
-    return config.app.url || 'http://localhost:3000';
+    return config.app.url;
   }
 }
 
-// Create Express app
-const app = express();
-
-if (config.app.isProduction) {
-  app.set('trust proxy', 1);
+/** Short content hash used to cache-bust /styles.css and /script.js. */
+function fileVersion(relativePath) {
+  try {
+    const content = fs.readFileSync(resolveRuntimePath(relativePath));
+    return crypto.createHash('sha1').update(content).digest('hex').slice(0, 10);
+  } catch (error) {
+    return String(Date.now());
+  }
 }
 
+const app = express();
+
+// Vercel and most hosts terminate TLS at a proxy in front of the app.
+if (config.app.isProduction || config.app.isVercel) {
+  app.set('trust proxy', 1);
+}
 app.disable('x-powered-by');
 
 // ============================================
-// SECURITY MIDDLEWARE
+// HTTPS EVERYWHERE
+// ============================================
+if (config.app.isProduction) {
+  app.use((req, res, next) => {
+    if (req.secure) {
+      return next();
+    }
+    const target = new URL(req.originalUrl, config.app.url);
+    target.protocol = 'https:';
+    return res.redirect(301, target.toString());
+  });
+}
+
+// ============================================
+// SECURITY HEADERS
 // ============================================
 app.use(
   helmet({
     contentSecurityPolicy: {
+      useDefaults: true,
       directives: {
         defaultSrc: ["'self'"],
         baseUri: ["'self'"],
         objectSrc: ["'none'"],
         frameAncestors: ["'none'"],
         formAction: ["'self'"],
-        scriptSrc: ["'self'", "'unsafe-inline'"],
-        styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
-        fontSrc: ["'self'", 'https://fonts.gstatic.com', 'data:'],
-        imgSrc: ["'self'", 'data:', 'https:'],
+        scriptSrc: ["'self'"],
+        scriptSrcAttr: ["'none'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        fontSrc: ["'self'", 'data:'],
+        imgSrc: ["'self'", 'data:', 'blob:', 'https:'],
         connectSrc: ["'self'"],
+        upgradeInsecureRequests: config.app.isProduction ? [] : null,
       },
     },
     crossOriginEmbedderPolicy: false,
     referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
     hsts: config.app.isProduction
-      ? { maxAge: 31536000, includeSubDomains: true, preload: true }
+      ? { maxAge: 63072000, includeSubDomains: true, preload: true }
       : false,
   })
 );
-app.use(compression());
 
-// Rate limiting
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // 100 requests per windowMs
-  message: 'Too many requests from this IP, please try again later.',
-  standardHeaders: true,
-  legacyHeaders: false,
+app.use((req, res, next) => {
+  res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), payment=(), usb=()');
+  next();
 });
 
-if (config.app.isProduction) {
-  app.use(limiter);
-}
+app.use(compression());
 
 // ============================================
-// VIEW ENGINE CONFIGURATION
+// VIEW ENGINE
 // ============================================
 app.set('view engine', 'ejs');
 app.set('views', resolveRuntimePath('views'));
+if (config.app.isProduction) {
+  app.set('view cache', true);
+}
 
 // ============================================
-// BODY PARSER & FORM DATA
+// STATIC FILES (before sessions + rate limits)
 // ============================================
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-
-// ============================================
-// SESSION CONFIGURATION
-// ============================================
-const sessionStore = new SequelizeStore({
-  db: sequelize,
-  tableName: 'sessions',
-  checkExpirationInterval: 15 * 60 * 1000,
-  expiration: 24 * 60 * 60 * 1000,
-});
-
-app.use(
-  session({
-    name: 'pimofy.sid',
-    secret: config.session.secret,
-    store: sessionStore,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      secure: config.app.isProduction, // HTTPS only in production
-      httpOnly: true,
-      sameSite: 'lax',
-      maxAge: 24 * 60 * 60 * 1000, // 24 hours
-    },
-  })
-);
-
-app.locals.sessionStore = sessionStore;
-app.locals.currentPath = '';
-app.locals.user = null;
-app.locals.authUser = null;
-app.locals.isAuthenticated = false;
-app.locals.taxonomySummary = null;
-app.locals.currentYear = new Date().getFullYear();
-
-// ============================================
-// STATIC FILES
-// ============================================
-// Long-lived, immutable caching for hashed/rarely-changing assets. Uploaded
-// media and images are content-stable, so a 1-year cache is safe and keeps
-// repeat views off the network.
-const STATIC_MAX_AGE = config.app.isProduction ? '365d' : 0;
+const ONE_YEAR = 365 * 24 * 60 * 60 * 1000;
 const staticOptions = {
-  maxAge: STATIC_MAX_AGE,
+  maxAge: config.app.isProduction ? ONE_YEAR : 0,
   immutable: config.app.isProduction,
+  dotfiles: 'deny',
+  index: false,
 };
 
 app.use(express.static(resolveRuntimePath('public'), staticOptions));
 app.use('/assets', express.static(resolveRuntimePath('assets'), staticOptions));
 
-// Keep legacy static file URLs from the original HTML site working. These files
-// can change between deploys, so cache briefly and allow revalidation.
-const TEXT_ASSET_CACHE = config.app.isProduction
-  ? 'public, max-age=86400, must-revalidate'
-  : 'no-cache';
+const assetVersions = {
+  styles: fileVersion('styles.css'),
+  script: fileVersion('script.js'),
+};
+app.locals.assetVersions = assetVersions;
 
-app.get(['/styles.css', '/css/styles.css'], (req, res) => {
-  res.setHeader('Cache-Control', TEXT_ASSET_CACHE);
-  res.sendFile(resolveRuntimePath('styles.css'));
-});
+/**
+ * styles.css / script.js live at the repo root for backwards compatibility.
+ * Requests that carry the current ?v= hash are cached for a year; anything
+ * else revalidates.
+ */
+function sendVersionedAsset(file, versionKey) {
+  return (req, res) => {
+    const versioned = req.query.v === assetVersions[versionKey];
+    res.setHeader(
+      'Cache-Control',
+      config.app.isProduction && versioned
+        ? 'public, max-age=31536000, immutable'
+        : 'public, max-age=0, must-revalidate'
+    );
+    res.sendFile(resolveRuntimePath(file));
+  };
+}
 
-app.get(['/script.js', '/js/script.js'], (req, res) => {
-  res.setHeader('Cache-Control', TEXT_ASSET_CACHE);
-  res.sendFile(resolveRuntimePath('script.js'));
-});
+app.get(['/styles.css', '/css/styles.css'], sendVersionedAsset('styles.css', 'styles'));
+app.get(['/script.js', '/js/script.js'], sendVersionedAsset('script.js', 'script'));
 
 // ============================================
-// GLOBAL MIDDLEWARE / HELPERS
+// BODY PARSING (explicit size limits)
 // ============================================
+app.use(express.urlencoded({ extended: false, limit: '200kb', parameterLimit: 200 }));
+app.use(express.json({ limit: '100kb' }));
 
-// Make config available to all views
+// ============================================
+// CORS (same-origin only, see middleware/cors.js)
+// ============================================
+app.use(corsPolicy);
+
+// ============================================
+// RATE LIMITING (pages only; static assets are excluded above)
+// ============================================
+app.use(
+  rateLimit({
+    windowMs: 15 * 60 * 1000,
+    limit: config.app.isProduction ? 300 : 5000,
+    standardHeaders: 'draft-7',
+    legacyHeaders: false,
+    message: 'Too many requests from this IP, please try again later.',
+  })
+);
+
+// ============================================
+// SESSIONS
+// ============================================
+const sessionStore = new SequelizeStore({
+  db: sequelize,
+  tableName: 'sessions',
+  checkExpirationInterval: 15 * 60 * 1000,
+  expiration: config.session.absoluteTimeoutMs,
+});
+
+app.use(
+  session({
+    name: config.app.isProduction ? '__Host-pimofy.sid' : 'pimofy.sid',
+    secret: config.session.secret,
+    store: sessionStore,
+    resave: false,
+    saveUninitialized: false,
+    rolling: true, // idle timer resets on every request
+    proxy: config.app.isProduction || config.app.isVercel,
+    cookie: {
+      secure: config.app.isProduction,
+      httpOnly: true,
+      sameSite: 'lax',
+      path: '/',
+      maxAge: config.session.idleTimeoutMs,
+    },
+  })
+);
+
+app.locals.sessionStore = sessionStore;
+
+app.use(enforceSessionLifetime);
+app.use(refreshSessionUser);
+
+// ============================================
+// VIEW LOCALS
+// ============================================
 app.use((req, res, next) => {
+  const user = req.session.user || null;
   res.locals.config = config;
-  res.locals.user = req.session.user || null;
-  res.locals.authUser = req.session.user || null;
-  res.locals.isAuthenticated = Boolean(req.session.user);
+  res.locals.user = user;
+  res.locals.authUser = user;
+  res.locals.isAuthenticated = Boolean(user);
   res.locals.currentYear = new Date().getFullYear();
   res.locals.currentPath = req.path;
   res.locals.taxonomySummary = res.locals.taxonomySummary || null;
   res.locals.siteUrl = getRequestBaseUrl(req);
   res.locals.canonicalUrl = buildCanonicalUrl(req);
+  res.locals.assetVersions = assetVersions;
   next();
 });
 
+// ============================================
+// CSRF
+// ============================================
 app.use(csrfTokenMiddleware);
 app.use(csrfProtectionMiddleware);
 
-// Render all views through the main layout unless explicitly disabled.
+// ============================================
+// LAYOUT RENDERING
+// ============================================
+// Render all views through a layout unless `layout: false` is passed.
 app.use((req, res, next) => {
   const defaultRender = res.render.bind(res);
 
@@ -201,7 +268,6 @@ app.use((req, res, next) => {
       renderCallback = options;
       renderOptions = {};
     }
-
     renderOptions = renderOptions || {};
 
     if (view.startsWith('layouts/') || renderOptions.layout === false) {
@@ -211,12 +277,7 @@ app.use((req, res, next) => {
     const { layout, ...viewOptions } = renderOptions;
     const layoutTemplate = layout || res.locals.layout || 'layouts/main';
 
-    const layoutOptions = {
-      ...viewOptions,
-      template: `../${view}`,
-    };
-
-    return defaultRender(layoutTemplate, layoutOptions, renderCallback);
+    return defaultRender(layoutTemplate, { ...viewOptions, template: `../${view}` }, renderCallback);
   };
 
   next();
@@ -225,21 +286,15 @@ app.use((req, res, next) => {
 // ============================================
 // ROUTES
 // ============================================
-
-// Public routes
 app.use('/', require('./routes/pages'));
 app.use('/blog', require('./routes/blog'));
 app.use('/auth', require('./routes/auth'));
 app.use('/contact', require('./routes/contact'));
-
-// Admin routes (protected)
 app.use('/admin', require('./routes/admin'));
 
 // ============================================
 // ERROR HANDLING
 // ============================================
-
-// 404 handler
 app.use((req, res) => {
   res.status(404).render('pages/404', {
     title: 'Page Not Found',
@@ -247,16 +302,28 @@ app.use((req, res) => {
   });
 });
 
-// Global error handler
+// eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
-  const status = err.status || 500;
-  const message = err.message || 'An unexpected error occurred';
+  const status = Number.isInteger(err.status) && err.status >= 400 && err.status < 600 ? err.status : 500;
 
-  console.error(`[Error ${status}] ${message}`, err);
+  // Never leak internal error details (stack traces, SQL, file paths) to visitors.
+  const publicMessage =
+    status < 500 && err.expose !== false && err.message
+      ? err.message
+      : 'An unexpected error occurred. Please try again later.';
 
-  res.status(status).render('pages/error', {
+  console.error(`[Error ${status}] ${req.method} ${req.originalUrl}: ${err.message}`);
+  if (!config.app.isProduction && err.stack) {
+    console.error(err.stack);
+  }
+
+  if (res.headersSent) {
+    return next(err);
+  }
+
+  return res.status(status).render('pages/error', {
     title: 'Error',
-    description: message,
+    description: config.app.isDevelopment ? err.message || publicMessage : publicMessage,
     status,
     error: config.app.isDevelopment ? err : {},
   });

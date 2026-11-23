@@ -11,15 +11,11 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="<%= canonicalUrl || config.app.url %>" />
 
-    <!-- Preconnect to fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- Load font CSS off the critical path; falls back to a normal stylesheet without JS -->
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
-    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" /></noscript>
+    <!-- Self-hosted Inter font (no third-party request, no render blocking) -->
+    <link rel="preload" as="font" type="font/woff2" href="/fonts/inter-latin-var.woff2" crossorigin />
 
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="/styles.css" />
+    <!-- Stylesheet (content-hashed URL, cached for a year) -->
+    <link rel="stylesheet" href="/styles.css?v=<%= assetVersions.styles %>" />
 
     <!-- Favicons -->
     <link rel="icon" type="image/png" href="/favicons/favicon-96x96.png" sizes="96x96" />
@@ -62,7 +58,7 @@
 
     <% if (typeof schemaMarkup !== 'undefined' && schemaMarkup) { %>
       <script type="application/ld+json">
-        <%- JSON.stringify(schemaMarkup) %>
+        <%- JSON.stringify(schemaMarkup).replace(/</g, '\\u003c') %>
       </script>
     <% } %>
   </head>

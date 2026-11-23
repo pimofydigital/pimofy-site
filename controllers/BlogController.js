@@ -2,6 +2,19 @@ const { BlogPost, User } = require('../models');
 const { Op } = require('sequelize');
 
 const POSTS_PER_PAGE = 6;
+const MAX_PAGE = 1000;
+const MAX_SEARCH_LENGTH = 100;
+
+/** Positive integer page number, never negative or absurdly large. */
+function parsePage(value) {
+  const parsed = parseInt(value, 10);
+  return Number.isFinite(parsed) && parsed > 0 ? Math.min(parsed, MAX_PAGE) : 1;
+}
+
+/** Escape LIKE wildcards so user input is matched literally. */
+function escapeLike(value) {
+  return String(value).replace(/[\\%_]/g, (char) => `\\${char}`);
+}
 const DEFAULT_CATEGORY = 'Uncategorized';
 
 function normalizeCategory(value) {
@@ -32,12 +45,12 @@ class BlogController {
   // List all published blog posts with pagination
   static async index(req, res, next) {
     try {
-      const page = parseInt(req.query.page) || 1;
+      const page = parsePage(req.query.page);
       const offset = (page - 1) * POSTS_PER_PAGE;
 
       const { count, rows: posts } = await BlogPost.findAndCountAll({
         where: { published: true },
-        include: [{ model: User, as: 'author', attributes: ['name', 'email'] }],
+        include: [{ model: User, as: 'author', attributes: ['name'] }],
         order: [['publishDate', 'DESC']],
         limit: POSTS_PER_PAGE,
         offset,
@@ -80,7 +93,7 @@ class BlogController {
 
       const post = await BlogPost.findOne({
         where: { slug, published: true },
-        include: [{ model: User, as: 'author', attributes: ['name', 'email'] }],
+        include: [{ model: User, as: 'author', attributes: ['name'] }],
       });
 
       if (!post) {
@@ -126,7 +139,7 @@ class BlogController {
   static async byCategory(req, res, next) {
     try {
       const category = normalizeCategory(req.params.category);
-      const page = parseInt(req.query.page) || 1;
+      const page = parsePage(req.query.page);
       const offset = (page - 1) * POSTS_PER_PAGE;
 
       const { count, rows: posts } = await BlogPost.findAndCountAll({
@@ -134,7 +147,7 @@ class BlogController {
           published: true,
           ...buildCategoryWhereClause(category),
         },
-        include: [{ model: User, as: 'author', attributes: ['name', 'email'] }],
+        include: [{ model: User, as: 'author', attributes: ['name'] }],
         order: [['publishDate', 'DESC']],
         limit: POSTS_PER_PAGE,
         offset,
@@ -165,12 +178,12 @@ class BlogController {
   // Filter by tag
   static async byTag(req, res, next) {
     try {
-      const { tag } = req.params;
-      const page = parseInt(req.query.page) || 1;
+      const tag = String(req.params.tag || '').slice(0, 100);
+      const page = parsePage(req.query.page);
 
       const publishedPosts = await BlogPost.findAll({
         where: { published: true },
-        include: [{ model: User, as: 'author', attributes: ['name', 'email'] }],
+        include: [{ model: User, as: 'author', attributes: ['name'] }],
         order: [['publishDate', 'DESC']],
       });
 
@@ -204,9 +217,9 @@ class BlogController {
   // Search blog posts
   static async search(req, res, next) {
     try {
-      const { q } = req.query;
+      const q = typeof req.query.q === 'string' ? req.query.q.trim().slice(0, MAX_SEARCH_LENGTH) : '';
 
-      if (!q || q.trim().length < 2) {
+      if (q.length < 2) {
         return res.render('blog/search', {
           title: 'Search',
           description: 'Search our blog articles',
@@ -215,16 +228,20 @@ class BlogController {
         });
       }
 
+      // Sequelize binds these values as parameters (no SQL injection);
+      // wildcards are escaped so "%" or "_" cannot widen the search.
+      const pattern = `%${escapeLike(q)}%`;
       const posts = await BlogPost.findAll({
         where: {
           published: true,
           [Op.or]: [
-            { title: { [Op.iLike]: `%${q}%` } },
-            { excerpt: { [Op.iLike]: `%${q}%` } },
-            { content: { [Op.iLike]: `%${q}%` } },
+            { title: { [Op.iLike]: pattern } },
+            { excerpt: { [Op.iLike]: pattern } },
+            { content: { [Op.iLike]: pattern } },
           ],
         },
-        include: [{ model: User, as: 'author', attributes: ['name', 'email'] }],
+        limit: 50,
+        include: [{ model: User, as: 'author', attributes: ['name'] }],
         order: [['publishDate', 'DESC']],
       });
 

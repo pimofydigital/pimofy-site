@@ -55,7 +55,7 @@
           <input type="hidden" name="existingFeaturedImage" value="<%= article && article.featuredImage ? article.featuredImage : '' %>" />
           <button type="button" class="admin-featured-image__preview" data-featured-image-preview data-media-preview-src="<%= formData.featuredImage || (article && article.featuredImage ? article.featuredImage : '') %>" data-media-preview-alt="Featured image preview">
             <% if (formData.featuredImage || (article && article.featuredImage)) { %>
-              <img src="<%= formData.featuredImage || article.featuredImage %>" alt="Featured image preview" />
+              <img src="<%= formData.featuredImage || article.featuredImage % loading="lazy" decoding="async">" alt="Featured image preview" />
             <% } else { %>
               <span>No image selected yet.</span>
             <% } %>

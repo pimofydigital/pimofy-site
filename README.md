@@ -1,178 +1,110 @@
-# Pimofy Site
+# Pimofy Digital website
 
-Pimofy Site is a Node.js and Express application for the Pimofy Digital marketing site and admin workspace.
+Marketing site, blog and admin panel for **Pimofy Digital**, a Nairobi-based dedicated data operations provider for SaaS and Ecommerce companies (serving the UK, Europe and the USA).
 
-## Stack
+Live site: https://pimofydigital.com (hosted on Vercel)
 
-- Node.js and Express
-- EJS views with a shared layout system
-- Sequelize + PostgreSQL
-- Session storage backed by Sequelize
-- Helmet, rate limiting, CSRF protection, and validation middleware
-- Multer for image uploads
+## Features
 
-## Project Structure
+- Public marketing pages: home, solutions, Data Operations Pod, Free Operations Capacity Audit, industries, about, privacy, terms
+- Contact / booking form with server-side validation, arithmetic human check, SMTP delivery and auto-reply
+- Blog ("Resources") with categories, tags, search, related posts, reading time and view counts
+- Admin panel: dashboard, article editor (sanitized rich text), CSV import, media library (Supabase Storage), category/tag manager, user management (superadmin only)
+- SEO: dynamic `sitemap.xml`, `robots.txt`, canonical, Open Graph, Twitter and JSON-LD schema
+- Production security hardening (see [SECURITY-AUDIT.md](SECURITY-AUDIT.md))
 
-```text
-app.js              # Express app bootstrap, middleware, routes
-server.js           # Server start, DB/session sync
-config/              # Environment and database config
-controllers/         # Request handlers
-middleware/          # Auth, validation, CSRF helpers
-migrations/          # Sequelize migrations
-models/              # Sequelize models and associations
-routes/              # Public and admin routes
-seeders/             # Initial admin/content seed data
-views/               # EJS templates
-public/              # Static assets, uploads, admin JS
-styles.css           # Shared front-end stylesheet
-script.js            # Public site interactions
-```
+## Tech stack
 
-## Requirements
+| Layer | Technology |
+|---|---|
+| Runtime | Node.js 20+ |
+| Web framework | Express 4, EJS templates |
+| Database | PostgreSQL (Supabase) via Sequelize 6 |
+| Sessions | express-session + connect-session-sequelize (stored in Postgres) |
+| Storage | Supabase Storage (media uploads) |
+| Email | Nodemailer (SMTP) |
+| Security | helmet, express-rate-limit, express-validator, sanitize-html, bcryptjs, custom CSRF + CORS middleware |
+| Hosting | Vercel serverless function (`api/index.js`) |
 
-- Node.js 18+ recommended
-- PostgreSQL
-- SMTP access for the contact form
-
-## Setup
-
-1. Install dependencies:
+## Quick start (local)
 
 ```bash
+git clone https://github.com/pimofydigital/pimofy-site.git
+cd pimofy-site
 npm install
-```
-
-2. Open your local `.env` file and fill in the values needed for your environment.
-
-3. Keep sensitive local configuration out of this README. Use the private setup notes in `docs/local-setup-private.md` for the full list of required values.
-
-4. Run migrations and seed the initial data:
-
-```bash
+cp .env.example .env     # then fill in real values (never commit .env)
 npm run db:migrate
-npm run db:seed
+npm run db:seed          # creates the first superadmin from SUPER_ADMIN_* vars
+npm run dev              # http://localhost:3000
 ```
-
-5. Start the application:
-
-```bash
-npm start
-```
-
-For development:
-
-```bash
-npm run dev
-```
-
-## Environment Variables
-
-Required local values are documented in the private setup notes at `docs/local-setup-private.md`.
-
-Keep `.env` private and do not commit it to version control.
 
 ## Scripts
 
-- `npm start` - start the server
-- `npm run dev` - start with nodemon
-- `npm run db:migrate` - run Sequelize migrations
-- `npm run db:seed` - seed content and the initial super admin
-- `npm run db:reset` - drop, recreate, migrate, and seed the database
+| Command | What it does |
+|---|---|
+| `npm start` | Start the server (`server.js`) |
+| `npm run dev` | Start with auto-reload (nodemon) |
+| `npm test` | Run unit tests (`node --test`) |
+| `npm run audit` | Check production dependencies for known vulnerabilities |
+| `npm run db:migrate` | Apply database migrations |
+| `npm run db:seed` | Seed the superadmin and sample blog posts |
+| `npm run optimize:images` | Re-generate WebP versions of images in `assets/` |
+| `npm run generate:critical` | Generate critical CSS from a running local server |
 
-## Security Notes
+## Environment variables
 
-- CSRF tokens are required on mutating forms and admin actions.
-- Sessions are stored in PostgreSQL through Sequelize.
-- Helmet, rate limiting, and input validation are enabled.
-- Article HTML is sanitized before storage to reduce XSS risk.
-- Logout uses POST instead of GET.
+All secrets come from environment variables. Nothing sensitive is hard-coded. Set these in `.env` locally and in **Vercel > Project > Settings > Environment Variables** for production.
 
-## Production Checklist
+| Variable | Required | Purpose |
+|---|---|---|
+| `NODE_ENV` | yes (prod) | `production` enables HTTPS redirect, HSTS, secure cookies, view cache |
+| `APP_URL` | yes (prod) | Canonical origin, e.g. `https://pimofydigital.com`. Used for canonical/OG tags, sitemap, CORS |
+| `DATABASE_URL` | yes* | Postgres connection string (Supabase pooler). *Or set `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD` |
+| `DB_SSL` | recommended | `true` to require TLS to the database (forced on in production) |
+| `DB_SSL_REJECT_UNAUTHORIZED` | optional | `true` to verify the DB certificate (recommended when a CA is available) |
+| `DB_POOL_MODE`, `DB_POOL_MAX`, `DB_POOL_MIN`, `DB_POOL_ACQUIRE_MS`, `DB_POOL_IDLE_MS`, `DB_IP_FAMILY` | optional | Connection pool tuning |
+| `SESSION_SECRET` | yes | Random string, **at least 32 characters** in production (`openssl rand -hex 32`) |
+| `SESSION_IDLE_MINUTES` | optional | Idle sign-out, default `60` |
+| `SESSION_ABSOLUTE_HOURS` | optional | Maximum login length, default `12` |
+| `BCRYPT_ROUNDS` | optional | Password hashing cost, default `12` (10-15) |
+| `CORS_ALLOWED_ORIGINS` | optional | Extra trusted origins, comma separated. Leave empty unless needed |
+| `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` | yes (contact form) | Outgoing mail for the contact form |
+| `CONTACT_EMAIL`, `ADMIN_EMAIL` | optional | Where contact requests are delivered |
+| `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` | yes (media) | Supabase Storage for blog/media uploads. **Server-side only, never expose to the browser** |
+| `SUPABASE_STORAGE_BUCKET`, `SUPABASE_MEDIA_FOLDER` | optional | Defaults `media` / `blog-posts` |
+| `MAX_FILE_SIZE`, `ALLOWED_MIME_TYPES` | optional | Upload limits. SVG is never allowed |
+| `SUPER_ADMIN_NAME`, `SUPER_ADMIN_EMAIL`, `SUPER_ADMIN_PASSWORD` | seeding only | Used once by `npm run db:seed`; remove from the host afterwards |
+| `SITE_NAME`, `SITE_DESCRIPTION`, `SITE_KEYWORDS` | optional | SEO defaults |
 
-- Set `NODE_ENV=production`.
-- Use a strong `SESSION_SECRET`.
-- Configure production database and SMTP credentials.
-- Set `APP_URL` to the public site URL.
-- Serve the app behind HTTPS.
-- Confirm migrations and seed data ran successfully.
-- Verify the admin account password is changed from the initial seed value.
+## Deployment (Vercel)
 
-## Deploy on Vercel
+1. Push to `main`. The Vercel project connected to this repo builds and deploys automatically.
+2. `vercel.json` routes every request that is not a static file to `api/index.js` (the Express app) and sets long cache headers for `/assets`, `/fonts` and `/favicons`.
+3. Run migrations against the production database from a trusted machine: `NODE_ENV=production npm run db:migrate`.
+4. After deploying, check https://pagespeed.web.dev/ and https://securityheaders.com/ for pimofydigital.com.
 
-This project is an Express server rendered through a Vercel Serverless Function.
+## Project structure
 
-### 1. Vercel adapter files
-
-These files are already included:
-
-- `vercel.json`
-- `api/index.js`
-
-### 2. Connect your repository
-
-1. In Vercel, choose **Add New...** -> **Project**.
-2. Select this repository and branch.
-3. Framework preset: **Other**.
-4. Build command: leave empty.
-5. Output directory: leave empty.
-
-### 3. Configure environment variables
-
-In Vercel Project Settings -> Environment Variables, add all required values from your local `.env`.
-
-At minimum, configure:
-
-- `DATABASE_URL`
-- `SUPABASE_URL`
-- `SUPABASE_SERVICE_ROLE_KEY`
-- `SUPABASE_STORAGE_BUCKET` (optional, defaults to `media`)
-- `SUPABASE_MEDIA_FOLDER` (optional, defaults to `blog-posts`)
-- `SESSION_SECRET`
-- `SUPER_ADMIN_NAME`
-- `SUPER_ADMIN_EMAIL`
-- `SUPER_ADMIN_PASSWORD`
-- `SMTP_HOST`
-- `SMTP_PORT`
-- `SMTP_USER`
-- `SMTP_PASS`
-- `CONTACT_EMAIL`
-- `ADMIN_EMAIL`
-- `APP_URL` (set to your Vercel production URL)
-- `NODE_ENV=production`
-
-Optional for network compatibility:
-
-- `DB_IP_FAMILY=4`
-
-### 4. Apply database migrations
-
-Run these commands against your production database before first traffic:
-
-```bash
-npm run db:migrate
-npm run db:seed
+```
+api/index.js          Vercel entry point (exports the Express app)
+app.js                Express app: security, static files, sessions, routes, errors
+server.js             Local/long-running server entry (DB check + listen)
+config/               environment.js (all settings), database.js (Sequelize), taxonomy.json
+controllers/          Page, Blog, Contact, Auth, Admin request handlers
+middleware/           auth (sessions/roles), csrf, cors, validation
+models/               Sequelize models: User, BlogPost
+migrations/, seeders/ Database schema and seed data
+routes/               URL to controller mapping
+views/                EJS templates (layouts, partials, pages, blog, admin, auth)
+assets/               Images (JPEG + WebP)
+public/               Favicons, fonts, admin.js
+styles.css, script.js Site-wide stylesheet and front-end script
+scripts/              Image optimisation and critical-CSS tools
+tests/                Unit tests
 ```
 
-### 5. Validate deployment
+More detail: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE-ESSENTIALS.md](ARCHITECTURE-ESSENTIALS.md), [PRD.md](PRD.md), [AGENTS.md](AGENTS.md), [SECURITY-AUDIT.md](SECURITY-AUDIT.md).
 
-After deploy, verify:
+## Contact
 
-- Public pages load.
-- Admin login works.
-- Contact form works.
-- Admin create/update/delete flows succeed.
-
-### 6. Upload and taxonomy caveat
-
-Vercel Serverless Functions use ephemeral filesystem storage. Local uploads under `public/uploads` are not durable in production.
-
-For reliable production media handling, use object storage (for example Supabase Storage) and persist public URLs in the database.
-
-Taxonomy reads from `config/taxonomy.json` are supported in the deployed bundle, but file writes are not durable across serverless instances.
-
-## Notes
-
-- Static uploads are stored under `public/uploads`.
-- The admin UI and public site share the same design system in `styles.css`.
-- Blog taxonomy is managed from the admin panel and persisted in `config/taxonomy.json`.
+info@pimofydigital.com | +254 722 412676 | +254 703 201241

@@ -1,38 +1,66 @@
 const express = require('express');
 const router = express.Router();
+const rateLimit = require('express-rate-limit');
 const multer = require('multer');
 const { isAuthenticated, isAdmin, isSuperAdmin } = require('../middleware/auth');
 const AdminController = require('../controllers/AdminController');
 
+// Uploads are kept in memory, size-limited and type-checked. Image content is
+// verified again by magic bytes in AdminController before it is stored.
+const ALLOWED_IMAGE_MIME = /^image\/(jpeg|png|webp|gif|avif)$/;
+
 const csvUpload = multer({
 	storage: multer.memoryStorage(),
-	limits: { fileSize: 3 * 1024 * 1024 },
+	fileFilter: (req, file, cb) => {
+		const okType = /^(text\/csv|text\/plain|application\/vnd\.ms-excel|application\/csv)$/.test(file.mimetype);
+		if (!okType || !/\.csv$/i.test(file.originalname || '')) {
+			return cb(new Error('Please upload a .csv file'));
+		}
+		cb(null, true);
+	},
+	limits: { fileSize: 3 * 1024 * 1024, files: 1 },
 });
 
 const articleUpload = multer({
 	storage: multer.memoryStorage(),
 	fileFilter: (req, file, cb) => {
-		if (!file.mimetype.startsWith('image/')) {
-			return cb(new Error('Featured image must be an image file'));
+		if (!ALLOWED_IMAGE_MIME.test(file.mimetype)) {
+			return cb(new Error('Featured image must be a JPEG, PNG, WebP, GIF or AVIF file'));
 		}
 		cb(null, true);
 	},
-	limits: { fileSize: 5 * 1024 * 1024 },
+	limits: { fileSize: 5 * 1024 * 1024, files: 1 },
 });
 
 const mediaUpload = multer({
 	storage: multer.memoryStorage(),
 	fileFilter: (req, file, cb) => {
-		if (!file.mimetype.startsWith('image/')) {
-			return cb(new Error('Only image uploads are allowed in the media library'));
+		if (!ALLOWED_IMAGE_MIME.test(file.mimetype)) {
+			return cb(new Error('Only JPEG, PNG, WebP, GIF or AVIF images are allowed'));
 		}
 		cb(null, true);
 	},
-	limits: { fileSize: 10 * 1024 * 1024 },
+	limits: { fileSize: 10 * 1024 * 1024, files: 1 },
 });
 
 // Apply authentication and authorization to all admin routes
 router.use(isAuthenticated, isAdmin);
+
+// Admin pages are private: never cache them in shared or browser caches.
+router.use((req, res, next) => {
+	res.setHeader('Cache-Control', 'no-store');
+	res.setHeader('X-Robots-Tag', 'noindex, nofollow');
+	next();
+});
+
+// Throttle write operations (uploads, imports, edits) per session/IP.
+router.use(rateLimit({
+	windowMs: 15 * 60 * 1000,
+	limit: 200,
+	standardHeaders: true,
+	legacyHeaders: false,
+	skip: (req) => req.method === 'GET',
+}));
 router.use(async (req, res, next) => {
 	res.locals.layout = 'layouts/admin';
 	try {

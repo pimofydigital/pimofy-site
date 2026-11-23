@@ -5,9 +5,11 @@ const { body, validationResult } = require('express-validator');
 const { isAuthenticated } = require('../middleware/auth');
 const AuthController = require('../controllers/AuthController');
 
+// Brute-force protection: 10 attempts per IP and 5 failed attempts per
+// email address every 15 minutes.
 const loginLimiter = rateLimit({
 	windowMs: 15 * 60 * 1000,
-	max: 10,
+	limit: 10,
 	standardHeaders: true,
 	legacyHeaders: false,
 	message: 'Too many login attempts. Please try again in a few minutes.',
@@ -25,7 +27,7 @@ function handleLoginValidation(req, res, next) {
 		if (error.path === 'password') {
 			formattedErrors.push({
 				field: 'password',
-				message: 'Password must be 8 to 128 characters long. Check that your password matches the expected admin credentials.',
+				message: 'Invalid email or password.',
 			});
 			continue;
 		}
@@ -50,6 +52,16 @@ function handleLoginValidation(req, res, next) {
 	return res.redirect('/auth/login');
 }
 
+const loginEmailLimiter = rateLimit({
+	windowMs: 15 * 60 * 1000,
+	limit: 5,
+	skipSuccessfulRequests: true,
+	standardHeaders: true,
+	legacyHeaders: false,
+	keyGenerator: (req) => `email:${String(req.body?.email || '').trim().toLowerCase()}`,
+	message: 'Too many login attempts for this account. Please try again in a few minutes.',
+});
+
 // Login page (GET)
 router.get('/login', AuthController.loginPage);
 
@@ -57,6 +69,7 @@ router.get('/login', AuthController.loginPage);
 router.post(
 	'/login',
 	loginLimiter,
+	loginEmailLimiter,
 	[
 		body('email').trim().isEmail().withMessage('Invalid email').normalizeEmail(),
 		body('password').isString().isLength({ min: 8, max: 128 }).withMessage('Invalid password'),

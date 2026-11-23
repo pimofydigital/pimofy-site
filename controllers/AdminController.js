@@ -5,6 +5,7 @@ const sanitizeHtml = require('sanitize-html');
 const { createClient } = require('@supabase/supabase-js');
 const fs = require('fs');
 const path = require('path');
+const config = require('../config/environment');
 
 const SUPABASE_URL = process.env.SUPABASE_URL || '';
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
@@ -432,14 +433,21 @@ async function uploadImageToStorage(file, fallbackBase) {
     throw new Error('No upload file was provided.');
   }
 
+  const detected = detectImageType(file.buffer);
+  if (!detected || !config.upload.allowedMimeTypes.includes(detected.mime)) {
+    throw new Error('Only JPEG, PNG, WebP, GIF or AVIF images can be uploaded.');
+  }
+
   const supabase = ensureSupabaseStorageClient();
-  const filename = createUploadFilename(file.originalname, fallbackBase);
+  const baseFilename = createUploadFilename(file.originalname, fallbackBase);
+  // Force the extension to match the real content type.
+  const filename = `${baseFilename.replace(/\.[a-z0-9]+$/i, '')}${detected.ext}`;
   const objectPath = createStorageObjectPath(filename);
 
   const { error } = await supabase.storage.from(SUPABASE_STORAGE_BUCKET).upload(objectPath, file.buffer, {
     upsert: false,
-    cacheControl: '3600',
-    contentType: file.mimetype || 'application/octet-stream',
+    cacheControl: '31536000',
+    contentType: detected.mime,
   });
 
   if (error) {
@@ -467,8 +475,26 @@ async function resolveFeaturedImage(req, article = null) {
   return null;
 }
 
+// SVG is intentionally excluded: SVG files can carry JavaScript (stored XSS).
 function isImageFile(filename) {
-  return /\.(png|jpe?g|gif|webp|avif|svg)$/i.test(filename);
+  return /\.(png|jpe?g|gif|webp|avif)$/i.test(filename);
+}
+
+/**
+ * Detect the real image type from the file's first bytes instead of trusting
+ * the browser-supplied MIME type or file extension.
+ */
+function detectImageType(buffer) {
+  if (!buffer || buffer.length < 12) {
+    return null;
+  }
+  const hex = buffer.subarray(0, 12).toString('hex');
+  if (hex.startsWith('ffd8ff')) return { mime: 'image/jpeg', ext: '.jpg' };
+  if (hex.startsWith('89504e470d0a1a0a')) return { mime: 'image/png', ext: '.png' };
+  if (hex.startsWith('474946383761') || hex.startsWith('474946383961')) return { mime: 'image/gif', ext: '.gif' };
+  if (hex.startsWith('52494646') && buffer.subarray(8, 12).toString('ascii') === 'WEBP') return { mime: 'image/webp', ext: '.webp' };
+  if (buffer.subarray(4, 12).toString('ascii').startsWith('ftypavi')) return { mime: 'image/avif', ext: '.avif' };
+  return null;
 }
 
 async function listMediaFiles() {
@@ -745,10 +771,10 @@ class AdminController {
   // List articles
   static async articles(req, res, next) {
     try {
-      const page = parseInt(req.query.page, 10) || 1;
+      const page = Math.min(Math.max(parseInt(req.query.page, 10) || 1, 1), 1000);
       const limit = 10;
 
-      const q = String(req.query.q || '').trim();
+      const q = String(req.query.q || '').trim().slice(0, 100).replace(/[\\%_]/g, (char) => `\\${char}`);
       const category = String(req.query.category || '').trim();
       const tag = String(req.query.tag || '').trim();
 
@@ -1458,7 +1484,7 @@ class AdminController {
         mediaError = mediaError || 'Supabase Storage is not configured. Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY to manage media uploads.';
       }
 
-      const q = String(req.query.q || '').trim();
+      const q = String(req.query.q || '').trim().slice(0, 100).replace(/[\\%_]/g, (char) => `\\${char}`);
       const sort = normalizeMediaSort(req.query.sort);
       const perPage = normalizePerPage(req.query.perPage);
 
@@ -1569,7 +1595,8 @@ class AdminController {
       const wantsJson = req.accepts(['json', 'html']) === 'json' && !req.accepts('html');
 
       if (wantsJson) {
-        return res.status(500).json({ error: error.message || 'Unable to upload media.' });
+        console.error('Media upload failed:', error.message);
+        return res.status(400).json({ error: error.message && error.message.startsWith('Only ') ? error.message : 'Unable to upload media.' });
       }
 
       req.session.mediaError = error.message || 'Unable to upload media.';
@@ -1714,8 +1741,11 @@ class AdminController {
         errors.push({ field: 'email', message: 'Please provide a valid email address.' });
       }
 
-      if (String(password || '').length < 12) {
-        errors.push({ field: 'password', message: 'Password must be at least 12 characters.' });
+      const passwordValue = String(password || '');
+      if (passwordValue.length < 12 || passwordValue.length > 128) {
+        errors.push({ field: 'password', message: 'Password must be 12 to 128 characters.' });
+      } else if (!/[a-z]/.test(passwordValue) || !/[A-Z]/.test(passwordValue) || !/[0-9]/.test(passwordValue)) {
+        errors.push({ field: 'password', message: 'Password must include upper-case, lower-case letters and a number.' });
       }
 
       if (errors.length) {
@@ -1739,7 +1769,7 @@ class AdminController {
       }
 
       // Hash password
-      const hashedPassword = await bcryptjs.hash(password, 10);
+      const hashedPassword = await bcryptjs.hash(passwordValue, config.security.bcryptRounds);
 
       await User.create({
         name: normalizedName,
