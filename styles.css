@@ -2432,3 +2432,13 @@ ul { list-style: none; }
   .home-pillars__grid { grid-template-columns: 1fr; }
   .site-footer__grid { grid-template-columns: 1fr 1fr; }
 }
+
+/* 12) Balance fixes from live screenshot review ------------------------------ */
+.hero--home h1 { font-size: clamp(2.1rem, 4vw, 3.3rem); line-height: 1.12; max-width: 620px; }
+.hero--home .lead { max-width: 560px; }
+.hero--home .hero__grid { align-items: center; gap: 56px; }
+.site-footer__grid { grid-template-columns: 1.5fr 1.1fr 1.1fr 0.9fr 1.1fr; column-gap: 40px; }
+.site-footer__brand p { max-width: 280px; }
+.site-footer__col a, .site-footer__col li { white-space: nowrap; }
+@media (max-width: 1024px) { .site-footer__grid { grid-template-columns: repeat(4, 1fr); } }
+@media (max-width: 760px) { .site-footer__grid { grid-template-columns: 1fr 1fr; } .site-footer__col a { white-space: normal; } }

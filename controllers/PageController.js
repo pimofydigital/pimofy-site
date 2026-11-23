@@ -44,9 +44,9 @@ class PageController {
   static async home(req, res, next) {
     try {
       res.render('pages/home', {
-        title: 'Dedicated Data Operations for SaaS & Ecommerce | Pimofy Digital',
+        title: 'Data Operations & AI Growth for SaaS & Ecommerce | Pimofy Digital',
         description:
-          'Pimofy Digital provides dedicated data operations and AI growth services (AI web development, AEO, SEO, GEO and schema) for SaaS, Ecommerce and B2B brands in the UK, Europe and the USA.',
+          'Pimofy Digital helps SaaS & Ecommerce companies in the USA, UK, Europe and worldwide scale with dedicated data operations and AI growth services: AI web development, SEO, AEO, GEO and schema markup.',
         preloadImage: '/assets/hero-home.webp',
         aiServicesList: aiServices.services,
       });
@@ -73,7 +73,7 @@ class PageController {
   static async dataOperations(req, res, next) {
     try {
       res.render('pages/data-operations', {
-        title: 'The Data Operations Pod | Pimofy Digital',
+        title: 'Dedicated Data Operations Team for SaaS & Ecommerce | Pimofy',
         description:
           'Discover how Pimofy\'s Data Operations Pod combines specialists, QA, and reporting to restore team capacity without hiring overhead.',
         preloadImage: '/assets/data-specialist.webp',
@@ -87,7 +87,7 @@ class PageController {
   static async capacityAudit(req, res, next) {
     try {
       res.render('pages/capacity-audit', {
-        title: 'Free Operations Capacity Audit | Pimofy Digital',
+        title: 'Free Operations Capacity Audit for SaaS & Ecommerce | Pimofy',
         description:
           'Book a free Operations Capacity Audit to identify repetitive data tasks, quantify lost hours, and map a practical execution plan.',
         preloadImage: '/assets/capacity-donut.webp',
@@ -101,8 +101,8 @@ class PageController {
   static async industries(req, res, next) {
     try {
       res.render('pages/industries', {
-        title: 'Industries | Pimofy Digital',
-        description: 'Explore the industries we serve with specialized data operations solutions.',
+        title: 'Industries We Serve: SaaS, Ecommerce & B2B | Pimofy Digital',
+        description: 'Data operations and AI growth services for SaaS, Ecommerce and B2B companies across the USA, UK, Europe and Africa.',
       });
     } catch (error) {
       next(error);
@@ -113,8 +113,8 @@ class PageController {
   static async about(req, res, next) {
     try {
       res.render('pages/about', {
-        title: 'About Pimofy Digital',
-        description: 'Learn about our team, our mission, and why we specialize in data operations.',
+        title: 'About Pimofy Digital | Data Operations & AI Growth Partner',
+        description: 'Pimofy Digital is a data operations and AI growth company helping SaaS & Ecommerce brands worldwide scale capacity and get found in Google and AI search.',
         preloadImage: '/assets/team.webp',
       });
     } catch (error) {
@@ -219,7 +219,7 @@ class PageController {
       const all = [...portfolio.products, ...portfolio.websites];
       res.render('pages/work', {
         title: 'Our Work: AI Products, Websites & Ecommerce | Pimofy Digital',
-        description: 'Live AI-powered products, SaaS platforms, ecommerce stores and international websites designed and engineered by Pimofy Digital.',
+        description: 'Live AI-powered SaaS platforms, ecommerce stores and international websites designed and engineered by Pimofy Digital for clients worldwide.',
         products: portfolio.products,
         websites: portfolio.websites,
         schemaMarkup: {
@@ -254,7 +254,7 @@ class PageController {
     try {
       res.render('pages/privacy', {
         title: 'Privacy Policy | Pimofy Digital',
-        description: 'Privacy Policy for Pimofy Digital',
+        description: 'How Pimofy Digital collects, uses and protects personal data, in line with GDPR principles.',
       });
     } catch (error) {
       next(error);
@@ -266,7 +266,7 @@ class PageController {
     try {
       res.render('pages/terms', {
         title: 'Terms & Conditions | Pimofy Digital',
-        description: 'Terms and Conditions for using Pimofy Digital services',
+        description: 'Terms and conditions for using the Pimofy Digital website and services.',
       });
     } catch (error) {
       next(error);
@@ -334,19 +334,53 @@ class PageController {
     }
   }
 
+  // llms.txt: concise, machine-readable company summary for AI assistants (GEO)
+  static async llms(req, res) {
+    const base = SITE_URL();
+    const lines = [
+      '# Pimofy Digital',
+      '',
+      '> Pimofy Digital provides dedicated data operations and AI growth services for SaaS & Ecommerce companies in the USA, UK, Europe, Africa and worldwide. Headquartered in Nairobi, Kenya.',
+      '',
+      '## AI Growth Services',
+      ...aiServices.services.map((s) => `- [${s.name}](${base}/ai-services/${s.slug}): ${s.summary}`),
+      '',
+      '## Data Operations',
+      `- [Dedicated Data Operations Pod](${base}/data-operations): A dedicated specialist (160 hours/month) with QA on every output, SOPs, weekly KPI reports and an account manager. Data entry, CRM updates, enrichment, research, database cleanup, back-office and non-voice support.`,
+      `- [Free Operations Capacity Audit](${base}/capacity-audit): No-obligation review of repetitive workflows and reclaimable capacity.`,
+      '',
+      '## Company',
+      `- [Our Work](${base}/work): Live AI products, SaaS platforms, ecommerce stores and websites.`,
+      `- [About](${base}/about)`,
+      `- [Resources](${base}/blog)`,
+      `- [Contact](${base}/contact): info@pimofydigital.com, +254 722 412676, +254 703 201241`,
+      '',
+    ];
+    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+    res.setHeader('Cache-Control', 'public, max-age=3600');
+    res.send(lines.join('\n'));
+  }
+
   // robots.txt
   static async robots(req, res) {
     res.setHeader('Content-Type', 'text/plain');
     const baseUrl = SITE_URL();
 
-    const content = `# Pimofy Digital Robots.txt
-User-agent: *
-Allow: /
-Disallow: /admin
-Disallow: /auth/login
-
-Sitemap: ${baseUrl}/sitemap.xml
-`;
+    // Search engines and AI assistants (GPTBot, ClaudeBot, PerplexityBot,
+    // Google-Extended, etc.) are welcome on public pages; private areas are not.
+    const aiBots = ['GPTBot', 'OAI-SearchBot', 'ChatGPT-User', 'ClaudeBot', 'Claude-Web', 'PerplexityBot', 'Google-Extended', 'Applebot-Extended', 'Bingbot'];
+    const content = [
+      '# Pimofy Digital robots.txt',
+      'User-agent: *',
+      'Allow: /',
+      'Disallow: /admin',
+      'Disallow: /auth/',
+      '',
+      ...aiBots.flatMap((bot) => [`User-agent: ${bot}`, 'Allow: /', 'Disallow: /admin', 'Disallow: /auth/', '']),
+      `Sitemap: ${baseUrl}/sitemap.xml`,
+      `# AI summary: ${baseUrl}/llms.txt`,
+      '',
+    ].join('\n');
 
     res.send(content);
   }

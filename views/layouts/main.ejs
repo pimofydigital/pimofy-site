@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="csrf-token" content="<%= csrfToken %>" />
     <title><%= typeof title !== 'undefined' ? title + ' | Pimofy Digital' : 'Pimofy Digital' %></title>
-    <meta name="description" content="<%= typeof description !== 'undefined' ? description : 'Dedicated data operations for SaaS and Ecommerce companies' %>" />
+    <meta name="description" content="<%= typeof description !== 'undefined' ? description : 'Data operations and AI growth services for SaaS & Ecommerce companies worldwide' %>" />
     <% if (typeof keywords !== 'undefined') { %><meta name="keywords" content="<%= keywords %>" /><% } %>
 
     <!-- Canonical URL -->
@@ -31,28 +31,31 @@
 
     <!-- Open Graph -->
     <meta property="og:title" content="<%= typeof title !== 'undefined' ? title : 'Pimofy Digital' %>" />
-    <meta property="og:description" content="<%= typeof description !== 'undefined' ? description : 'Dedicated data operations for SaaS and Ecommerce companies' %>" />
+    <meta property="og:description" content="<%= typeof description !== 'undefined' ? description : 'Data operations and AI growth services for SaaS & Ecommerce companies worldwide' %>" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="<%= canonicalUrl || config.app.url %>" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="<%= typeof title !== 'undefined' ? title : 'Pimofy Digital' %>" />
-    <meta name="twitter:description" content="<%= typeof description !== 'undefined' ? description : 'Dedicated data operations for SaaS and Ecommerce companies' %>" />
+    <meta name="twitter:description" content="<%= typeof description !== 'undefined' ? description : 'Data operations and AI growth services for SaaS & Ecommerce companies worldwide' %>" />
 
     <!-- Organization Schema -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Organization",
+      "@type": "ProfessionalService",
+      "@id": "https://pimofydigital.com/#business",
       "name": "Pimofy Digital",
       "url": "https://pimofydigital.com",
-      "description": "Dedicated data operations for SaaS and Ecommerce companies",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Nairobi",
-        "addressCountry": "KE"
-      }
+      "logo": "https://pimofydigital.com/assets/logo.png",
+      "email": "info@pimofydigital.com",
+      "telephone": "+254722412676",
+      "description": "Data operations and AI growth services for SaaS & Ecommerce companies worldwide: dedicated data operations teams, AI web development, SEO, AEO, GEO and schema markup.",
+      "address": { "@type": "PostalAddress", "addressLocality": "Nairobi", "addressCountry": "KE" },
+      "areaServed": ["United States", "United Kingdom", "Europe", "Canada", "Australia", "Africa", "Worldwide"],
+      "knowsAbout": ["SaaS", "Ecommerce", "Data operations", "AI web development", "Search engine optimization", "Answer engine optimization", "Generative engine optimization", "Schema markup"],
+      "contactPoint": { "@type": "ContactPoint", "contactType": "sales", "email": "info@pimofydigital.com", "availableLanguage": ["English"] }
     }
     </script>
 

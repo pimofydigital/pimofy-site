@@ -25,5 +25,6 @@ router.get('/sitemap.xml', PageController.sitemap);
 
 // Robots.txt
 router.get('/robots.txt', PageController.robots);
+router.get('/llms.txt', PageController.llms);
 
 module.exports = router;
