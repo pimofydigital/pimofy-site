@@ -2,6 +2,7 @@ const { BlogPost } = require('../models');
 const config = require('../config/environment');
 const aiServices = require('../config/aiServices');
 const portfolio = require('../config/portfolio');
+const faqGroups = require('../config/faqs');
 
 const SITE_URL = () => config.app.url || 'https://pimofydigital.com';
 
@@ -213,6 +214,27 @@ class PageController {
     }
   }
 
+  // FAQ
+  static async faq(req, res, next) {
+    try {
+      const allFaqs = faqGroups.flatMap((group) => group.items);
+      res.render('pages/faq', {
+        title: 'FAQ: AI Web Development, SEO, AEO, GEO & Data Operations | Pimofy',
+        description: 'Answers to the questions SaaS & Ecommerce leaders ask about AI web development, SEO, AEO, GEO, schema markup, data operations, security and working with Pimofy.',
+        faqGroups,
+        schemaMarkup: {
+          '@context': 'https://schema.org',
+          '@graph': [
+            faqSchema(allFaqs),
+            breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'FAQ', path: '/faq' }]),
+          ],
+        },
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
   // Portfolio
   static async work(req, res, next) {
     try {
@@ -287,6 +309,7 @@ class PageController {
         { url: '/industries', changefreq: 'monthly', priority: 0.8 },
         { url: '/ai-services', changefreq: 'monthly', priority: 0.9 },
         { url: '/work', changefreq: 'monthly', priority: 0.8 },
+        { url: '/faq', changefreq: 'monthly', priority: 0.8 },
         ...aiServices.services.map((service) => ({ url: `/ai-services/${service.slug}`, changefreq: 'monthly', priority: 0.8 })),
         { url: '/about', changefreq: 'monthly', priority: 0.7 },
         { url: '/blog', changefreq: 'weekly', priority: 0.9 },
@@ -351,6 +374,7 @@ class PageController {
       '',
       '## Company',
       `- [Our Work](${base}/work): Live AI products, SaaS platforms, ecommerce stores and websites.`,
+      `- [FAQ](${base}/faq): Answers about AI web development, SEO, AEO, GEO, schema, data operations, security, pricing and engagement.`,
       `- [About](${base}/about)`,
       `- [Resources](${base}/blog)`,
       `- [Contact](${base}/contact): info@pimofydigital.com, +254 722 412676, +254 703 201241`,

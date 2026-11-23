@@ -12,6 +12,7 @@ router.get('/capacity-audit', PageController.capacityAudit);
 router.get('/industries', PageController.industries);
 router.get('/ai-services', PageController.aiServices);
 router.get('/work', PageController.work);
+router.get('/faq', PageController.faq);
 router.get('/ai-services/:slug', PageController.aiService);
 router.get('/about', PageController.about);
 router.get('/resources', PageController.resources); // Redirect to blog listing

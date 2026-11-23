@@ -46,6 +46,7 @@
         <li><a href="/industries" <% if (navCurrentPath === '/industries') { %>aria-current="page"<% } %>>Industries</a></li>
         <li><a href="/blog" <% if (navCurrentPath === '/blog' || navCurrentPath.startsWith('/blog/')) { %>aria-current="page"<% } %>>Resources</a></li>
         <li><a href="/about" <% if (navCurrentPath === '/about') { %>aria-current="page"<% } %>>About</a></li>
+        <li><a href="/faq" <% if (navCurrentPath === '/faq') { %>aria-current="page"<% } %>>FAQ</a></li>
         <li class="nav__mobile-cta"><a href="/contact" class="btn btn--primary">Book a Call</a></li>
         <% if (navIsAuthenticated) { %>
           <li><a href="/admin">Admin</a></li>

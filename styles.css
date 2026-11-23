@@ -2442,3 +2442,9 @@ ul { list-style: none; }
 .site-footer__col a, .site-footer__col li { white-space: nowrap; }
 @media (max-width: 1024px) { .site-footer__grid { grid-template-columns: repeat(4, 1fr); } }
 @media (max-width: 760px) { .site-footer__grid { grid-template-columns: 1fr 1fr; } .site-footer__col a { white-space: normal; } }
+
+/* FAQ page */
+.faq-jump { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 28px; }
+.faq-jump a { padding: 8px 16px; border-radius: 999px; border: 1px solid var(--line); background: #fff; color: var(--ink); font-size: 0.9rem; font-weight: 600; }
+.faq-jump a:hover { border-color: var(--purple); color: var(--purple); }
+.faq-group { scroll-margin-top: 90px; }
