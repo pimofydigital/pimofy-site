@@ -60,9 +60,9 @@ class PageController {
   static async solutions(req, res, next) {
     try {
       res.render('pages/solutions', {
-        title: 'Data Operations Solutions for SaaS & Ecommerce | Pimofy',
+        title: 'Solutions: AI Visibility, Websites & Data Operations | Pimofy',
         description:
-          'One focused solution built around your data. Explore the Dedicated Data Operations Pod and a free Operations Capacity Audit for growing teams.',
+          'Four solutions for SaaS & Ecommerce: a free AI Visibility Audit, Answer-Ready Websites, the AI Visibility Programme (SEO, AEO, GEO, schema) and the Data Operations Pod.',
         preloadImage: '/assets/data-warehouse.webp',
       });
     } catch (error) {
@@ -74,7 +74,7 @@ class PageController {
   static async dataOperations(req, res, next) {
     try {
       res.render('pages/data-operations', {
-        title: 'Dedicated Data Operations Team for SaaS & Ecommerce | Pimofy',
+        title: 'Data Operations Pod for SaaS & Ecommerce | Pimofy',
         description:
           'Discover how Pimofy\'s Data Operations Pod combines specialists, QA, and reporting to restore team capacity without hiring overhead.',
         preloadImage: '/assets/data-specialist.webp',
@@ -88,7 +88,7 @@ class PageController {
   static async capacityAudit(req, res, next) {
     try {
       res.render('pages/capacity-audit', {
-        title: 'Free Operations Capacity Audit for SaaS & Ecommerce | Pimofy',
+        title: 'Free Operations Capacity Audit | Pimofy Digital',
         description:
           'Book a free Operations Capacity Audit to identify repetitive data tasks, quantify lost hours, and map a practical execution plan.',
         preloadImage: '/assets/capacity-donut.webp',
@@ -102,7 +102,7 @@ class PageController {
   static async industries(req, res, next) {
     try {
       res.render('pages/industries', {
-        title: 'Industries We Serve: SaaS, Ecommerce & B2B | Pimofy Digital',
+        title: 'Industries: SaaS & Ecommerce | Pimofy Digital',
         description: 'Data operations and AI growth services for SaaS, Ecommerce and B2B companies across the USA, UK, Europe and Africa.',
       });
     } catch (error) {
@@ -114,8 +114,8 @@ class PageController {
   static async about(req, res, next) {
     try {
       res.render('pages/about', {
-        title: 'About Pimofy Digital | Data Operations & AI Growth Partner',
-        description: 'Pimofy Digital is a data operations and AI growth company helping SaaS & Ecommerce brands worldwide scale capacity and get found in Google and AI search.',
+        title: 'About Pimofy Digital | AI Visibility & Growth for SaaS & Ecommerce',
+        description: 'Pimofy Digital is the AI Visibility & Growth partner for SaaS & Ecommerce: we get brands found, chosen and recommended by Google and AI assistants, backed by dedicated data operations.',
         preloadImage: '/assets/team.webp',
       });
     } catch (error) {
@@ -123,7 +123,7 @@ class PageController {
     }
   }
 
-  // AI Growth Services hub
+  // AI Visibility & Growth hub
   static async aiServices(req, res, next) {
     try {
       const { hub, services } = aiServices;
@@ -139,7 +139,7 @@ class PageController {
             ORGANIZATION_REF(),
             {
               '@type': 'ItemList',
-              name: 'Pimofy AI Growth Services',
+              name: 'Pimofy AI Visibility & Growth Services',
               itemListElement: services.map((service, index) => ({
                 '@type': 'ListItem',
                 position: index + 1,
@@ -211,6 +211,37 @@ class PageController {
       });
     } catch (error) {
       return next(error);
+    }
+  }
+
+  // Free AI Visibility Audit
+  static async aiVisibilityAudit(req, res, next) {
+    try {
+      res.render('pages/ai-visibility-audit', {
+        title: 'Free AI Visibility Audit for SaaS & Ecommerce | Pimofy Digital',
+        description: 'See how Google, ChatGPT, Gemini and Perplexity describe and recommend your brand versus competitors. Free AI Visibility Audit with a prioritised action plan.',
+        schemaMarkup: {
+          '@context': 'https://schema.org',
+          '@graph': [
+            {
+              '@type': 'Service',
+              name: 'Free AI Visibility Audit',
+              serviceType: 'AI search visibility audit',
+              url: `${SITE_URL()}/ai-visibility-audit`,
+              provider: ORGANIZATION_REF(),
+              areaServed: ['United States', 'United Kingdom', 'Europe', 'Worldwide'],
+              offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+            },
+            breadcrumbSchema([
+              { name: 'Home', path: '/' },
+              { name: 'AI Visibility & Growth', path: '/ai-services' },
+              { name: 'AI Visibility Audit', path: '/ai-visibility-audit' },
+            ]),
+          ],
+        },
+      });
+    } catch (error) {
+      next(error);
     }
   }
 
@@ -310,6 +341,7 @@ class PageController {
         { url: '/ai-services', changefreq: 'monthly', priority: 0.9 },
         { url: '/work', changefreq: 'monthly', priority: 0.8 },
         { url: '/faq', changefreq: 'monthly', priority: 0.8 },
+        { url: '/ai-visibility-audit', changefreq: 'monthly', priority: 0.9 },
         ...aiServices.services.map((service) => ({ url: `/ai-services/${service.slug}`, changefreq: 'monthly', priority: 0.8 })),
         { url: '/about', changefreq: 'monthly', priority: 0.7 },
         { url: '/blog', changefreq: 'weekly', priority: 0.9 },
@@ -365,7 +397,8 @@ class PageController {
       '',
       '> Pimofy Digital provides dedicated data operations and AI growth services for SaaS & Ecommerce companies in the USA, UK, Europe, Africa and worldwide. Headquartered in Nairobi, Kenya.',
       '',
-      '## AI Growth Services',
+      '## AI Visibility & Growth',
+      `- [Free AI Visibility Audit](${base}/ai-visibility-audit): How Google, ChatGPT, Gemini and Perplexity describe and recommend your brand versus competitors, with a prioritised action plan.`,
       ...aiServices.services.map((s) => `- [${s.name}](${base}/ai-services/${s.slug}): ${s.summary}`),
       '',
       '## Data Operations',

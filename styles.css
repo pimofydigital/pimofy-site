@@ -2452,3 +2452,22 @@ ul { list-style: none; }
 .faq-jump a { padding: 8px 16px; border-radius: 999px; border: 1px solid var(--line); background: #fff; color: var(--ink); font-size: 0.9rem; font-weight: 600; }
 .faq-jump a:hover { border-color: var(--purple); color: var(--purple); }
 .faq-group { scroll-margin-top: 90px; }
+
+/* 13) AI Visibility & Growth page rewrites ---------------------------------- */
+.prose-block { max-width: 820px; }
+.prose-list { list-style: none; display: grid; gap: 10px; margin: 6px 0 16px; }
+.prose-list li { position: relative; padding-left: 24px; }
+.prose-list li::before { content: '\2713'; position: absolute; left: 0; color: var(--purple); font-weight: 700; }
+.industry-card h3, .solution-card h3 { font-size: 1.4rem; margin-bottom: 12px; }
+.industry-card__outcome { margin-top: auto; padding-top: 14px; border-top: 1px solid var(--line); }
+.industry-card, .solution-card { display: flex; flex-direction: column; }
+.solution-card__head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.solution-card__num { font-size: 0.85rem; font-weight: 800; letter-spacing: 0.08em; color: var(--purple); }
+.solution-card .link, .solution-card__links { margin-top: auto; font-weight: 600; }
+.ai-steps--3 { grid-template-columns: repeat(3, 1fr); }
+.callout-ai { display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap; padding: clamp(28px, 3vw, 44px); border-radius: 20px; background: linear-gradient(160deg, #1a1530, #2d1a6b); color: rgba(255,255,255,0.85); }
+.callout-ai h2 { color: #fff; margin: 8px 0 10px; }
+.callout-ai p { max-width: 640px; margin: 0; }
+.callout-ai .eyebrow { background: rgba(255,255,255,0.12); color: #fff; }
+.cta-band__action--stack { display: flex; flex-wrap: wrap; gap: 12px; justify-content: flex-end; }
+@media (max-width: 760px) { .ai-steps--3 { grid-template-columns: 1fr; } .cta-band__action--stack { justify-content: flex-start; } }

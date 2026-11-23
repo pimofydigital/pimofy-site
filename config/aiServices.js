@@ -1,5 +1,5 @@
 /**
- * AI Growth Services content.
+ * AI Visibility & Growth content.
  *
  * Single source of truth for the /ai-services hub and each service page.
  * Edit copy here; templates in views/pages/ai-services.ejs and
@@ -300,13 +300,13 @@ const services = [
 ];
 
 const hub = {
-  title: 'AI Growth Services: AI Web Development, AEO, SEO, GEO & Schema | Pimofy Digital',
+  title: 'AI Visibility & Growth: AI Web Development, AEO, SEO, GEO & Schema | Pimofy',
   metaDescription:
-    'Pimofy AI Growth Services: AI web development, Answer Engine Optimization, AI-powered SEO, Generative Engine Optimization and schema markup that make your brand visible in Google and AI assistants.',
-  eyebrow: 'AI Growth Services',
+    'Pimofy AI Visibility & Growth for SaaS & Ecommerce: AI web development, Answer Engine Optimization, AI-powered SEO, Generative Engine Optimization and schema markup that make your brand visible in Google and AI assistants.',
+  eyebrow: 'AI Visibility & Growth',
   headline: 'Be Found, Chosen and Cited in the Age of AI Search.',
   lead:
-    'Your buyers now ask Google, ChatGPT, Gemini and Perplexity before they ever contact a vendor. Our AI Growth Services build the website, content and structured data that make your brand the one these engines find, trust and recommend.',
+    'Your buyers now ask Google, ChatGPT, Gemini and Perplexity before they ever contact a vendor. Our AI Visibility & Growth services build the website, content and structured data that make your brand the one these engines find, trust and recommend.',
   pillars: [
     { title: 'Built by AI, Owned by Experts', text: 'AI gives us speed and depth. Senior specialists set strategy, review every output and stay accountable for results.' },
     { title: 'One Connected System', text: 'Website, SEO, AEO, GEO and schema planned together, so every improvement strengthens the others.' },

@@ -8,7 +8,7 @@ module.exports = [
     id: 'about',
     title: 'About Pimofy Digital',
     items: [
-      { q: 'What does Pimofy Digital do?', a: 'Pimofy Digital helps SaaS & Ecommerce companies grow in two ways. Our Dedicated Data Operations Pod takes over repetitive data work such as data entry, CRM updates, enrichment, research and database cleanup. Our AI Growth Services, which are AI Web Development, Answer Engine Optimization (AEO), AI-Powered SEO, Generative Engine Optimization (GEO) and Schema Markup, make your brand easier to find and recommend on Google, ChatGPT, Gemini and Perplexity.' },
+      { q: 'What does Pimofy Digital do?', a: 'Pimofy Digital helps SaaS & Ecommerce companies grow in two ways. Our Dedicated Data Operations Pod takes over repetitive data work such as data entry, CRM updates, enrichment, research and database cleanup. Our AI Visibility & Growth services, which are AI Web Development, Answer Engine Optimization (AEO), AI-Powered SEO, Generative Engine Optimization (GEO) and Schema Markup, make your brand easier to find and recommend on Google, ChatGPT, Gemini and Perplexity.' },
       { q: 'Who do you work with?', a: 'We work with SaaS and Ecommerce companies, from funded startups to established brands, as well as B2B service businesses with similar needs. Most of our clients are founders, CEOs, marketing leaders and operations leaders who want more capacity and more qualified demand without adding headcount.' },
       { q: 'Where are you based, and which countries do you serve?', a: 'We are headquartered in Nairobi, Kenya, and serve clients in the United States, United Kingdom, Europe, Africa and worldwide. All engagements are delivered remotely, with working hours agreed to overlap with your team.' },
       { q: 'What makes Pimofy different from a typical web or SEO agency?', a: 'We focus on outcomes rather than deliverables: being found, chosen and cited in Google and AI assistants, and giving your team back capacity. We also build our own AI-powered products, so we understand AI from the inside, not only as a marketing topic. And we combine growth work with dedicated data operations, which few agencies offer.' },
@@ -16,7 +16,7 @@ module.exports = [
   },
   {
     id: 'ai-services',
-    title: 'AI Growth Services',
+    title: 'AI Visibility & Growth',
     items: [
       { q: 'What is AI web development?', a: 'AI web development uses AI to speed up research, design exploration, content drafting and coding, while senior specialists make every decision and review every page. The result is a fast, secure, conversion-focused website that is structured from day one to rank in search and to be understood and cited by AI assistants.' },
       { q: 'What is Answer Engine Optimization (AEO)?', a: 'AEO structures your content so answer engines, such as Google AI Overviews, featured snippets, voice assistants and AI chat tools, can select it as the direct answer to a question. It combines question research, answer-first writing, clear page structure and schema markup.' },
