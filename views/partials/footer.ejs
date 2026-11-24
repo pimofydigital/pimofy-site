@@ -55,7 +55,7 @@
     </div>
 
     <div class="site-footer__bottom">
-      <span>&copy; <%= footerYear %> Pimofy Digital. All rights reserved.</span>
+      <span>&copy; <%= footerYear %> Pimofy Digital. All rights reserved. <a href="/privacy#cookies" class="cookie-settings-link" data-cookie-settings>Cookie settings</a></span>
       <span class="site-footer__legal">
         <a href="/privacy">Privacy Policy</a>
         <a href="/terms">Terms &amp; Conditions</a>
@@ -64,3 +64,11 @@
     </div>
   </div>
 </footer>
+
+<div id="cookie-banner" class="cookie-banner" role="region" aria-label="Cookie consent" hidden>
+  <p>We use analytics cookies to understand how our site is used and improve it. No advertising cookies. See our <a href="/privacy#cookies">Privacy Policy</a>.</p>
+  <div class="cookie-banner__actions">
+    <button type="button" id="cookie-reject" class="btn btn--ghost btn--sm">Reject</button>
+    <button type="button" id="cookie-accept" class="btn btn--primary btn--sm">Accept analytics</button>
+  </div>
+</div>

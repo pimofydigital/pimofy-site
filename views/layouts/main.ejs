@@ -73,6 +73,7 @@
         <%- JSON.stringify(schemaMarkup).replace(/</g, '\\u003c') %>
       </script>
     <% } %>
+    <script src="/js/analytics.js?v=<%= assetVersions.script %>"></script>
   </head>
   <body>
     <%- include(template) %>

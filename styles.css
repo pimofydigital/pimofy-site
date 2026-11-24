@@ -2573,3 +2573,12 @@ ul { list-style: none; }
 @media (max-width: 720px) { .cta-band__action { align-items: stretch; } .cta-band__link { text-align: center; } }
 
 .hero__sub { font-size: 1.15rem; font-weight: 700; color: var(--purple); margin: -4px 0 14px; }
+
+/* ---- Cookie consent banner ---- */
+.cookie-banner { position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 1000; max-width: 720px; margin: 0 auto; background: #fff; border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 12px 40px rgba(20,17,43,.18); padding: 16px 18px; display: flex; gap: 16px; align-items: center; }
+.cookie-banner[hidden] { display: none; }
+.cookie-banner p { margin: 0; font-size: .92rem; color: var(--body); line-height: 1.5; }
+.cookie-banner a { color: var(--purple); text-decoration: underline; }
+.cookie-banner__actions { display: flex; gap: 10px; flex: 0 0 auto; }
+.cookie-settings-link { color: inherit; text-decoration: underline; margin-left: 8px; }
+@media (max-width: 720px) { .cookie-banner { flex-direction: column; align-items: stretch; bottom: 84px; } .cookie-banner__actions { justify-content: flex-end; } }
