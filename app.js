@@ -157,6 +157,9 @@ const assetVersions = {
   script: fileVersion('script.js'),
 };
 app.locals.assetVersions = assetVersions;
+const { postImage, postSocialImage } = require('./utils/blogImage');
+app.locals.postImage = postImage;
+app.locals.postSocialImage = postSocialImage;
 
 /**
  * styles.css / script.js live at the repo root for backwards compatibility.
