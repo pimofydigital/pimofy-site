@@ -44,6 +44,21 @@ class PageController {
           'AI-powered SEO, AEO, GEO and conversion campaigns that get your business found on Google, recommended by ChatGPT and chosen. USA, UK, Europe and Africa.',
         preloadImage: '/assets/hero-home.webp',
         aiServicesList: aiServices.services,
+        schemaMarkup: {
+          '@context': 'https://schema.org',
+          '@graph': [
+            {
+              '@type': 'OfferCatalog',
+              '@id': `${SITE_URL()}/#services`,
+              name: 'Pimofy Digital services',
+              itemListElement: [
+                ...aiServices.services.map((s) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: s.name, url: `${SITE_URL()}/ai-services/${s.slug}`, provider: ORGANIZATION_REF() } })),
+                { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Data Operations Pod', url: `${SITE_URL()}/data-operations`, provider: ORGANIZATION_REF() } },
+                { '@type': 'Offer', price: '0', priceCurrency: 'USD', itemOffered: { '@type': 'Service', name: 'Free AI Visibility Review', url: `${SITE_URL()}/ai-visibility-review`, provider: ORGANIZATION_REF() } },
+              ],
+            },
+          ],
+        },
       });
     } catch (error) {
       next(error);
@@ -73,6 +88,33 @@ class PageController {
         description:
           'Discover how Pimofy\'s Data Operations Pod combines specialists, QA, and reporting to restore team capacity without hiring overhead.',
         preloadImage: '/assets/data-specialist.webp',
+        schemaMarkup: {
+          '@context': 'https://schema.org',
+          '@graph': [
+            {
+              '@type': 'Service',
+              '@id': `${SITE_URL()}/data-operations#service`,
+              name: 'Data Operations Pod',
+              serviceType: 'Managed data operations outsourcing',
+              description: 'A dedicated Data Operations Specialist (160 hours per month) with QA oversight, weekly KPI reports, SOPs and a dedicated account manager, for SaaS and Ecommerce companies.',
+              url: `${SITE_URL()}/data-operations`,
+              provider: ORGANIZATION_REF(),
+              areaServed: ['United Kingdom', 'United States', 'Europe', 'Africa', 'Middle East', 'Asia'],
+              audience: { '@type': 'BusinessAudience', audienceType: 'SaaS and Ecommerce companies' },
+              offers: [
+                { '@type': 'Offer', name: 'One-time sign-up', price: '499', priceCurrency: 'USD' },
+                { '@type': 'Offer', name: 'Dedicated specialist, 160 hours per month', price: '1600', priceCurrency: 'USD', priceSpecification: { '@type': 'UnitPriceSpecification', price: '1600', priceCurrency: 'USD', unitText: 'MONTH' } },
+              ],
+              hasOfferCatalog: {
+                '@type': 'OfferCatalog',
+                name: 'Data Operations services',
+                itemListElement: dataOpsServices.map((s) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: s.name, url: `${SITE_URL()}/data-operations/${s.slug}` } })),
+              },
+            },
+            faqSchema([{"q": "How do you keep our data secure and confidential?", "a": "We operate under your confidentiality and NDA requirements as standard, signed before any data is shared. Access is limited to your assigned specialist and account manager, and we follow agreed handling, storage, and access controls for every workflow."}, {"q": "Are you GDPR compliant?", "a": "Yes. We handle personal data strictly as a data processor on your instructions, in line with GDPR principles. We will sign a Data Processing Agreement (DPA) on request and apply the access, retention, and confidentiality controls your business requires."}, {"q": "Which time zones do you cover?", "a": "We are based in Nairobi (GMT+3) and work comfortably across UK, European, and US business hours. We agree your preferred working window and reporting cadence during onboarding, so there is meaningful daily overlap with your team."}, {"q": "What is the contract length and can we cancel?", "a": "Engagements run month to month after the one-time setup. There is no long lock-in—you can scale up, scale down, or give notice in line with the simple terms agreed at onboarding. The 40-hour trial lets you confirm fit before you commit fully."}, {"q": "What happens if we need more capacity?", "a": "Each pod is one dedicated specialist at 160 hours per month. As your volume grows you can add specialists—capacity flexes with your needs without new hiring or training cycles on your side."}, {"q": "What tools and systems do you work with?", "a": "Our specialists work across virtually any format or system—CRMs, spreadsheets, databases, ticketing and back-office platforms. We onboard to your existing tools during Phase 2 rather than forcing you onto ours."}]),
+            breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Data Operations', path: '/data-operations' }]),
+          ],
+        },
       });
     } catch (error) {
       next(error);
