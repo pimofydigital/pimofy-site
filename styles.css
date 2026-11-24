@@ -2631,3 +2631,4 @@ ul { list-style: none; }
 .author-box img { border-radius: 12px; flex: 0 0 auto; }
 .author-box p { margin: 0 0 4px; font-size: 0.97rem; }
 .author-box__name { font-weight: 700; color: var(--ink); }
+.article-meta a { text-decoration: underline; text-underline-offset: 2px; }
