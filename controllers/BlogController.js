@@ -75,7 +75,7 @@ class BlogController {
 
       res.render('blog/index', {
         title: 'AI Search & Growth Insights | Pimofy Digital Blog',
-        description: 'Guides to being found on Google and recommended by ChatGPT, Gemini and Perplexity: AI-powered SEO, AEO, GEO, schema and conversion, plus data operations playbooks.',
+        description: 'Guides to being found on Google and recommended by ChatGPT, Gemini and Perplexity: AI SEO, AEO, GEO, schema and conversion, plus data operations playbooks.',
         posts,
         currentPage: page,
         totalPages,

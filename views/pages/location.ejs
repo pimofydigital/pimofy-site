@@ -26,7 +26,7 @@
 
   <section class="section section--soft" aria-labelledby="services-title">
     <div class="container">
-      <div class="section__head reveal"><span class="eyebrow">Services</span><h2 id="services-title">How We Help <%= loc.country === 'Europe' ? 'European' : (loc.country === 'Kenya' ? 'Kenyan' : loc.shortName) %> Businesses</h2></div>
+      <div class="section__head reveal"><span class="eyebrow">Services</span><h2 id="services-title">How We Help <%= ({ 'Europe': 'European', 'Kenya': 'Kenyan', 'East Africa': 'East African', 'Middle East': 'Middle Eastern', 'Asia': 'Asian' })[loc.country] || loc.shortName %> Businesses</h2></div>
       <ul class="checklist checklist--2 reveal" style="max-width:960px;margin:0 auto;">
         <% loc.services.forEach(function (item) { %>
         <li><span class="check">&#10003;</span> <%= item %></li>

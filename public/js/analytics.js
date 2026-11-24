@@ -56,6 +56,26 @@
     if (b) b.hidden = true;
   }
 
+  // Conversion events: successful form submissions and contact clicks.
+  try {
+    var params = new URLSearchParams(window.location.search);
+    if (params.get('success') === '1') {
+      var form = window.location.pathname.indexOf('ai-visibility') !== -1 ? 'ai_visibility_review' : 'contact';
+      gtag('event', 'generate_lead', { form_name: form });
+    }
+  } catch (e) {}
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a');
+    if (!a) return;
+    var href = a.getAttribute('href') || '';
+    var name = a.getAttribute('data-track') ||
+      (href.indexOf('wa.me') !== -1 ? 'whatsapp_click' :
+      href.indexOf('calendly.com') !== -1 ? 'book_call_click' :
+      href.indexOf('tel:') === 0 ? 'phone_click' :
+      href.indexOf('mailto:') === 0 ? 'email_click' : '');
+    if (name) gtag('event', name, { link_url: href, page_path: window.location.pathname });
+  }, true);
+
   document.addEventListener('DOMContentLoaded', function () {
     var banner = document.getElementById('cookie-banner');
     if (!banner) return;

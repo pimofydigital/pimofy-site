@@ -109,7 +109,7 @@ class PageController {
   static async about(req, res, next) {
     try {
       res.render('pages/about', {
-        title: 'About Pimofy Digital | AI Visibility & Growth for SaaS & Ecommerce',
+        title: 'About Pimofy Digital | AI Visibility & Data Operations',
         description: 'Pimofy Digital is the AI Visibility & Growth partner for SaaS & Ecommerce, getting brands found and recommended by Google and AI, backed by data operations.',
         preloadImage: '/assets/team.webp',
       });
@@ -232,8 +232,8 @@ class PageController {
       ];
 
       res.render('pages/ai-visibility-review', {
-        title: 'Free AI Visibility Review: Your Score Across Google and AI Search | Pimofy Digital',
-        description: 'Find out if Google, ChatGPT, Perplexity and Gemini recommend your business. Free one-page scorecard with your score, competitors and top 3 fixes in 2 business days.',
+        title: 'Free AI Visibility Review for Your Business | Pimofy Digital',
+        description: 'Find out if Google, ChatGPT, Perplexity and Gemini recommend your business. Free scorecard: your score, competitors and top 3 fixes in 2 business days.',
         auditSuccess,
         errors,
         formData,
@@ -320,8 +320,8 @@ class PageController {
   // Markets hub (/locations)
   static async locationsHub(req, res) {
     return res.render('pages/locations', {
-      title: 'Markets We Serve: UK, USA, Europe and Kenya | Pimofy Digital',
-      description: 'Pimofy Digital is based in Nairobi and works with businesses in the UK, USA, Europe and Kenya. Working hours, data protection and terms by market.',
+      title: 'Markets We Serve: UK, USA, Europe, Africa & More | Pimofy Digital',
+      description: 'Nairobi-based Pimofy Digital serves the UK, USA, Europe, Kenya, East Africa, the Middle East and Asia. Working hours, data protection and terms by market.',
       locations,
       schemaMarkup: {
         '@context': 'https://schema.org',
@@ -363,7 +363,7 @@ class PageController {
             description: loc.answer,
             url,
             provider: ORGANIZATION_REF(),
-            areaServed: { '@type': loc.slug === 'europe' ? 'Place' : 'Country', name: loc.country },
+            areaServed: { '@type': ['united-kingdom', 'united-states', 'kenya'].includes(loc.slug) ? 'Country' : 'Place', name: loc.country },
           },
           faqSchema(loc.faqs),
           breadcrumbSchema([
@@ -403,7 +403,7 @@ class PageController {
       const all = [...portfolio.products, ...portfolio.websites];
       res.render('pages/work', {
         title: 'Our Work: AI Products, Websites & Ecommerce | Pimofy Digital',
-        description: 'Live AI-powered SaaS platforms, ecommerce stores and international websites designed and engineered by Pimofy Digital for clients across the USA, UK, Europe and Africa.',
+        description: 'Live AI-powered SaaS platforms, Ecommerce stores and international websites designed and engineered by Pimofy Digital for clients around the world.',
         products: portfolio.products,
         websites: portfolio.websites,
         schemaMarkup: {

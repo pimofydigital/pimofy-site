@@ -143,7 +143,7 @@ const services = [
     eyebrow: 'AI-Powered SEO',
     title: 'AI-Powered SEO Services for Businesses & Brands | Pimofy Digital',
     metaDescription:
-      'AI-powered SEO: technical audits, data-driven content and authority building that grow qualified organic traffic and revenue for businesses across the USA, UK, Europe and Africa.',
+      'AI-powered SEO: technical audits, data-driven content and authority building that grow qualified organic traffic and enquiries for businesses worldwide.',
     headline: 'SEO That Compounds. Powered by AI, Led by Specialists.',
     lead:
       'We use AI to analyse your site, competitors and market at a depth and speed manual teams cannot match, then our specialists turn those insights into technical fixes, content and authority that grow qualified organic revenue.',
@@ -371,7 +371,7 @@ const services = [
     eyebrow: 'AI-Powered Facebook & Instagram Ads',
     title: 'AI-Powered Facebook & Instagram Ads | Pimofy Digital',
     metaDescription:
-      'AI-powered Facebook and Instagram ad campaigns: audience strategy, creative, tracking and optimisation focused on qualified enquiries and sales, not just clicks.',
+      'AI-powered Facebook and Instagram ads: audience strategy, creative, tracking and optimisation focused on qualified enquiries and sales, not clicks.',
     headline: 'Paid Social That Brings Customers, Not Just Clicks.',
     lead:
       'We plan, create and manage Facebook and Instagram campaigns using AI-assisted audience research, creative testing and optimisation, and connect every campaign to a page built to convert.',
@@ -421,7 +421,7 @@ const services = [
 ];
 
 const hub = {
-  title: 'AI Visibility & Growth: AI Web Development, AEO, SEO, GEO & Schema | Pimofy',
+  title: 'AI Visibility & Growth Services: SEO, AEO & GEO | Pimofy Digital',
   metaDescription:
     'AI Visibility & Growth for every industry, with deep SaaS & Ecommerce expertise: AI web development, SEO, AEO, GEO and schema that get you found by AI.',
   eyebrow: 'AI Visibility & Growth',
