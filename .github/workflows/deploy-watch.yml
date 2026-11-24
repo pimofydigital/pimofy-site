@@ -1,1 +1,57 @@
+name: Deploy watch
 
+# After every push to main, waits for pimofydigital.com to serve the new commit.
+# Fails (and GitHub emails whoever pushed) if the Vercel build fails, the new
+# version is not live within 4 minutes, or it took longer than ~75 seconds.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-watch
+  cancel-in-progress: true
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    permissions:
+      contents: read
+      statuses: read
+      deployments: read
+    steps:
+      - name: Wait for the new commit to go live
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SHA: ${{ github.sha }}
+          SITE: https://pimofydigital.com
+          SLOW_AFTER: 75
+          GIVE_UP_AFTER: 240
+        run: |
+          short="${SHA:0:10}"
+          start=$(date +%s)
+          echo "Waiting for $SITE to serve commit $short"
+          while true; do
+            now=$(date +%s); elapsed=$((now - start))
+            if curl -fsS --max-time 15 "$SITE/?deploy-watch=$now" | grep -q "v=$short"; then
+              echo "Live after ${elapsed}s"
+              echo "### Deploy live in ${elapsed}s" >> "$GITHUB_STEP_SUMMARY"
+              if [ "$elapsed" -gt "$SLOW_AFTER" ]; then
+                echo "::error::Deploy of $short took ${elapsed}s (limit ${SLOW_AFTER}s). Check Vercel."
+                exit 1
+              fi
+              exit 0
+            fi
+            state=$(gh api "repos/${GITHUB_REPOSITORY}/commits/${SHA}/status" --jq '.statuses[] | select(.context | test("[Vv]ercel")) | .state' 2>/dev/null | head -1)
+            if [ "$state" = "failure" ] || [ "$state" = "error" ]; then
+              echo "::error::Vercel reported the build for $short as $state after ${elapsed}s. The live site is still on the previous version."
+              exit 1
+            fi
+            if [ "$elapsed" -gt "$GIVE_UP_AFTER" ]; then
+              echo "::error::Commit $short was not live after ${GIVE_UP_AFTER}s (Vercel status: ${state:-unknown}). The deploy needs attention."
+              exit 1
+            fi
+            sleep 5
+          done
