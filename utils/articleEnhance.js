@@ -56,7 +56,8 @@ function enhanceArticle(content) {
 
   // FAQ extraction
   const faqs = [];
-  const faqStart = out.search(/<h2[^>]*\sid="faq"[^>]*>/i);
+  let faqStart = out.search(/<h2[^>]*\sid="faq"[^>]*>/i);
+  if (faqStart < 0) faqStart = out.search(/<h2[^>]*>\s*(frequently asked questions|faqs?)\s*<\/h2>/i);
   if (faqStart >= 0) {
     const afterHeading = out.indexOf('</h2>', faqStart) + 5;
     const nextH2 = out.slice(afterHeading).search(/<h2[\s>]/i);
