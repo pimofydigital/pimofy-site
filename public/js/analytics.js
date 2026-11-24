@@ -23,12 +23,30 @@
     gtag('consent', 'update', { analytics_storage: 'granted' });
   }
 
-  var s = document.createElement('script');
-  s.async = true;
-  s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
-  document.head.appendChild(s);
   gtag('js', new Date());
   gtag('config', GA_ID, { anonymize_ip: true });
+
+  // Load the Google tag library after the page has finished rendering, so it
+  // never competes with the first paint (it is ~180 KB of script). Events
+  // queued in dataLayer before it loads are still sent.
+  var loaded = false;
+  function loadGtag() {
+    if (loaded) return;
+    loaded = true;
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+    document.head.appendChild(s);
+  }
+  function scheduleGtag() {
+    var idle = window.requestIdleCallback || function (cb) { return setTimeout(cb, 1); };
+    setTimeout(function () { idle(loadGtag, { timeout: 2000 }); }, 3500);
+  }
+  ['pointerdown', 'keydown', 'scroll', 'touchstart'].forEach(function (evt) {
+    window.addEventListener(evt, loadGtag, { once: true, passive: true });
+  });
+  if (document.readyState === 'complete') scheduleGtag();
+  else window.addEventListener('load', scheduleGtag, { once: true });
 
   function store(v) { try { localStorage.setItem(KEY, v); } catch (e) {} }
   function choose(granted) {

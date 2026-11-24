@@ -98,7 +98,7 @@
         <%- JSON.stringify(schemaMarkup).replace(/</g, '\\u003c') %>
       </script>
     <% } %>
-    <script src="/js/analytics.js?v=<%= assetVersions.script %>"></script>
+    <script src="/js/analytics.js?v=<%= assetVersions.script %>" defer></script>
   </head>
   <body>
     <%- include(template) %>
