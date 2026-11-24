@@ -11,7 +11,7 @@
       <span class="tag"><%= post.category || 'Uncategorized' %></span>
       <h1><%= post.title %></h1>
       <p class="article-meta">
-        By <a href="https://www.linkedin.com/in/moses-njeru-munyi-b02156b2/" rel="author noopener" target="_blank">Moses Njeru Munyi</a> · <%= new Date(post.publishDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %> · <%= readingTime %> min read
+        By <a href="https://www.linkedin.com/in/moses-njeru-munyi-b02156b2/" rel="author noopener" target="_blank">Moses Njeru Munyi</a> · <%= new Date(post.publishDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %> · <%= readingTime %> min read<% if (showUpdated) { %> · Updated <time datetime="<%= modifiedDate.toISOString() %>"><%= modifiedDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %></time><% } %>
       </p>
     </div>
   </section>
@@ -23,7 +23,25 @@
   <!-- ARTICLE BODY -->
   <section class="section section--tight-top">
     <div class="container article-body max-w-820">
-      <%- post.content %>
+      <% if (toc && toc.length >= 4) { %>
+        <nav class="article-toc" aria-label="On this page">
+          <details open>
+            <summary>On this page</summary>
+            <ol>
+              <% toc.forEach(item => { %><li><a href="#<%= item.id %>"><%= item.text %></a></li><% }); %>
+            </ol>
+          </details>
+        </nav>
+      <% } %>
+      <%- articleHtml %>
+
+      <aside class="author-box" aria-label="About the author">
+        <img src="/logo-square.png" alt="Pimofy Digital" width="64" height="64" loading="lazy" decoding="async" />
+        <div>
+          <p class="author-box__name">Written by <a href="https://www.linkedin.com/in/moses-njeru-munyi-b02156b2/" rel="author noopener" target="_blank">Moses Njeru Munyi</a></p>
+          <p class="author-box__role">Co-founder, <a href="/about">Pimofy Digital</a>. Pimofy helps SaaS and ecommerce companies get found on Google and cited by AI assistants, and runs dedicated data operations pods from Nairobi across UK, EU and US hours.</p>
+        </div>
+      </aside>
     </div>
   </section>
 
@@ -72,16 +90,23 @@
   <!-- CTA -->
   <section class="section cta-band">
     <div class="container cta-band__grid reveal">
+      <% if (isAiTopic) { %>
       <div class="cta-band__text">
-        <h2>
-          <span class="cta-band__bookicon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>
-          Find Your Real Constraint
-        </h2>
-        <p>Book a free Operations Capacity Audit™ and we'll show you exactly where your team's time is going.</p>
+        <h2>Is Your Brand the Answer?</h2>
+        <p>Get a free AI Visibility Review and see where you appear on Google, ChatGPT, Gemini and Perplexity, and what to fix first.</p>
       </div>
       <div class="cta-band__action">
-        <a href="/contact" class="btn btn--white btn--lg">Book Your Free Operations Capacity Audit™</a>
+        <a href="/ai-visibility-review" class="btn btn--white btn--lg">Get Your Free AI Visibility Review</a>
       </div>
+      <% } else { %>
+      <div class="cta-band__text">
+        <h2>Find Your Real Constraint</h2>
+        <p>Book a free Operations Capacity Audit&trade; and we'll show you exactly where your team's time is going.</p>
+      </div>
+      <div class="cta-band__action">
+        <a href="/capacity-audit" class="btn btn--white btn--lg">Book Your Free Operations Capacity Audit&trade;</a>
+      </div>
+      <% } %>
     </div>
   </section>
 </article>

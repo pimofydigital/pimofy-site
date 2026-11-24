@@ -1,5 +1,6 @@
 const { BlogPost, User } = require('../models');
 const { Op } = require('sequelize');
+const { enhanceArticle } = require('../utils/articleEnhance');
 
 const POSTS_PER_PAGE = 6;
 const MAX_PAGE = 1000;
@@ -125,12 +126,24 @@ class BlogController {
       const base = String(process.env.APP_URL || 'https://pimofydigital.com').replace(/\/$/, '');
       const postUrl = `${base}/blog/${post.slug}`;
       const { postSocialImage } = require('../utils/blogImage');
+      const enhanced = enhanceArticle(post.content);
+      const published = new Date(post.publishDate || post.createdAt);
+      const modified = new Date(post.updatedAt || post.publishDate || post.createdAt);
+      const showUpdated = modified - published > 24 * 60 * 60 * 1000;
+      const aiCategories = ['ai search & aeo', 'ai seo', 'schema & technical seo', 'ai web development', 'saas growth'];
+      const isAiTopic = aiCategories.includes(String(post.category || '').toLowerCase())
+        && !/crm|data hygiene/i.test(post.slug);
       res.render('blog/show', {
         title: post.seoTitle || post.title,
         description: post.metaDescription || post.excerpt,
         post,
         related,
         readingTime,
+        articleHtml: enhanced.html,
+        toc: enhanced.toc,
+        showUpdated,
+        modifiedDate: modified,
+        isAiTopic,
         keywords: post.keywords,
         schemaMarkup: {
           '@context': 'https://schema.org',
@@ -151,7 +164,20 @@ class BlogController {
               keywords: post.keywords || undefined,
               wordCount,
               inLanguage: 'en',
+              speakable: (enhanced.hasAnswerLead || enhanced.hasTakeaways)
+                ? { '@type': 'SpeakableSpecification', cssSelector: ['.answer-lead', '.key-takeaways'] }
+                : undefined,
             },
+            ...(enhanced.faqs.length >= 2 ? [{
+              '@type': 'FAQPage',
+              '@id': `${postUrl}#faq`,
+              isPartOf: { '@id': `${postUrl}#webpage` },
+              mainEntity: enhanced.faqs.map((f) => ({
+                '@type': 'Question',
+                name: f.question,
+                acceptedAnswer: { '@type': 'Answer', text: f.answer },
+              })),
+            }] : []),
             {
               '@type': 'BreadcrumbList',
               itemListElement: [
