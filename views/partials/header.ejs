@@ -2,7 +2,7 @@
   <% const navCurrentPath = typeof currentPath === 'string' ? currentPath : ''; %>
   <% const navIsAuthenticated = typeof isAuthenticated === 'boolean' ? isAuthenticated : false; %>
   <% const navCsrfToken = typeof csrfToken === 'string' ? csrfToken : ''; %>
-  <% const isServicesPath = ['/solutions', '/data-operations', '/capacity-audit'].includes(navCurrentPath) || navCurrentPath.startsWith('/ai-services'); %>
+  <% const isServicesPath = ['/solutions', '/data-operations', '/capacity-audit'].includes(navCurrentPath) || navCurrentPath.startsWith('/ai-services') || navCurrentPath.startsWith('/data-operations/'); %>
   <div class="container">
     <nav class="nav" aria-label="Primary">
       <a class="nav__logo" href="/" aria-label="Pimofy Digital home">
@@ -37,6 +37,8 @@
               <ul>
                 <li><a href="/data-operations"><strong>Data Operations Pod&trade;</strong><span>Dedicated specialist with QA and reporting</span></a></li>
                 <li><a href="/capacity-audit"><strong>Free Operations Capacity Audit&trade;</strong><span>For SaaS &amp; Ecommerce operations teams</span></a></li>
+                <li><a href="/data-operations/crm-data-management"><strong>CRM Data Management</strong><span>Keep your CRM clean, current and usable</span></a></li>
+                <li><a href="/data-operations/data-entry-verification"><strong>Data Entry &amp; Verification</strong><span>Accurate records, keyed and checked</span></a></li>
                 <li><a href="/solutions"><strong>Solutions Overview</strong><span>How the pod fits your team</span></a></li>
               </ul>
               <div class="mega__promo">

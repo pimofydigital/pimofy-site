@@ -48,24 +48,49 @@
     <meta name="twitter:title" content="<%= pageTitle %>" />
     <meta name="twitter:description" content="<%= typeof description !== 'undefined' ? description : 'Pimofy Digital is an AI growth agency that makes your business the answer on Google and in AI search. Nairobi-based, serving the USA, UK, Europe and Africa.' %>" />
 
-    <!-- Organization Schema -->
+    <!-- Site-wide entity graph: Organization, WebSite, WebPage (stable @id) -->
+    <% const __base = String(config.app.url || 'https://pimofydigital.com').replace(/\/$/, ''); const __pageUrl = canonicalUrl || (__base + '/'); %>
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "ProfessionalService",
-      "@id": "https://pimofydigital.com/#business",
-      "name": "Pimofy Digital",
-      "url": "https://pimofydigital.com",
-      "logo": "https://pimofydigital.com/assets/logo-square.png",
-      "email": "info@pimofydigital.com",
-      "telephone": "+254722412676",
-      "slogan": "Be the answer, on Google and in AI search.",
-      "description": "AI growth agency: AI-powered SEO, AEO, GEO, schema, AI web development, landing pages and Facebook & Instagram ads for any business, plus dedicated data operations for SaaS & Ecommerce. Nairobi-based, serving the USA, UK, Europe and Africa.",
-      "address": { "@type": "PostalAddress", "addressLocality": "Nairobi", "addressCountry": "KE" },
-      "areaServed": ["United States", "United Kingdom", "Europe", "Africa"],
-      "knowsAbout": ["SaaS", "Ecommerce", "AI visibility", "Data operations", "AI web development", "Search engine optimization", "Answer engine optimization", "Generative engine optimization", "Schema markup", "Landing pages", "Facebook and Instagram advertising"],
-      "contactPoint": { "@type": "ContactPoint", "contactType": "sales", "email": "info@pimofydigital.com", "availableLanguage": ["English"] }
-    }
+      <%- JSON.stringify({
+        '@context': 'https://schema.org',
+        '@graph': [
+          {
+            '@type': 'ProfessionalService',
+            '@id': __base + '/#organization',
+            name: 'Pimofy Digital',
+            url: __base + '/',
+            logo: { '@type': 'ImageObject', '@id': __base + '/#logo', url: __base + '/assets/logo-square.png', width: 512, height: 512 },
+            image: __base + '/assets/og-image.jpg',
+            email: 'info@pimofydigital.com',
+            telephone: '+254722412676',
+            slogan: 'Be the answer, on Google and in AI search.',
+            description: 'AI growth agency: AI-powered SEO, AEO, GEO, schema, AI web development, landing pages and Facebook & Instagram ads for any business, plus managed Data Operations Pods for SaaS & Ecommerce. Based in Nairobi, Kenya, serving the UK, USA, Europe and Africa.',
+            address: { '@type': 'PostalAddress', addressLocality: 'Nairobi', addressCountry: 'KE' },
+            areaServed: ['United Kingdom', 'United States', 'Europe', 'Africa'],
+            knowsAbout: ['AI visibility', 'Search engine optimization', 'Answer engine optimization', 'Generative engine optimization', 'Schema markup', 'AI web development', 'Landing pages', 'Facebook and Instagram advertising', 'Data operations', 'CRM data management', 'Data entry and verification', 'Data enrichment', 'Database cleanup', 'Back-office operations', 'Non-voice customer support'],
+            contactPoint: [{ '@type': 'ContactPoint', contactType: 'sales', email: 'info@pimofydigital.com', telephone: '+254722412676', availableLanguage: ['English'], areaServed: ['GB', 'US', 'EU', 'KE'] }]
+          },
+          {
+            '@type': 'WebSite',
+            '@id': __base + '/#website',
+            url: __base + '/',
+            name: 'Pimofy Digital',
+            inLanguage: 'en',
+            publisher: { '@id': __base + '/#organization' }
+          },
+          {
+            '@type': 'WebPage',
+            '@id': __pageUrl + '#webpage',
+            url: __pageUrl,
+            name: pageTitle,
+            description: (typeof description !== 'undefined' ? description : undefined),
+            inLanguage: 'en',
+            isPartOf: { '@id': __base + '/#website' },
+            about: { '@id': __base + '/#organization' },
+            primaryImageOfPage: { '@type': 'ImageObject', url: shareImage }
+          }
+        ]
+      }).replace(/</g, '\\u003c') %>
     </script>
 
     <% if (typeof schemaMarkup !== 'undefined' && schemaMarkup) { %>

@@ -1,0 +1,106 @@
+<a class="skip-link" href="#main">Skip to content</a>
+<%- include('../partials/header') %>
+
+<main id="main">
+  <section class="hero ai-hero">
+    <div class="container hero__grid">
+      <div class="hero__copy reveal">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/locations">Markets</a><span aria-hidden="true">/</span><span aria-current="page"><%= loc.country %></span></nav>
+        <span class="eyebrow"><%= loc.eyebrow %></span>
+        <h1><%= loc.headline %></h1>
+        <p class="lead"><%= loc.answer %></p>
+        <p><%= loc.lead %></p>
+        <div class="hero__actions">
+          <a href="/capacity-audit" class="btn btn--primary btn--lg">Free Operations Capacity Audit&trade;</a>
+          <a href="/ai-visibility-review" class="btn btn--ghost btn--lg">Free AI Visibility Review</a>
+        </div>
+      </div>
+      <div class="hero__media reveal" data-delay="1">
+        <div class="ai-outcomes">
+          <p class="ai-outcomes__label"><%= loc.hours.title %></p>
+          <p><%= loc.hours.text %></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--soft" aria-labelledby="services-title">
+    <div class="container">
+      <div class="section__head reveal"><span class="eyebrow">Services</span><h2 id="services-title">How We Help <%= loc.country === 'Europe' ? 'European' : (loc.country === 'Kenya' ? 'Kenyan' : loc.shortName) %> Businesses</h2></div>
+      <ul class="checklist checklist--2 reveal" style="max-width:960px;margin:0 auto;">
+        <% loc.services.forEach(function (item) { %>
+        <li><span class="check">&#10003;</span> <%= item %></li>
+        <% }); %>
+      </ul>
+      <p class="text-center reveal" style="margin-top:24px;">Explore <a href="/data-operations">Data Operations</a> or <a href="/ai-services">AI Visibility &amp; Growth</a>.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="why-title">
+    <div class="container">
+      <div class="section__head reveal"><span class="eyebrow">Why Pimofy</span><h2 id="why-title"><%= loc.whyTitle %></h2></div>
+      <div class="grid grid--2">
+        <% loc.why.forEach(function (item, index) { %>
+        <article class="card card--feature reveal" data-delay="<%= index % 2 %>"><h3><%= item.title %></h3><p><%= item.text %></p></article>
+        <% }); %>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--soft" aria-labelledby="compliance-title">
+    <div class="container">
+      <div class="grid grid--2 split-cols">
+        <div class="reveal">
+          <span class="eyebrow">Data Protection</span>
+          <h2 id="compliance-title"><%= loc.compliance.title %></h2>
+          <p><%= loc.compliance.intro %></p>
+          <ul class="checklist">
+            <% loc.compliance.points.forEach(function (item) { %>
+            <li><span class="check">&#10003;</span> <%= item %></li>
+            <% }); %>
+          </ul>
+        </div>
+        <div class="card price-card reveal" data-delay="1">
+          <span class="eyebrow">Commercial Terms</span>
+          <h3><%= loc.commercial.title %></h3>
+          <ul class="price-list">
+            <% loc.commercial.points.forEach(function (item) { %><li><%= item %></li><% }); %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="faq-title">
+    <div class="container">
+      <div class="section__head reveal"><span class="eyebrow">FAQ</span><h2 id="faq-title">Frequently Asked Questions</h2></div>
+      <div class="faq reveal">
+        <% loc.faqs.forEach(function (item) { %>
+        <div class="faq__item" data-open="false">
+          <button class="faq__q" type="button"><%= item.q %><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></button>
+          <div class="faq__a"><p><%= item.a %></p></div>
+        </div>
+        <% }); %>
+      </div>
+      <p class="text-center reveal" style="margin-top:28px;">Other markets:
+        <% others.forEach(function (o, i) { %><a href="/locations/<%= o.slug %>"><%= o.country %></a><%= i < others.length - 1 ? ', ' : '' %><% }); %>
+      </p>
+    </div>
+  </section>
+
+  <section class="section cta-band">
+    <div class="container cta-band__grid reveal">
+      <div class="cta-band__text">
+        <h2>Start With a Free Review</h2>
+        <p>Choose the Free Operations Capacity Audit&trade; for data work, or the Free AI Visibility Review to see how Google and AI assistants describe your business.</p>
+      </div>
+      <div class="cta-band__action cta-band__action--stack">
+        <a href="/capacity-audit" class="btn btn--white btn--lg">Free Operations Capacity Audit&trade;</a>
+        <a href="/ai-visibility-review" class="btn btn--white btn--lg">Free AI Visibility Review</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<%- include('../partials/footer') %>
+<script src="/script.js?v=<%= assetVersions.script %>" defer></script>

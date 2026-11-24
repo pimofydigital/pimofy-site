@@ -75,6 +75,9 @@ router.get('/', PageController.home);
 // Public pages
 router.get('/solutions', PageController.solutions);
 router.get('/data-operations', PageController.dataOperations);
+router.get('/data-operations/:slug', PageController.dataOpsService);
+router.get('/locations', PageController.locationsHub);
+router.get('/locations/:slug', PageController.location);
 router.get('/capacity-audit', PageController.capacityAudit);
 router.get('/industries', PageController.industries);
 router.get('/ai-services', PageController.aiServices);

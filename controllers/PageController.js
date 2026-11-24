@@ -4,19 +4,12 @@ const config = require('../config/environment');
 const aiServices = require('../config/aiServices');
 const portfolio = require('../config/portfolio');
 const faqGroups = require('../config/faqs');
+const dataOpsServices = require('../config/dataOpsServices');
+const locations = require('../config/locations');
 
 const SITE_URL = () => config.app.url || 'https://pimofydigital.com';
 
-const ORGANIZATION_REF = () => ({
-  '@type': 'Organization',
-  '@id': `${SITE_URL()}/#organization`,
-  name: 'Pimofy Digital',
-  url: SITE_URL(),
-  logo: `${SITE_URL()}/assets/logo-square.png`,
-  email: 'info@pimofydigital.com',
-  telephone: '+254722412676',
-  address: { '@type': 'PostalAddress', addressLocality: 'Nairobi', addressCountry: 'KE' },
-});
+const ORGANIZATION_REF = () => ({ '@id': `${SITE_URL()}/#organization` });
 
 function faqSchema(faqs) {
   return {
@@ -75,6 +68,7 @@ class PageController {
   static async dataOperations(req, res, next) {
     try {
       res.render('pages/data-operations', {
+        dataOpsServices,
         title: 'Data Operations Pod for SaaS & Ecommerce | Pimofy',
         description:
           'Discover how Pimofy\'s Data Operations Pod combines specialists, QA, and reporting to restore team capacity without hiring overhead.',
@@ -275,6 +269,113 @@ class PageController {
     }
   }
 
+
+  // Data Operations service page (/data-operations/:slug)
+  static async dataOpsService(req, res) {
+    const service = dataOpsServices.find((s) => s.slug === String(req.params.slug || ''));
+    if (!service) {
+      return res.status(404).render('pages/404', { title: 'Page Not Found', description: 'The page you are looking for does not exist.' });
+    }
+    const url = `${SITE_URL()}/data-operations/${service.slug}`;
+    const related = service.related.map((slug) => dataOpsServices.find((s) => s.slug === slug)).filter(Boolean);
+    return res.render('pages/dataops-service', {
+      title: service.title,
+      description: service.metaDescription,
+      keywords: service.keywords,
+      service,
+      related,
+      schemaMarkup: {
+        '@context': 'https://schema.org',
+        '@graph': [
+          {
+            '@type': 'Service',
+            '@id': `${url}#service`,
+            name: service.name,
+            serviceType: service.name,
+            description: service.answer,
+            url,
+            provider: ORGANIZATION_REF(),
+            isRelatedTo: { '@id': `${SITE_URL()}/data-operations#service` },
+            areaServed: ['United Kingdom', 'Europe', 'United States', 'Kenya'],
+            audience: { '@type': 'BusinessAudience', audienceType: 'SaaS and Ecommerce companies' },
+            offers: {
+              '@type': 'Offer',
+              price: '1600',
+              priceCurrency: 'USD',
+              description: 'Dedicated Data Operations Specialist, 160 hours per month, delivered inside the Data Operations Pod. One-time sign-up fee of $499.',
+              priceSpecification: { '@type': 'UnitPriceSpecification', price: '1600', priceCurrency: 'USD', unitText: 'MONTH' },
+            },
+          },
+          faqSchema(service.faqs),
+          breadcrumbSchema([
+            { name: 'Home', path: '/' },
+            { name: 'Data Operations', path: '/data-operations' },
+            { name: service.shortName, path: `/data-operations/${service.slug}` },
+          ]),
+        ],
+      },
+    });
+  }
+
+  // Markets hub (/locations)
+  static async locationsHub(req, res) {
+    return res.render('pages/locations', {
+      title: 'Markets We Serve: UK, USA, Europe and Kenya | Pimofy Digital',
+      description: 'Pimofy Digital is based in Nairobi and works with businesses in the UK, USA, Europe and Kenya. Working hours, data protection and terms by market.',
+      locations,
+      schemaMarkup: {
+        '@context': 'https://schema.org',
+        '@graph': [
+          {
+            '@type': 'CollectionPage',
+            '@id': `${SITE_URL()}/locations#webpage`,
+            url: `${SITE_URL()}/locations`,
+            name: 'Markets We Serve',
+            about: ORGANIZATION_REF(),
+            hasPart: locations.map((l) => ({ '@type': 'WebPage', url: `${SITE_URL()}/locations/${l.slug}`, name: l.title })),
+          },
+          breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Markets', path: '/locations' }]),
+        ],
+      },
+    });
+  }
+
+  // Market page (/locations/:slug)
+  static async location(req, res) {
+    const loc = locations.find((l) => l.slug === String(req.params.slug || ''));
+    if (!loc) {
+      return res.status(404).render('pages/404', { title: 'Page Not Found', description: 'The page you are looking for does not exist.' });
+    }
+    const url = `${SITE_URL()}/locations/${loc.slug}`;
+    return res.render('pages/location', {
+      title: loc.title,
+      description: loc.metaDescription,
+      keywords: loc.keywords,
+      loc,
+      others: locations.filter((l) => l.slug !== loc.slug),
+      schemaMarkup: {
+        '@context': 'https://schema.org',
+        '@graph': [
+          {
+            '@type': 'Service',
+            '@id': `${url}#service`,
+            name: `Data operations and AI visibility services for ${loc.country}`,
+            description: loc.answer,
+            url,
+            provider: ORGANIZATION_REF(),
+            areaServed: { '@type': loc.slug === 'europe' ? 'Place' : 'Country', name: loc.country },
+          },
+          faqSchema(loc.faqs),
+          breadcrumbSchema([
+            { name: 'Home', path: '/' },
+            { name: 'Markets', path: '/locations' },
+            { name: loc.country, path: `/locations/${loc.slug}` },
+          ]),
+        ],
+      },
+    });
+  }
+
   // FAQ
   static async faq(req, res, next) {
     try {
@@ -366,6 +467,9 @@ class PageController {
         { url: '/', changefreq: 'weekly', priority: 1.0 },
         { url: '/solutions', changefreq: 'monthly', priority: 0.8 },
         { url: '/data-operations', changefreq: 'monthly', priority: 0.8 },
+        ...dataOpsServices.map((s) => ({ url: `/data-operations/${s.slug}`, changefreq: 'monthly', priority: 0.7 })),
+        { url: '/locations', changefreq: 'monthly', priority: 0.6 },
+        ...locations.map((l) => ({ url: `/locations/${l.slug}`, changefreq: 'monthly', priority: 0.7 })),
         { url: '/capacity-audit', changefreq: 'monthly', priority: 0.8 },
         { url: '/industries', changefreq: 'monthly', priority: 0.8 },
         { url: '/ai-services', changefreq: 'monthly', priority: 0.9 },
@@ -433,7 +537,11 @@ class PageController {
       '',
       '## Data Operations',
       `- [Dedicated Data Operations Pod](${base}/data-operations): A dedicated specialist (160 hours/month) with QA on every output, SOPs, weekly KPI reports and an account manager. Data entry, CRM updates, enrichment, research, database cleanup, back-office and non-voice support.`,
+      ...dataOpsServices.map((s) => `- [${s.name}](${base}/data-operations/${s.slug}): ${s.menuTagline}.`),
       `- [Free Operations Capacity Audit](${base}/capacity-audit): No-obligation review of repetitive workflows and reclaimable capacity.`,
+      '',
+      '## Markets',
+      ...locations.map((l) => `- [${l.country}](${base}/locations/${l.slug}): ${l.metaDescription}`),
       '',
       '## Company',
       `- [Our Work](${base}/work): Live AI products, SaaS platforms, ecommerce stores and websites.`,
@@ -453,9 +561,12 @@ class PageController {
     res.setHeader('Content-Type', 'text/plain');
     const baseUrl = SITE_URL();
 
-    // Search engines and AI assistants (GPTBot, ClaudeBot, PerplexityBot,
-    // Google-Extended, etc.) are welcome on public pages; private areas are not.
-    const aiBots = ['GPTBot', 'OAI-SearchBot', 'ChatGPT-User', 'ClaudeBot', 'Claude-Web', 'PerplexityBot', 'Google-Extended', 'Applebot-Extended', 'Bingbot'];
+    // Publishing policy (owner decision, Nov 2026): allow search, AI-answer and
+    // AI-training crawlers on public pages. Private areas stay disallowed
+    // (and are also protected by authentication and noindex).
+    const searchBots = ['Googlebot', 'Bingbot', 'OAI-SearchBot', 'ChatGPT-User', 'PerplexityBot', 'Perplexity-User', 'Claude-SearchBot', 'Claude-User', 'DuckAssistBot', 'Applebot'];
+    const trainingBots = ['GPTBot', 'ClaudeBot', 'Google-Extended', 'Applebot-Extended', 'CCBot', 'Meta-ExternalAgent', 'Amazonbot'];
+    const aiBots = [...searchBots, ...trainingBots];
     const content = [
       '# Pimofy Digital robots.txt',
       'User-agent: *',

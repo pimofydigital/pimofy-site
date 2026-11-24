@@ -122,6 +122,9 @@ class BlogController {
       const wordCount = post.content.split(/\s+/).length;
       const readingTime = Math.ceil(wordCount / 200);
 
+      const base = String(process.env.APP_URL || 'https://pimofydigital.com').replace(/\/$/, '');
+      const postUrl = `${base}/blog/${post.slug}`;
+      const { postSocialImage } = require('../utils/blogImage');
       res.render('blog/show', {
         title: post.seoTitle || post.title,
         description: post.metaDescription || post.excerpt,
@@ -129,6 +132,36 @@ class BlogController {
         related,
         readingTime,
         keywords: post.keywords,
+        schemaMarkup: {
+          '@context': 'https://schema.org',
+          '@graph': [
+            {
+              '@type': 'BlogPosting',
+              '@id': `${postUrl}#article`,
+              headline: post.title,
+              description: post.metaDescription || post.excerpt,
+              image: postSocialImage(post, base),
+              datePublished: new Date(post.publishDate || post.createdAt).toISOString(),
+              dateModified: new Date(post.updatedAt || post.publishDate || post.createdAt).toISOString(),
+              author: { '@id': `${base}/#organization` },
+              publisher: { '@id': `${base}/#organization` },
+              mainEntityOfPage: { '@id': `${postUrl}#webpage` },
+              isPartOf: { '@id': `${base}/#website` },
+              articleSection: post.category || undefined,
+              keywords: post.keywords || undefined,
+              wordCount,
+              inLanguage: 'en',
+            },
+            {
+              '@type': 'BreadcrumbList',
+              itemListElement: [
+                { '@type': 'ListItem', position: 1, name: 'Home', item: `${base}/` },
+                { '@type': 'ListItem', position: 2, name: 'Blog', item: `${base}/blog` },
+                { '@type': 'ListItem', position: 3, name: post.title, item: postUrl },
+              ],
+            },
+          ],
+        },
       });
     } catch (error) {
       next(error);

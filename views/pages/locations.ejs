@@ -1,0 +1,29 @@
+<a class="skip-link" href="#main">Skip to content</a>
+<%- include('../partials/header') %>
+
+<main id="main">
+  <section class="hero ai-hero">
+    <div class="container" style="max-width:860px;text-align:center;">
+      <nav class="breadcrumb" aria-label="Breadcrumb" style="justify-content:center;"><a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">Markets</span></nav>
+      <span class="eyebrow">Markets We Serve</span>
+      <h1>Nairobi-Based, Serving the UK, USA, Europe and Africa</h1>
+      <p class="lead">Pimofy Digital is based in Nairobi, Kenya, and works remotely with businesses in the United Kingdom, the United States, Europe and Africa. Each market page explains working hours, data protection and commercial terms for that region.</p>
+    </div>
+  </section>
+  <section class="section section--soft">
+    <div class="container">
+      <div class="grid grid--2">
+        <% locations.forEach(function (loc, index) { %>
+        <article class="card card--feature reveal" data-delay="<%= index % 2 %>">
+          <h2 style="font-size:1.35rem;"><a href="/locations/<%= loc.slug %>"><%= loc.country %></a></h2>
+          <p><%= loc.answer %></p>
+          <a class="link" href="/locations/<%= loc.slug %>">Working with Pimofy from <%= loc.country === 'Kenya' ? 'Kenya' : 'the ' + loc.country.replace(/^Europe$/, 'EU') %> &rarr;</a>
+        </article>
+        <% }); %>
+      </div>
+    </div>
+  </section>
+</main>
+
+<%- include('../partials/footer') %>
+<script src="/script.js?v=<%= assetVersions.script %>" defer></script>

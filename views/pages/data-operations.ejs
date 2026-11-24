@@ -217,6 +217,21 @@
     </section>
 
     <!-- CTA -->
+    <section class="section" aria-labelledby="dops-services-title">
+      <div class="container">
+        <div class="section__head reveal"><span class="eyebrow">Inside the Pod</span><h2 id="dops-services-title">Data Operations Services</h2><p class="section__intro">Every service below is delivered by your dedicated specialist inside one managed Data Operations Pod&trade;.</p></div>
+        <div class="grid grid--3">
+          <% dataOpsServices.forEach(function (s, index) { %>
+          <article class="card card--feature reveal" data-delay="<%= index % 3 %>">
+            <h3><a href="/data-operations/<%= s.slug %>"><%= s.name %></a></h3>
+            <p><%= s.menuTagline %></p>
+          </article>
+          <% }); %>
+        </div>
+        <p class="text-center reveal" style="margin-top:24px;">Working with teams in the <a href="/locations/united-kingdom">UK</a>, <a href="/locations/united-states">USA</a>, <a href="/locations/europe">Europe</a> and <a href="/locations/kenya">Kenya</a>.</p>
+      </div>
+    </section>
+
     <section class="section cta-band">
       <div class="container cta-band__grid reveal">
         <div class="cta-band__text">

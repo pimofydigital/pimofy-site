@@ -2582,3 +2582,15 @@ ul { list-style: none; }
 .cookie-banner__actions { display: flex; gap: 10px; flex: 0 0 auto; }
 .cookie-settings-link { color: inherit; text-decoration: underline; margin-left: 8px; }
 @media (max-width: 720px) { .cookie-banner { flex-direction: column; align-items: stretch; bottom: 84px; } .cookie-banner__actions { justify-content: flex-end; } }
+
+/* ---- Data operations service & market pages ---- */
+.scope-note { max-width: 860px; margin: 32px auto 0; padding: 20px 24px; border: 1px dashed var(--line); border-radius: 14px; background: #fff; }
+.scope-note h3 { font-size: 1.05rem; margin-bottom: 8px; }
+.scope-note ul { margin: 0; padding-left: 20px; color: var(--body); }
+.scope-note li { margin: 4px 0; }
+.split-cols { align-items: start; gap: 32px; }
+.price-card { padding: 28px; }
+.price-card h3 { font-size: 1.2rem; margin: 6px 0 12px; }
+.price-list { list-style: none; padding: 0; margin: 0 0 16px; display: grid; gap: 10px; }
+.price-list li { padding-left: 18px; position: relative; color: var(--body); line-height: 1.5; }
+.price-list li::before { content: ""; position: absolute; left: 0; top: .6em; width: 7px; height: 7px; border-radius: 50%; background: var(--purple); }
