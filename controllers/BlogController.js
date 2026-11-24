@@ -74,8 +74,8 @@ class BlogController {
       ).sort((left, right) => left.localeCompare(right));
 
       res.render('blog/index', {
-        title: 'Resources & Insights | Pimofy Digital',
-        description: 'Expert guides on AI search, AEO, GEO, SEO, schema, AI web development and data operations for growing businesses across the USA, UK, Europe and Africa.',
+        title: 'AI Search & Growth Insights | Pimofy Digital Blog',
+        description: 'Guides to being found on Google and recommended by ChatGPT, Gemini and Perplexity: AI-powered SEO, AEO, GEO, schema and conversion, plus data operations playbooks.',
         posts,
         currentPage: page,
         totalPages,
