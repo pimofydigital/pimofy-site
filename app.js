@@ -150,6 +150,7 @@ const staticOptions = {
 };
 
 app.use(express.static(resolveRuntimePath('public'), staticOptions));
+app.get('/favicon.ico', (req, res) => res.redirect(301, '/favicons/favicon.ico'));
 app.use('/assets', express.static(resolveRuntimePath('assets'), staticOptions));
 
 const assetVersions = {

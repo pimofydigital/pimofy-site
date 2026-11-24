@@ -12,7 +12,7 @@ const ORGANIZATION_REF = () => ({
   '@id': `${SITE_URL()}/#organization`,
   name: 'Pimofy Digital',
   url: SITE_URL(),
-  logo: `${SITE_URL()}/assets/logo.png`,
+  logo: `${SITE_URL()}/assets/logo-square.png`,
   email: 'info@pimofydigital.com',
   telephone: '+254722412676',
   address: { '@type': 'PostalAddress', addressLocality: 'Nairobi', addressCountry: 'KE' },
@@ -89,7 +89,7 @@ class PageController {
   static async capacityAudit(req, res, next) {
     try {
       res.render('pages/capacity-audit', {
-        title: 'Free Operations Capacity Audit™ for SaaS & Ecommerce Teams | Pimofy Digital',
+        title: 'Free Operations Capacity Audit™ | Pimofy Digital',
         description:
           'Free Operations Capacity Audit™ for SaaS & Ecommerce operations teams: find repetitive data work, quantify lost hours and map a practical plan.',
         preloadImage: '/assets/capacity-donut.webp',
