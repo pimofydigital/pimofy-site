@@ -56,7 +56,7 @@ class ContactController {
       res.render('pages/contact', {
         title: 'Book a Free Consultation | Pimofy Digital',
         description:
-          'Talk to Pimofy Digital about AI Visibility & Growth or Data Operations. Book a free call, request an AI Visibility Audit or an Operations Capacity Audit.',
+          'Talk to Pimofy Digital about AI Visibility & Growth or Data Operations. Book a free call, request an AI Visibility Review or an Operations Capacity Audit.',
         contactSuccess,
         errors,
         formData,
@@ -195,7 +195,7 @@ class ContactController {
       res.redirect('/contact?error=1#contact-feedback-anchor');
     }
   }
-  // Handle AI Visibility Audit request
+  // Handle AI Visibility Review request
   static async submitAudit(req, res) {
     const keep = ['name', 'email', 'company', 'website', 'offering', 'market', 'industry', 'competitors', 'buyer_question', 'phone', 'consent'];
     try {
@@ -215,14 +215,14 @@ class ContactController {
         ['Consent to contact', 'Yes'],
       ];
       const textBody = [
-        'New AI Visibility Audit request',
+        'New AI Visibility Review request',
         'Deliver the scorecard within 2 business days.',
         '',
         `Submitted At: ${submittedAt.toISOString()}`,
         ...rows.map(([k, v]) => `${k}: ${v}`),
       ].join('\n');
       const htmlBody = `
-        <h2>New AI Visibility Audit request</h2>
+        <h2>New AI Visibility Review request</h2>
         <p>Deliver the scorecard within 2 business days.</p>
         <p><strong>Submitted At:</strong> ${escapeHtml(submittedAt.toISOString())}</p>
         ${rows.map(([k, v]) => `<p><strong>${escapeHtml(k)}:</strong> ${escapeHtml(v)}</p>`).join('')}
@@ -232,7 +232,7 @@ class ContactController {
         from: `Pimofy Website <${config.email.smtpUser}>`,
         to: config.email.contactEmail || config.email.adminEmail || config.email.smtpUser,
         replyTo: data.email,
-        subject: `AI Visibility Audit Request - ${String(data.company || '').replace(/[\r\n]/g, ' ')}`,
+        subject: `AI Visibility Review Request - ${String(data.company || '').replace(/[\r\n]/g, ' ')}`,
         text: textBody,
         html: htmlBody,
       });
@@ -241,8 +241,8 @@ class ContactController {
         const confirmationText = [
           `Hi ${data.name},`,
           '',
-          'Thanks for requesting a free AI Visibility Audit from Pimofy Digital.',
-          'Your audit is in the queue. You will receive your one-page scorecard by email within 2 business days.',
+          'Thanks for requesting a free AI Visibility Review from Pimofy Digital.',
+          'Your review is in the queue. You will receive your one-page scorecard by email within 2 business days.',
           '',
           'It will include:',
           '- Your AI Visibility Score out of 100',
@@ -259,8 +259,8 @@ class ContactController {
         ].join('\n');
         const confirmationHtml = `
           <p>Hi ${escapeHtml(data.name)},</p>
-          <p>Thanks for requesting a free <strong>AI Visibility Audit</strong> from Pimofy Digital.</p>
-          <p>Your audit is in the queue. You will receive your one-page scorecard by email within <strong>2 business days</strong>.</p>
+          <p>Thanks for requesting a free <strong>AI Visibility Review</strong> from Pimofy Digital.</p>
+          <p>Your review is in the queue. You will receive your one-page scorecard by email within <strong>2 business days</strong>.</p>
           <p>It will include:</p>
           <ul>
             <li>Your AI Visibility Score out of 100</li>
@@ -274,21 +274,21 @@ class ContactController {
         await getMailer().sendMail({
           from: `Pimofy Digital <${config.email.smtpUser}>`,
           to: data.email,
-          subject: 'Your AI Visibility Audit request - Pimofy Digital',
+          subject: 'Your AI Visibility Review request - Pimofy Digital',
           text: confirmationText,
           html: confirmationHtml,
         });
       } catch (autoReplyError) {
-        console.warn('Audit auto-reply failed:', autoReplyError.message);
+        console.warn('Review auto-reply failed:', autoReplyError.message);
       }
 
       req.session.auditSuccess = true;
       req.session.auditErrors = [];
       req.session.auditFormData = {};
       req.session.contactChallenge = null;
-      res.redirect('/ai-visibility-audit?success=1#contact-feedback-anchor');
+      res.redirect('/ai-visibility-review?success=1#contact-feedback-anchor');
     } catch (error) {
-      console.error('Audit request email failed:', error.message);
+      console.error('Review request email failed:', error.message);
       req.session.auditSuccess = false;
       req.session.contactChallenge = null;
       req.session.auditErrors = [
@@ -299,7 +299,7 @@ class ContactController {
         },
       ];
       req.session.auditFormData = Object.fromEntries(keep.map((k) => [k, String(req.body?.[k] || '')]));
-      res.redirect('/ai-visibility-audit?error=1#contact-feedback-anchor');
+      res.redirect('/ai-visibility-review?error=1#contact-feedback-anchor');
     }
   }
 }

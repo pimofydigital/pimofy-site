@@ -63,7 +63,7 @@ class PageController {
       res.render('pages/solutions', {
         title: 'Solutions: AI Visibility, Websites & Data Operations | Pimofy',
         description:
-          'Four solutions: a free AI Visibility Audit, Answer-Ready Websites, the AI Visibility Programme (SEO, AEO, GEO, schema) and the Data Operations Pod.',
+          'Four solutions: a free AI Visibility Review, Answer-Ready Websites, the AI Visibility Programme (SEO, AEO, GEO, schema) and the Data Operations Pod.',
         preloadImage: '/assets/data-warehouse.webp',
       });
     } catch (error) {
@@ -215,8 +215,8 @@ class PageController {
     }
   }
 
-  // Free AI Visibility Audit
-  static async aiVisibilityAudit(req, res, next) {
+  // Free AI Visibility Review
+  static async aiVisibilityReview(req, res, next) {
     try {
       const successFromQuery = String(req.query.success || '') === '1';
       const auditSuccess = successFromQuery || req.session.auditSuccess || false;
@@ -234,11 +234,11 @@ class PageController {
         { q: 'How long does it take?', a: 'You will receive your one-page scorecard by email within 2 business days of submitting the form.' },
         { q: 'Do you need access to my website or accounts?', a: 'No. We only use what is publicly visible, the same view a buyer or an AI assistant gets.' },
         { q: 'Can you guarantee AI will recommend us?', a: 'No one can honestly guarantee that. We show you where you stand today and which fixes are most likely to help, then re-test after 90 days so you can compare.' },
-        { q: 'Who is the audit for?', a: 'Any business that wins customers online. We work across industries, from SaaS and ecommerce to professional services, local businesses and non-profits.' },
+        { q: 'Who is the review for?', a: 'Any business that wins customers online. We work across industries, from SaaS and ecommerce to professional services, local businesses and non-profits.' },
       ];
 
-      res.render('pages/ai-visibility-audit', {
-        title: 'Free AI Visibility Audit: Your Score Across Google and AI Search | Pimofy Digital',
+      res.render('pages/ai-visibility-review', {
+        title: 'Free AI Visibility Review: Your Score Across Google and AI Search | Pimofy Digital',
         description: 'Find out if Google, ChatGPT, Perplexity and Gemini recommend your business. Free one-page scorecard with your score, competitors and top 3 fixes in 2 business days.',
         auditSuccess,
         errors,
@@ -250,10 +250,10 @@ class PageController {
           '@graph': [
             {
               '@type': 'Service',
-              name: 'Free AI Visibility Audit',
-              serviceType: 'AI search visibility audit',
+              name: 'Free AI Visibility Review',
+              serviceType: 'AI search visibility review',
               description: 'A one-page scorecard rating a business out of 100 on visibility across Google Search, Google AI Overviews, ChatGPT, Perplexity, Gemini and Microsoft Copilot, with competitors named and three priority fixes. Delivered within 2 business days.',
-              url: `${SITE_URL()}/ai-visibility-audit`,
+              url: `${SITE_URL()}/ai-visibility-review`,
               provider: ORGANIZATION_REF(),
               areaServed: ['United States', 'United Kingdom', 'Europe', 'Africa'],
               offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -265,7 +265,7 @@ class PageController {
             breadcrumbSchema([
               { name: 'Home', path: '/' },
               { name: 'AI Visibility & Growth', path: '/ai-services' },
-              { name: 'AI Visibility Audit', path: '/ai-visibility-audit' },
+              { name: 'AI Visibility Review', path: '/ai-visibility-review' },
             ]),
           ],
         },
@@ -371,7 +371,7 @@ class PageController {
         { url: '/ai-services', changefreq: 'monthly', priority: 0.9 },
         { url: '/work', changefreq: 'monthly', priority: 0.8 },
         { url: '/faq', changefreq: 'monthly', priority: 0.8 },
-        { url: '/ai-visibility-audit', changefreq: 'monthly', priority: 0.9 },
+        { url: '/ai-visibility-review', changefreq: 'monthly', priority: 0.9 },
         ...aiServices.services.map((service) => ({ url: `/ai-services/${service.slug}`, changefreq: 'monthly', priority: 0.8 })),
         { url: '/about', changefreq: 'monthly', priority: 0.7 },
         { url: '/blog', changefreq: 'weekly', priority: 0.9 },
@@ -428,7 +428,7 @@ class PageController {
       '> Be the answer, on Google and in AI search. Pimofy Digital is an AI growth agency: Be Found (AI-powered SEO), Be Cited (AEO, GEO, schema) and Be Chosen (AI web development, landing pages, Facebook & Instagram ads) for any business, plus dedicated Data Operations Pods for SaaS & Ecommerce. Nairobi-based, serving businesses across the USA, UK, Europe and Africa.',
       '',
       '## AI Visibility & Growth',
-      `- [Free AI Visibility Audit](${base}/ai-visibility-audit): How Google, ChatGPT, Gemini and Perplexity describe and recommend your brand versus competitors, with a prioritised action plan.`,
+      `- [Free AI Visibility Review](${base}/ai-visibility-review): How Google, ChatGPT, Gemini and Perplexity describe and recommend your brand versus competitors, with a prioritised action plan.`,
       ...aiServices.services.map((s) => `- [${s.name}](${base}/ai-services/${s.slug}): ${s.summary}`),
       '',
       '## Data Operations',

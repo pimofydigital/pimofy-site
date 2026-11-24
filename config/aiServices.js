@@ -219,7 +219,7 @@ const services = [
     ],
     deliverablesTitle: 'What We Deliver',
     deliverables: [
-      { title: 'AI Visibility Audit', text: 'We test hundreds of buyer prompts across leading AI tools to benchmark mentions, sentiment and citations against competitors.' },
+      { title: 'AI Visibility Benchmark', text: 'We test hundreds of buyer prompts across leading AI tools to benchmark mentions, sentiment and citations against competitors.' },
       { title: 'Citation-Worthy Content', text: 'Original data, clear definitions, comparisons and expert quotes structured so models can understand and cite them.' },
       { title: 'Entity & Knowledge Graph Optimisation', text: 'Consistent, verifiable facts about your organisation across your site, schema, Wikidata-style sources and profiles.' },
       { title: 'Third-Party Presence', text: 'Placement in the reviews, directories, publications and communities that generative engines rely on.' },
@@ -446,10 +446,10 @@ const hub = {
     { title: 'Recommendation', text: 'GEO increases how often AI assistants mention and recommend your brand.' },
   ],
   faqs: [
-    { q: 'Do I need every service?', a: 'No. Most clients start with a free AI Visibility Audit and one step, Be Found, Be Cited or Be Chosen, then add services as results grow. We recommend the right combination for your goals and budget.' },
+    { q: 'Do I need every service?', a: 'No. Most clients start with a free AI Visibility Review and one step, Be Found, Be Cited or Be Chosen, then add services as results grow. We recommend the right combination for your goals and budget.' },
     { q: 'Who are these services for?', a: 'Any business that wants to be found and recommended in Google and AI assistants: professional services, healthcare, education, manufacturing, retail, non-profits, local businesses and more. We have particularly deep expertise in SaaS and Ecommerce, and serve clients in the USA, UK, Europe, Africa and worldwide.' },
     { q: 'How do engagements work?', a: 'Websites and landing pages are fixed-scope projects. SEO, AEO, GEO, schema and ad management run as monthly programmes with clear deliverables and a monthly report on where you are found, where you are cited and the enquiries it produced.' },
-    { q: 'How do we get started?', a: 'Book a free AI Visibility Audit. We will show how your brand currently appears in Google and leading AI assistants and where the biggest opportunities are.' },
+    { q: 'How do we get started?', a: 'Book a free AI Visibility Review. We will show how your brand currently appears in Google and leading AI assistants and where the biggest opportunities are.' },
   ],
 };
 

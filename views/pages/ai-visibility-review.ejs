@@ -5,12 +5,12 @@
   <section class="hero ai-hero">
     <div class="container hero__grid">
       <div class="hero__copy reveal">
-        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/ai-services">AI Visibility &amp; Growth</a><span aria-hidden="true">/</span><span aria-current="page">AI Visibility Audit</span></nav>
-        <span class="eyebrow">Free AI Visibility Audit</span>
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/ai-services">AI Visibility &amp; Growth</a><span aria-hidden="true">/</span><span aria-current="page">AI Visibility Review</span></nav>
+        <span class="eyebrow">Free AI Visibility Review</span>
         <h1>Find out if AI recommends your business.</h1>
-        <p class="lead">Buyers now ask ChatGPT, Perplexity and Google&rsquo;s AI Overviews who to hire. Our free AI Visibility Audit shows whether your business is part of the answer, and what to fix if it isn&rsquo;t.</p>
+        <p class="lead">Buyers now ask ChatGPT, Perplexity and Google&rsquo;s AI Overviews who to hire. Our free AI Visibility Review shows whether your business is part of the answer, and what to fix if it isn&rsquo;t.</p>
         <div class="hero__actions">
-          <a href="#audit-form" class="btn btn--primary btn--lg">Get My Free Audit</a>
+          <a href="#review-form" class="btn btn--primary btn--lg">Get My Free Review</a>
           <a href="#scorecard" class="btn btn--ghost btn--lg">What&rsquo;s in the Scorecard</a>
         </div>
         <p class="hero__scope">One-page scorecard, delivered within 2 business days. No cost, no obligation.</p>
@@ -60,18 +60,18 @@
       <div class="section__head reveal"><span class="eyebrow">How It Works</span><h2>Three Steps, Two Business Days</h2></div>
       <ol class="ai-steps ai-steps--3">
         <li class="ai-step reveal"><span class="ai-step__num">1</span><h3>Tell Us About Your Business</h3><p>About two minutes, using the form below.</p></li>
-        <li class="ai-step reveal" data-delay="1"><span class="ai-step__num">2</span><h3>We Run the Audit</h3><p>We test your buyer questions across Google and the main AI assistants, and check your site&rsquo;s technical readiness.</p></li>
+        <li class="ai-step reveal" data-delay="1"><span class="ai-step__num">2</span><h3>We Run the Review</h3><p>We test your buyer questions across Google and the main AI assistants, and check your site&rsquo;s technical readiness.</p></li>
         <li class="ai-step reveal" data-delay="2"><span class="ai-step__num">3</span><h3>Get Your Scorecard</h3><p>A one-page PDF by email within 2 business days, with an optional call to go through it.</p></li>
       </ol>
     </div>
   </section>
 
-  <section class="section" id="audit-form" aria-labelledby="audit-form-title" style="scroll-margin-top:100px;">
+  <section class="section" id="review-form" aria-labelledby="review-form-title" style="scroll-margin-top:100px;">
     <div class="container audit-form-wrap">
       <div class="card reveal">
-        <h2 id="audit-form-title" style="font-size:1.6rem;margin-bottom:6px;">Request Your Free AI Visibility Audit</h2>
+        <h2 id="review-form-title" style="font-size:1.6rem;margin-bottom:6px;">Request Your Free AI Visibility Review</h2>
         <p style="color:var(--muted);margin-bottom:20px;">Fields marked * are required. Your scorecard arrives within 2 business days.</p>
-        <form class="form" id="contact-form" method="POST" action="/ai-visibility-audit" novalidate>
+        <form class="form" id="contact-form" method="POST" action="/ai-visibility-review" novalidate>
           <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
           <div class="form__row">
             <div class="field"><label for="name">Full name *</label><input id="name" name="name" type="text" required autocomplete="name" maxlength="80" value="<%= formData.name || '' %>" /></div>
@@ -112,7 +112,7 @@
           </div>
           <div id="contact-feedback-anchor" style="scroll-margin-top:120px;"></div>
           <div class="form__feedback" aria-live="polite" tabindex="-1">
-            <div class="form__success<% if (auditSuccess) { %> show<% } %>" role="status">Thanks. Your AI Visibility Audit is in the queue. You&rsquo;ll get your scorecard by email within 2 business days.</div>
+            <div class="form__success<% if (auditSuccess) { %> show<% } %>" role="status">Thanks. Your AI Visibility Review is in the queue. You&rsquo;ll get your scorecard by email within 2 business days.</div>
             <% if (errors && errors.length) { %>
               <div class="form__error show">
                 <strong>Please fix the following:</strong>
@@ -124,7 +124,7 @@
               </div>
             <% } %>
           </div>
-          <button type="submit" class="btn btn--primary btn--lg" style="justify-content:center;">Get My Free Audit</button>
+          <button type="submit" class="btn btn--primary btn--lg" style="justify-content:center;">Get My Free Review</button>
           <p class="form__note">We only use what&rsquo;s publicly visible. No access to your website or accounts is needed.</p>
         </form>
       </div>
@@ -148,7 +148,7 @@
   <section class="section cta-band">
     <div class="container cta-band__grid reveal">
       <div class="cta-band__text"><h2>See where you stand in AI search.</h2><p>Free scorecard, delivered within 2 business days.</p></div>
-      <div class="cta-band__action"><a href="#audit-form" class="btn btn--white btn--lg">Get My Free Audit</a></div>
+      <div class="cta-band__action"><a href="#review-form" class="btn btn--white btn--lg">Get My Free Review</a></div>
     </div>
   </section>
 </main>

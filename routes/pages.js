@@ -11,7 +11,7 @@ const auditLimiter = rateLimit({
   max: 6,
   standardHeaders: true,
   legacyHeaders: false,
-  message: 'Too many audit requests. Please try again shortly.',
+  message: 'Too many review requests. Please try again shortly.',
 });
 
 const AUDIT_FIELDS = ['name', 'email', 'company', 'website', 'offering', 'market', 'industry', 'competitors', 'buyer_question', 'phone', 'consent'];
@@ -48,7 +48,7 @@ const auditValidation = [
   body('competitors').optional({ checkFalsy: true }).trim().isLength({ max: 300 }).withMessage('Competitors must be under 300 characters').bail().custom(oneLine).withMessage('Competitors is invalid'),
   body('buyer_question').optional({ checkFalsy: true }).trim().isLength({ max: 200 }).withMessage('Buyer question must be under 200 characters').bail().custom(oneLine).withMessage('Buyer question is invalid'),
   body('phone').optional({ checkFalsy: true }).trim().matches(/^[+0-9 ()-]{6,30}$/).withMessage('Please provide a valid phone or WhatsApp number'),
-  body('consent').equals('yes').withMessage('Please agree to be contacted about your audit'),
+  body('consent').equals('yes').withMessage('Please agree to be contacted about your review'),
   body('human_verification').trim().notEmpty().withMessage('Please answer the arithmetic check to continue').bail()
     .custom((value, { req }) => {
       const challenge = req.session?.contactChallenge;
@@ -66,7 +66,7 @@ function handleAuditErrors(req, res, next) {
   });
   req.session.auditErrors = Array.from(seen.values());
   req.session.auditFormData = Object.fromEntries(AUDIT_FIELDS.map((k) => [k, String(req.body?.[k] || '').slice(0, 300)]));
-  return res.redirect('/ai-visibility-audit?error=1#contact-feedback-anchor');
+  return res.redirect('/ai-visibility-review?error=1#contact-feedback-anchor');
 }
 
 // Home page
@@ -80,8 +80,14 @@ router.get('/industries', PageController.industries);
 router.get('/ai-services', PageController.aiServices);
 router.get('/work', PageController.work);
 router.get('/faq', PageController.faq);
-router.get('/ai-visibility-audit', PageController.aiVisibilityAudit);
-router.post('/ai-visibility-audit', auditLimiter, auditValidation, handleAuditErrors, ContactController.submitAudit);
+router.get('/ai-visibility-review', PageController.aiVisibilityReview);
+// Old URL: permanent redirects (308 keeps POST method and body for any cached forms)
+router.get('/ai-visibility-audit', (req, res) => {
+  const qs = req.originalUrl.includes('?') ? req.originalUrl.slice(req.originalUrl.indexOf('?')) : '';
+  res.redirect(301, `/ai-visibility-review${qs}`);
+});
+router.post('/ai-visibility-audit', (req, res) => res.redirect(308, '/ai-visibility-review'));
+router.post('/ai-visibility-review', auditLimiter, auditValidation, handleAuditErrors, ContactController.submitAudit);
 router.get('/ai-services/:slug', PageController.aiService);
 router.get('/about', PageController.about);
 router.get('/resources', PageController.resources); // Redirect to blog listing

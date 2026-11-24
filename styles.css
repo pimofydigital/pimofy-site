@@ -2552,7 +2552,7 @@ ul { list-style: none; }
 .mega .mega__stages a { padding: 6px 12px; }
 @media (max-width: 760px) { .also-ops, .also-ops__stats { grid-template-columns: 1fr; } }
 
-/* ---- AI Visibility Audit offer & form ---- */
+/* ---- AI Visibility Review offer & form ---- */
 .offer-points { list-style: none; margin: 14px 0 10px; padding: 0; display: grid; gap: 8px; }
 .offer-points li { position: relative; padding-left: 26px; color: rgba(255,255,255,0.92); line-height: 1.5; }
 .offer-points li::before { content: ""; position: absolute; left: 0; top: 0.45em; width: 14px; height: 8px; border-left: 2px solid #fff; border-bottom: 2px solid #fff; transform: rotate(-45deg); }
