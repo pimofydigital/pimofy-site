@@ -143,7 +143,7 @@ class BlogController {
               image: postSocialImage(post, base),
               datePublished: new Date(post.publishDate || post.createdAt).toISOString(),
               dateModified: new Date(post.updatedAt || post.publishDate || post.createdAt).toISOString(),
-              author: { '@id': `${base}/#organization` },
+              author: [{ '@id': `${base}/#founder-moses-njeru-munyi` }, { '@id': `${base}/#founder-peter-wafula` }],
               publisher: { '@id': `${base}/#organization` },
               mainEntityOfPage: { '@id': `${postUrl}#webpage` },
               isPartOf: { '@id': `${base}/#website` },

@@ -124,7 +124,7 @@ module.exports = [
       { title: "Managing wholesale accounts", text: "A typical task: an Ecommerce brand tracks wholesale buyers in its CRM. The specialist keeps buyer contacts, company details and account owners current as orders and enquiries come in." }
     ],
     faqs: [
-      { q: "Which CRMs can your specialists work in?", a: "Specialists work inside the CRM you already use, such as HubSpot, Salesforce, Pipedrive or Zoho. We do not resell or require any particular platform, and access stays under your control." },
+      { q: "Which CRMs can your specialists work in?", a: "Specialists work inside the CRM you already use, such as HubSpot or Salesforce. We do not resell or require any particular platform, and access stays under your control." },
       { q: "Will you merge or delete records without asking?", a: "No. Merges and any removals follow rules you approve in writing. Anything outside those rules is listed for your team to decide, so you keep authority over your data." },
       { q: "How is this different from a one-off cleanup?", a: "A cleanup fixes a backlog once. CRM data management is continuous: the specialist keeps records accurate week after week so problems do not build up again. Many teams start with a Database Cleanup and then move to ongoing management." },
       { q: "What if the quality is not good enough?", a: "Quality standards are agreed in writing at the start and tracked in your weekly KPI report. If they are not met, we retrain or replace the specialist and re-perform the affected work at no extra cost." },
@@ -406,7 +406,7 @@ module.exports = [
     metaDescription: "Chat, email and ticket support for SaaS and Ecommerce brands. A dedicated specialist answers in your helpdesk and tone of voice, with QA and weekly KPIs.",
     eyebrow: "Non-Voice Customer Support",
     headline: "Clear, timely written support for your customers by chat and email",
-    answer: "Non-voice customer support is customer service delivered in writing, through live chat, email and helpdesk tickets rather than by phone. Pimofy Digital provides a dedicated specialist who answers your customers inside your helpdesk, such as Zendesk or Gorgias, in your tone of voice. They use the macros, policies and escalation rules you approve.",
+    answer: "Non-voice customer support is customer service delivered in writing, through live chat, email and helpdesk tickets rather than by phone. Pimofy Digital provides a dedicated specialist who answers your customers inside the helpdesk you already use, in your tone of voice. They use the macros, policies and escalation rules you approve.",
     lead: "Customers expect fast, accurate written replies. A dedicated specialist handles routine chats, emails and tickets so your team can focus on the conversations that need them.",
     idealFor: [
       "Ecommerce brands handling order status, delivery, returns and product questions",
@@ -455,7 +455,7 @@ module.exports = [
     ],
     faqs: [
       { q: "Do you offer phone support?", a: "No. Non-voice support covers chat, email and ticket channels only. If you need phone support, we can still take the written channels off your team so they have more time for calls." },
-      { q: "Which helpdesks can your specialists use?", a: "The specialist works in the helpdesk you already use, such as Zendesk, Gorgias, Freshdesk, Help Scout or Intercom, with access you control. We do not require you to change tools." },
+      { q: "Which helpdesks can your specialists use?", a: "The specialist works in the helpdesk you already use, with access you control. We do not require you to change tools." },
       { q: "How do you make sure replies sound like our brand?", a: "Your tone of voice, approved phrases and policies are written into the SOP during onboarding. A reviewer samples replies each week for tone as well as accuracy, and feedback is used to coach the specialist." },
       { q: "What hours can you cover?", a: "We work across UK, European and US business hours. One specialist provides 160 hours a month on an agreed shift, and you can add specialists if you need longer coverage." },
       { q: "What if service quality slips?", a: "Quality standards are agreed in writing and reported weekly. If they are not met, we retrain or replace the specialist and re-perform the affected work at no extra cost." }

@@ -11,7 +11,7 @@
       <span class="tag"><%= post.category || 'Uncategorized' %></span>
       <h1><%= post.title %></h1>
       <p class="article-meta">
-        By <%= post.author.name %> · <%= new Date(post.publishDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %> · <%= readingTime %> min read
+        By <a href="https://www.linkedin.com/in/moses-njeru-munyi-b02156b2/" rel="author noopener" target="_blank">Moses Njeru Munyi</a> &amp; <a href="https://www.linkedin.com/in/peter-wafula-7351b35b/" rel="author noopener" target="_blank">Peter Wafula</a> · <%= new Date(post.publishDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %> · <%= readingTime %> min read
       </p>
     </div>
   </section>
