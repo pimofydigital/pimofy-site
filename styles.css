@@ -2571,3 +2571,5 @@ ul { list-style: none; }
 .check-label input { width: 18px !important; height: 18px; margin-top: 3px; flex: 0 0 auto; accent-color: var(--purple); }
 .check-label a { color: var(--purple); text-decoration: underline; }
 @media (max-width: 720px) { .cta-band__action { align-items: stretch; } .cta-band__link { text-align: center; } }
+
+.hero__sub { font-size: 1.15rem; font-weight: 700; color: var(--purple); margin: -4px 0 14px; }

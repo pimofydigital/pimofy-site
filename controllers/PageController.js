@@ -89,9 +89,9 @@ class PageController {
   static async capacityAudit(req, res, next) {
     try {
       res.render('pages/capacity-audit', {
-        title: 'Free Operations Capacity Audit | Pimofy Digital',
+        title: 'Free Operations Capacity Audit™ for SaaS & Ecommerce Teams | Pimofy Digital',
         description:
-          'Book a free Operations Capacity Audit to identify repetitive data tasks, quantify lost hours, and map a practical execution plan.',
+          'Free Operations Capacity Audit™ for SaaS & Ecommerce operations teams: find repetitive data work, quantify lost hours and map a practical plan.',
         preloadImage: '/assets/capacity-donut.webp',
       });
     } catch (error) {
