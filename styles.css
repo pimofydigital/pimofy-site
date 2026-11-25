@@ -2521,6 +2521,10 @@ ul { list-style: none; }
 }
 /* Blog tag contrast (WCAG AA) */
 .tag { color: #b43a0a; }
+/* Keep variant colours after the AA override: category badge over images stays white on dark */
+.tag.tag--overlay { color: #fff; background: rgba(26, 21, 48, 0.88); text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35); }
+.tag.tag--draft, .tag.tag--disabled { color: #b0300f; }
+.tag.tag--active { color: #127a36; }
 
 /* 15) Value proposition homepage ------------------------------------------- */
 .home-problem h2 { max-width: 780px; margin: 10px auto 12px; }
@@ -2632,3 +2636,11 @@ ul { list-style: none; }
 .author-box p { margin: 0 0 4px; font-size: 0.97rem; }
 .author-box__name { font-weight: 700; color: var(--ink); }
 .article-meta a { text-decoration: underline; text-underline-offset: 2px; }
+
+/* Mobile overflow guard: long buttons and grid items must not widen the page */
+@media (max-width: 960px) {
+  html, body { overflow-x: clip; }
+  .grid > *, .cta-band__grid > *, .also-ops > *, .callout > * { min-width: 0; }
+  .btn { white-space: normal; max-width: 100%; text-align: center; overflow-wrap: anywhere; }
+  .cookie-banner { max-width: calc(100vw - 24px); box-sizing: border-box; }
+}
