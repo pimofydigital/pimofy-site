@@ -1,0 +1,31 @@
+# Copy this file to .github/workflows/mobile-check.yml on GitHub.
+# Runs after Vercel finishes building each deployment and checks the main pages at
+# phone (360px) and tablet (768px) widths. It fails if any page is wider than the
+# screen or has low-contrast text. Add "mobile-check" as a Vercel Deployment Check
+# so a failing build is not promoted to pimofydigital.com.
+name: mobile-check
+
+on:
+  deployment_status:
+
+jobs:
+  mobile-check:
+    if: github.event.deployment_status.state == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.deployment.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install check tools
+        run: |
+          npm install --no-save --no-audit --no-fund playwright axe-core
+          npx playwright install --with-deps chromium
+      - name: Check pages at phone and tablet widths
+        env:
+          BASE_URL: ${{ github.event.deployment_status.environment_url || github.event.deployment_status.target_url }}
+          VERCEL_BYPASS: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+        run: npm run check:mobile

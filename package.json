@@ -12,7 +12,8 @@
     "db:seed": "sequelize-cli db:seed:all",
     "db:reset": "sequelize-cli db:drop && sequelize-cli db:create && sequelize-cli db:migrate && sequelize-cli db:seed:all",
     "test": "node --test tests/*.test.js",
-    "audit": "npm audit --omit=dev"
+    "audit": "npm audit --omit=dev",
+    "check:mobile": "node scripts/mobile-check.mjs"
   },
   "keywords": [
     "data-operations",
