@@ -2658,3 +2658,7 @@ ul { list-style: none; }
 /* Contrast: light eyebrow pill on purple bands, Most Popular badge */
 .eyebrow.eyebrow--light { background: rgba(255, 255, 255, 0.16); color: #fff; border-color: rgba(255, 255, 255, 0.35); }
 .price-card__badge { background: #b43a0a; color: #fff; }
+
+/* Blog bullet lists: flex split inline text and links into separate columns that overflowed phones */
+.article-body ul > li { display: block; position: relative; padding-left: 20px; overflow-wrap: anywhere; }
+.article-body ul > li::before { position: absolute; left: 2px; top: 0; }
