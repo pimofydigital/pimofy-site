@@ -2644,3 +2644,17 @@ ul { list-style: none; }
   .btn { white-space: normal; max-width: 100%; text-align: center; overflow-wrap: anywhere; }
   .cookie-banner { max-width: calc(100vw - 24px); box-sizing: border-box; }
 }
+
+/* Tablet footer: columns must shrink instead of pushing the Contact column off screen */
+@media (max-width: 1024px) {
+  .site-footer__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .site-footer__brand { grid-column: 1 / -1; }
+  .site-footer__grid > * { min-width: 0; }
+  .site-footer__contact li, .site-footer__contact a, .site-footer__col a { white-space: normal; overflow-wrap: anywhere; }
+}
+@media (max-width: 760px) {
+  .site-footer__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+/* Contrast: light eyebrow pill on purple bands, Most Popular badge */
+.eyebrow.eyebrow--light { background: rgba(255, 255, 255, 0.16); color: #fff; border-color: rgba(255, 255, 255, 0.35); }
+.price-card__badge { background: #b43a0a; color: #fff; }
